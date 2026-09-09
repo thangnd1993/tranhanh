@@ -3,10 +3,24 @@
 ## Current Status
 
 Current phase: Phase 1 — Project foundation
-Status: Complete locally; push unavailable because no remote is configured
+Status: Complete locally; GitHub remote configured, push blocked by SSH authentication
 Last updated: 2026-09-09 (Asia/Ho_Chi_Minh)
 Branch: main
-Latest commit: Phase 1 checkpoint; resolve its hash with `git log -1 --oneline`.
+Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
+
+## GitHub Connection
+
+- Repository: https://github.com/thangnd1993/tranhanh
+- Remote: `origin` — `git@github.com:thangnd1993/tranhanh.git` (fetch and push).
+- Local branch: `main`; working tree was clean before configuring the remote.
+- Initial Phase 1 commit: `4dd3e05 chore: initialize application foundation`.
+- Push status: blocked; GitHub returned `Permission denied (publickey)` during `git ls-remote`.
+- Remote history: could not be inspected because SSH authentication failed; no push was attempted.
+- Tracking branch: not configured yet; intended upstream is `origin/main` after successful push.
+- Latest pushed commit: none verified; both phase commits remain local.
+- SSH diagnostic: the agent has no identities. SSH offered the existing `id_rsa` key, but GitHub rejected it.
+- Progress-note checkpoint: `chore: configure github repository`; remains local until authentication is restored.
+- Resume: restore GitHub SSH access, inspect remote history, reconcile safely if needed, then push without force.
 
 ## Completed Phases
 
@@ -147,7 +161,7 @@ None. See `docs/data-sources.md` for the required provider registry fields.
 - macOS workspace: `/Users/nhuphan/Documents/ChatGPT/tranhanh`.
 - Required Node: 24.15.x; pnpm: 12.3.x.
 - Docker CLI: 29.7.2; daemon unavailable at `/Users/nhuphan/.docker/run/docker.sock`.
-- Git identity is configured. Initial branch: `main`; no remote configured.
+- Git identity is configured. Branch: `main`; GitHub SSH remote is configured (see GitHub Connection).
 - No credentials, provider accounts, or deployment destination were supplied.
 
 ## Pending Work
@@ -160,7 +174,7 @@ Do not implement business features.
 
 ## Known Issues
 
-- Push requires a configured remote URL and access.
+- Push is blocked by GitHub SSH authentication; the configured remote rejected the existing key.
 - Database/container verification requires a running Docker daemon or equivalent services.
 - ESLint 9 emits an upstream deprecation notice during installation; replacement requires compatibility review.
 
