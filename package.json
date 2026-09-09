@@ -1,0 +1,40 @@
+{
+  "name": "tranhanh",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Vietnamese lookup and daily utility platform",
+  "packageManager": "pnpm@12.3.4",
+  "engines": {
+    "node": ">=24.15.0 <25",
+    "pnpm": ">=12.3.0 <13"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @tranhanh/web --filter @tranhanh/api dev",
+    "dev:web": "pnpm --filter @tranhanh/web dev",
+    "dev:api": "pnpm --filter @tranhanh/api dev",
+    "build": "pnpm -r build",
+    "lint": "eslint . --max-warnings=0",
+    "test": "pnpm -r test",
+    "test:e2e": "pnpm --filter @tranhanh/api test:e2e",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prisma:generate": "pnpm --filter @tranhanh/api prisma:generate",
+    "prisma:validate": "pnpm --filter @tranhanh/api prisma:validate",
+    "db:migrate": "pnpm --filter @tranhanh/api db:migrate",
+    "db:migrate:deploy": "pnpm --filter @tranhanh/api db:migrate:deploy",
+    "services:up": "docker compose up -d postgres redis",
+    "services:down": "docker compose down",
+    "validate": "pnpm format:check && pnpm lint && pnpm test && pnpm test:e2e && pnpm prisma:validate && pnpm build"
+  },
+  "devDependencies": {
+    "@angular-eslint/eslint-plugin": "^22.0.0",
+    "@angular-eslint/eslint-plugin-template": "^22.0.0",
+    "@angular-eslint/template-parser": "^22.0.0",
+    "@eslint/js": "^9.39.0",
+    "eslint": "^9.39.0",
+    "eslint-config-prettier": "^10.1.0",
+    "globals": "^16.4.0",
+    "prettier": "^3.8.0",
+    "typescript-eslint": "^8.46.0"
+  }
+}

@@ -1,38 +1,47 @@
 # Architecture
 
-## Phase 0 decisions
+## Monorepo
 
-This is a new repository with no existing code to migrate or preserve.
-Use the requested layout when implementing Phase 1:
+TraNhanh uses a pnpm workspace with independently buildable applications and a small shared contract package:
 
-```text
-apps/web/              Angular SSR/hybrid application
-apps/api/              NestJS REST API
-packages/shared/       Shared contracts
-packages/config/       Shared configuration
-packages/eslint-config/ Shared lint rules
-packages/types/        Shared types where separately useful
-docs/                  Project documentation
-infra/                 Infrastructure configuration
-```
+    apps/web/              Angular 22 SSR/hybrid application
+    apps/api/              NestJS 12 REST API
+    apps/api/prisma/       Prisma 7 schema and migration history
+    packages/shared/       Framework-neutral TypeScript response contracts
+    docs/                  Project decisions and progress
+    compose.yaml           PostgreSQL 18 and Redis 8 development services
 
-Frontend and backend must build independently. Avoid creating empty packages without a purpose.
-Select the current stable Angular version at initialization, verifying supported Node versions
-against official documentation. No framework versions or dependencies are installed yet.
+Empty configuration, lint, and type packages were omitted. Root files own repository-wide configuration until
+multiple packages need a separately versioned configuration.
 
-Public lookup routes require meaningful server-rendered HTML, localized metadata, and source
-provenance. Vietnamese is the default locale with equivalent English routes.
+## Web
 
-Use PostgreSQL and Prisma for persisted data, Redis for domain-specific caching, and BullMQ
-for idempotent background refresh. Providers validate and normalize data before storing snapshots;
-requests must not trigger an external provider call on every visit.
+The Angular application uses standalone APIs, strict TypeScript, routing, SCSS, hydration, and the Angular
+application builder in server output mode. The root route is prerendered during production builds and an Express
+SSR entry is produced for future dynamic routes. Phase 1 contains only an accessible product shell.
 
-Use integer-safe or decimal arithmetic for money and safe API serialization. Version tariffs
-and administrative mappings by effective date. Display unavailable states when reliable data
-does not exist. Never generate factual values using AI.
+## API
 
-## Deferred implementation
+NestJS runs as an ESM application under the /api/v1 prefix. Swagger is exposed at /api/docs. Global DTO
+validation rejects non-whitelisted input. CORS accepts the configured web origin.
 
-Phase 1 introduces the buildable foundation, environment validation, health endpoint, Docker
-Compose, and quality tooling. Later phases introduce the design system, localization, SEO,
-domain schemas, and features in the order documented in the master execution prompt.
+GET /api/v1/health is a process liveness probe and never depends on infrastructure. GET /api/v1/health/ready
+checks PostgreSQL and Redis, returning HTTP 503 and a safe per-dependency status if either is unavailable.
+
+## Configuration and infrastructure
+
+Nest configuration validates environment variables through Joi at startup. Development defaults mirror
+.env.example; deployment values remain environment-controlled. Prisma uses PostgreSQL through the official
+pg driver adapter and creates connections lazily. No business model or SQL migration exists in Phase 1.
+
+Redis uses a lazy client for readiness and future cache access. BullMQ is configured globally with the same
+Redis connection, but no queues or jobs are registered until provider phases require them.
+
+Development services use persistent named volumes and health checks in compose.yaml. Runtime container,
+database, Redis, and migration-connectivity verification remains pending while the Docker daemon is unavailable.
+
+## Data and money rules
+
+Providers must validate and normalize data before storage. Public requests must not call external providers on
+every visit. Use integer-safe or decimal arithmetic for money, effective dates for tariffs and administrative
+mappings, and safe API serialization. Never generate factual values using AI.

@@ -1,0 +1,6 @@
+**/dist
+**/coverage
+**/node_modules
+apps/api/src/generated
+docs/MASTER_EXECUTION_PROMPT.md
+pnpm-lock.yaml

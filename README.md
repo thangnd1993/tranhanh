@@ -2,26 +2,51 @@
 
 Cần biết gì, tra ngay.
 
-Vietnamese-first, bilingual lookup and daily utility platform. Repository audit is complete;
-application implementation starts in Phase 1. There is no runnable application yet.
+TraNhanh is a Vietnamese-first, bilingual lookup and daily utility platform. This repository contains the
+Phase 1 foundation: Angular SSR, a NestJS API, PostgreSQL through Prisma, Redis and BullMQ infrastructure,
+shared TypeScript contracts, and local service definitions.
 
-## Continue development
+## Requirements
 
-Read [project progress](docs/PROJECT_PROGRESS.md), [architecture](docs/architecture.md), and
-[data sources](docs/data-sources.md), then inspect Git status and history before continuing.
-The [master execution prompt](docs/MASTER_EXECUTION_PROMPT.md) preserves the original requirements.
+- Node.js 24.15.x; nvm reads .nvmrc.
+- Corepack and pnpm 12.3.x.
+- Docker Desktop or local PostgreSQL 18 and Redis 8 for dependency-backed development.
 
-Work on one focused phase at a time. Each implementation checkpoint requires tests, lint,
-format checks, production builds, updated progress, a conventional commit, and a push when
-a remote is available. Never commit secrets or fabricate factual data.
+## Setup
 
-## Planned stack
+    corepack enable
+    pnpm install
+    cp .env.example .env
+    pnpm prisma:generate
+    pnpm services:up
+    pnpm dev
 
-Angular SSR, NestJS, PostgreSQL, Prisma, Redis, and BullMQ in a TypeScript monorepo.
-Vietnamese is the default locale; English and light/dark/system themes are required.
+The web app runs at http://localhost:4200. The API runs at http://localhost:3000/api/v1,
+with OpenAPI UI at http://localhost:3000/api/docs.
 
-## Local environment
+## Commands
 
-Node 20.20.2, npm 10.8.2, pnpm 11.19.0, Corepack 0.34.6, Git, and Docker CLI 29.7.2
-were detected during the audit. Docker's daemon is unavailable. Framework/runtime compatibility
-must be checked before initialization. No Git remote is configured.
+| Command                                     | Purpose                                              |
+| ------------------------------------------- | ---------------------------------------------------- |
+| pnpm dev                                    | Run web and API watchers                             |
+| pnpm dev:web / pnpm dev:api                 | Run one application                                  |
+| pnpm build                                  | Build shared types, API, browser app, and SSR server |
+| pnpm test / pnpm test:e2e                   | Run unit/component tests or API E2E tests            |
+| pnpm lint                                   | Run ESLint with the 120-character limit              |
+| pnpm format / pnpm format:check             | Write or verify Prettier formatting                  |
+| pnpm prisma:generate / pnpm prisma:validate | Generate the client or validate its schema           |
+| pnpm db:migrate / pnpm db:migrate:deploy    | Develop or deploy Prisma migrations                  |
+| pnpm services:up / pnpm services:down       | Start or stop PostgreSQL and Redis                   |
+| pnpm validate                               | Run the full non-container validation gate           |
+
+## Repository map
+
+- apps/web: Angular SSR/hybrid web application.
+- apps/api: NestJS API with configuration, health, database, Redis, and queue foundations.
+- apps/api/prisma/schema.prisma: PostgreSQL datasource and Prisma client generator.
+- packages/shared: framework-neutral API contracts.
+- .env.example: documented local environment.
+- compose.yaml: development PostgreSQL and Redis services.
+- docs/PROJECT_PROGRESS.md: source of truth for phase status and continuation.
+
+No live data provider is configured, and no business feature from later phases is implemented.

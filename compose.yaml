@@ -1,0 +1,31 @@
+name: tranhanh
+
+services:
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: tranhanh
+      POSTGRES_PASSWORD: tranhanh
+      POSTGRES_USER: tranhanh
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U tranhanh -d tranhanh']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    ports: ['5432:5432']
+    volumes: ['postgres-data:/var/lib/postgresql/data']
+
+  redis:
+    image: redis:8-alpine
+    command: ['redis-server', '--appendonly', 'yes']
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    ports: ['6379:6379']
+    volumes: ['redis-data:/data']
+
+volumes:
+  postgres-data:
+  redis-data:
