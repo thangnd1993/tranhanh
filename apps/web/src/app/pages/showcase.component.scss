@@ -1,0 +1,136 @@
+.showcase-hero {
+  padding-block: var(--space-10);
+  background: var(--surface-subtle);
+  border-bottom: 1px solid var(--border);
+}
+.showcase-hero .stack {
+  max-width: 50rem;
+}
+.intro {
+  max-width: 44rem;
+}
+.showcase {
+  padding-block: var(--space-8) var(--space-16);
+}
+.demo-section {
+  display: grid;
+  gap: var(--space-6);
+  padding-block: var(--space-10);
+}
+.demo-section + .demo-section {
+  border-top: 1px solid var(--border);
+}
+.section-heading {
+  display: grid;
+  gap: var(--space-2);
+}
+.type-sample {
+  display: grid;
+  gap: var(--space-4);
+}
+.type-sample .display {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+}
+.token-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+.token-grid > div {
+  min-width: 0;
+}
+.token-grid p {
+  font-size: var(--text-caption);
+  margin-top: var(--space-2);
+  color: var(--text-secondary);
+}
+.swatch {
+  display: block;
+  height: 4rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.swatch.brand {
+  background: var(--brand);
+}
+.swatch.surface {
+  background: var(--surface);
+}
+.swatch.subtle {
+  background: var(--surface-subtle);
+}
+.swatch.success {
+  background: var(--success);
+}
+.swatch.warning {
+  background: var(--warning);
+}
+.swatch.danger {
+  background: var(--danger);
+}
+.search-control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-left: var(--space-4);
+}
+.search-control {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.search-control:focus-within {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-color: transparent;
+}
+.search-control .control {
+  border: 0;
+  outline: 0;
+  padding-inline: 0;
+}
+.search-control tn-icon {
+  color: var(--text-muted);
+}
+.search-control .button {
+  margin-right: var(--space-1);
+}
+.form-grid,
+.feedback-grid {
+  display: grid;
+  gap: var(--space-5);
+}
+tn-card tn-icon {
+  color: var(--brand);
+}
+tn-card .button {
+  align-self: flex-start;
+}
+.empty {
+  justify-items: center;
+  padding-block: var(--space-5);
+}
+.empty tn-icon {
+  width: 2rem;
+  height: 2rem;
+}
+@media (min-width: 48rem) {
+  .token-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .form-grid,
+  .feedback-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 64rem) {
+  .demo-section {
+    grid-template-columns: minmax(12rem, 0.32fr) minmax(0, 1fr);
+  }
+  .demo-section > :not(.section-heading) {
+    grid-column: 2;
+  }
+  .section-heading {
+    align-self: start;
+  }
+}

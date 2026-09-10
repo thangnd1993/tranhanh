@@ -20,6 +20,10 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    files: ['apps/web/public/**/*.js'],
+    languageOptions: { globals: globals.browser },
+  },
+  {
     files: ['**/*.ts'],
     languageOptions: {
       globals: { ...globals.browser, ...globals.node },

@@ -1,10 +1,14 @@
+import { provideRouter } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app';
 
 describe('AppComponent', () => {
-  it('renders the Vietnamese product tagline', async () => {
+  it('renders the shared public shell', async () => {
+    await TestBed.configureTestingModule({ providers: [provideRouter([])] }).compileComponents();
     const fixture = TestBed.createComponent(AppComponent);
-    await fixture.whenStable();
-    expect(fixture.nativeElement.querySelector('h1')?.textContent).toContain('Cần biết gì, tra ngay.');
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('tn-header')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('tn-footer')).not.toBeNull();
   });
 });

@@ -1,0 +1,89 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font);
+  background: var(--background);
+  color: var(--text-primary);
+  scroll-padding-top: 6rem;
+}
+
+body {
+  margin: 0;
+  font-size: var(--text-body);
+  line-height: 1.65;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+  font-weight: 650;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-title);
+  letter-spacing: -0.035em;
+}
+h2 {
+  font-size: var(--text-section);
+  letter-spacing: -0.025em;
+}
+h3 {
+  font-size: var(--text-card);
+}
+a {
+  color: var(--brand);
+  text-underline-offset: 0.2em;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: var(--brand-subtle);
+  color: var(--text-primary);
+}
+[hidden] {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

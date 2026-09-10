@@ -1,12 +1,5 @@
-* {
-  box-sizing: border-box;
-}
-
-html {
-  color-scheme: light dark;
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-}
-
-body {
-  margin: 0;
-}
+@use './styles/tokens';
+@use './styles/themes';
+@use './styles/base';
+@use './styles/utilities';
+@use './styles/controls';

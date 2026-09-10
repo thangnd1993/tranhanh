@@ -1,0 +1,380 @@
+<section class="showcase-hero">
+  <div class="container stack">
+    <tn-breadcrumb [items]="breadcrumb" />
+    <p class="eyebrow">NỀN TẢNG GIAO DIỆN</p>
+    <h1>Bộ giao diện TraNhanh</h1>
+    <p class="muted intro">
+      Các thành phần dùng chung cho trải nghiệm tra cứu rõ ràng, dễ đọc và nhất quán trên mọi màn hình.
+    </p>
+  </div>
+</section>
+
+<div class="container showcase">
+  <section
+    aria-labelledby="typography-title"
+    class="demo-section"
+  >
+    <div class="section-heading">
+      <p class="eyebrow">NỀN TẢNG</p>
+      <h2 id="typography-title">Chữ và màu sắc</h2>
+    </div>
+    <div class="grid">
+      <tn-card>
+        <div class="type-sample">
+          <p class="display">Tra ngay.</p>
+          <h1>Tiêu đề trang</h1>
+          <h2>Tiêu đề khu vực</h2>
+          <h3>Tiêu đề thẻ</h3>
+          <p>Nội dung chính rõ ràng với đầy đủ dấu tiếng Việt.</p>
+          <p class="small muted">Nội dung phụ giải thích ngắn gọn.</p>
+          <p class="caption">Cập nhật lúc 08:30 · Nguồn minh họa</p>
+          <p class="data-value">1.250.000</p>
+        </div>
+      </tn-card>
+      <tn-card>
+        <div
+          class="token-grid"
+          aria-label="Màu sắc ngữ nghĩa"
+        >
+          <div>
+            <span class="swatch brand"></span>
+            <p>Thương hiệu</p>
+          </div>
+          <div>
+            <span class="swatch surface"></span>
+            <p>Bề mặt</p>
+          </div>
+          <div>
+            <span class="swatch subtle"></span>
+            <p>Nền phụ</p>
+          </div>
+          <div>
+            <span class="swatch success"></span>
+            <p>Thành công</p>
+          </div>
+          <div>
+            <span class="swatch warning"></span>
+            <p>Cảnh báo</p>
+          </div>
+          <div>
+            <span class="swatch danger"></span>
+            <p>Lỗi</p>
+          </div>
+        </div>
+      </tn-card>
+    </div>
+  </section>
+
+  <section
+    aria-labelledby="buttons-title"
+    class="demo-section"
+  >
+    <div class="section-heading">
+      <p class="eyebrow">TƯƠNG TÁC</p>
+      <h2 id="buttons-title">Nút bấm và nhãn</h2>
+    </div>
+    <tn-card>
+      <div class="stack">
+        <div class="cluster">
+          <button
+            tnButton
+            type="button"
+          >
+            Tra cứu
+          </button>
+          <button
+            tnButton
+            type="button"
+            variant="secondary"
+          >
+            Xem chi tiết
+          </button>
+          <button
+            tnButton
+            type="button"
+            variant="ghost"
+          >
+            Bỏ qua
+          </button>
+          <button
+            tnButton
+            type="button"
+            variant="danger"
+          >
+            Xóa
+          </button>
+        </div>
+        <div class="cluster">
+          <button
+            tnButton
+            size="small"
+            type="button"
+          >
+            Nút nhỏ
+          </button>
+          <button
+            tnButton
+            size="large"
+            type="button"
+          >
+            Nút lớn
+          </button>
+          <button
+            tnButton
+            disabled
+            type="button"
+          >
+            Không khả dụng
+          </button>
+          <button
+            tnButton
+            loading
+            type="button"
+          >
+            <span>Đang tải</span>
+          </button>
+          <button
+            aria-label="Tìm kiếm"
+            size="icon"
+            tnButton
+            type="button"
+          >
+            <tn-icon name="search" />
+          </button>
+        </div>
+        <div class="cluster">
+          <span tnBadge>Mặc định</span>
+          <span
+            tnBadge
+            tone="success"
+            >Đã xác minh</span
+          >
+          <span
+            tnBadge
+            tone="warning"
+            >Dữ liệu cũ</span
+          >
+          <span
+            tnBadge
+            tone="danger"
+            >Không khả dụng</span
+          >
+          <span
+            tnBadge
+            tone="info"
+            >Thông tin</span
+          >
+        </div>
+      </div>
+    </tn-card>
+  </section>
+
+  <section
+    aria-labelledby="forms-title"
+    class="demo-section"
+  >
+    <div class="section-heading">
+      <p class="eyebrow">BIỂU MẪU</p>
+      <h2 id="forms-title">Tìm kiếm và nhập liệu</h2>
+    </div>
+    <form
+      class="stack"
+      (submit)="$event.preventDefault()"
+    >
+      <tn-field
+        controlId="showcase-search"
+        hint="Thử một từ khóa hoặc mã cần tra cứu."
+        label="Bạn cần tìm gì?"
+      >
+        <div class="search-control">
+          <tn-icon name="search" />
+          <input
+            placeholder="Ví dụ: mã vùng Đà Nẵng"
+            tnControl
+            type="search"
+          />
+          <button
+            size="small"
+            tnButton
+            type="submit"
+          >
+            Tra cứu
+          </button>
+        </div>
+      </tn-field>
+      <div class="form-grid">
+        <tn-field
+          controlId="showcase-number"
+          hint="Chỉ là trường minh họa, chưa tính toán."
+          label="Số lượng"
+          ><input
+            min="0"
+            placeholder="0"
+            tnControl
+            type="number"
+        /></tn-field>
+        <tn-field
+          controlId="showcase-select"
+          label="Loại thông tin"
+        >
+          <select tnControl>
+            <option>Tra cứu</option>
+            <option>Công cụ</option>
+            <option>Hôm nay</option>
+          </select>
+        </tn-field>
+        <tn-field
+          controlId="showcase-error"
+          error="Vui lòng kiểm tra lại nội dung."
+          label="Trường có lỗi"
+          ><input
+            aria-invalid="true"
+            tnControl
+            value="Nội dung chưa hợp lệ"
+        /></tn-field>
+        <tn-field
+          controlId="showcase-disabled"
+          hint="Trường này hiện không thể chỉnh sửa."
+          label="Không khả dụng"
+          ><input
+            disabled
+            tnControl
+            value="Đang khóa"
+        /></tn-field>
+      </div>
+    </form>
+  </section>
+
+  <section
+    aria-labelledby="cards-title"
+    class="demo-section"
+  >
+    <div class="section-heading">
+      <p class="eyebrow">NỘI DUNG</p>
+      <h2 id="cards-title">Thẻ và dữ liệu</h2>
+    </div>
+    <div class="grid grid--three">
+      <tn-card>
+        <div class="stack">
+          <tn-icon name="search" />
+          <h3>Tra cứu nhanh</h3>
+          <p class="muted small">Thẻ điều hướng cho một nhóm thông tin.</p>
+          <button
+            tnButton
+            type="button"
+            variant="ghost"
+          >
+            Khám phá <tn-icon name="arrow" />
+          </button>
+        </div>
+      </tn-card>
+      <tn-card elevated>
+        <div class="stack">
+          <span class="badge">Giá trị minh họa</span>
+          <p class="data-value">24</p>
+          <p class="caption">Đơn vị mẫu · Không phải dữ liệu thực</p>
+        </div>
+      </tn-card>
+      <tn-card>
+        <dl class="key-values">
+          <div>
+            <dt>Trạng thái</dt>
+            <dd>Sẵn sàng</dd>
+          </div>
+          <div>
+            <dt>Cập nhật</dt>
+            <dd>Vừa xong</dd>
+          </div>
+          <div>
+            <dt>Nguồn</dt>
+            <dd>Minh họa</dd>
+          </div>
+        </dl>
+      </tn-card>
+    </div>
+  </section>
+
+  <section
+    aria-labelledby="feedback-title"
+    class="demo-section"
+  >
+    <div class="section-heading">
+      <p class="eyebrow">TRẠNG THÁI</p>
+      <h2 id="feedback-title">Phản hồi và tải dữ liệu</h2>
+    </div>
+    <div class="feedback-grid">
+      <tn-feedback title="Thông tin hữu ích">Nội dung bổ sung giúp người dùng hiểu kết quả.</tn-feedback>
+      <tn-feedback
+        title="Đã hoàn tất"
+        tone="success"
+        >Tác vụ đã được xử lý thành công.</tn-feedback
+      >
+      <tn-feedback
+        title="Cần chú ý"
+        tone="warning"
+        >Dữ liệu có thể chưa được cập nhật gần đây.</tn-feedback
+      >
+      <tn-feedback
+        title="Không thể tải"
+        tone="danger"
+        >Vui lòng thử lại sau ít phút.</tn-feedback
+      >
+      <tn-card
+        ><div class="empty stack center">
+          <tn-icon name="search" />
+          <h3>Chưa có kết quả</h3>
+          <p class="muted small">Thử từ khóa khác hoặc kiểm tra lại nội dung.</p>
+        </div></tn-card
+      >
+      <tn-card><tn-skeleton /></tn-card>
+    </div>
+  </section>
+
+  <section
+    aria-labelledby="table-title"
+    class="demo-section"
+  >
+    <div class="section-heading">
+      <p class="eyebrow">DỮ LIỆU</p>
+      <h2 id="table-title">Bảng thích ứng</h2>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <caption>
+          Ví dụ cấu trúc dữ liệu trung tính
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Mục</th>
+            <th scope="col">Trạng thái</th>
+            <th scope="col">Thời điểm</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Thông tin A</td>
+            <td>
+              <span
+                tnBadge
+                tone="success"
+                >Sẵn sàng</span
+              >
+            </td>
+            <td>Vừa cập nhật</td>
+          </tr>
+          <tr>
+            <td>Thông tin B</td>
+            <td>
+              <span
+                tnBadge
+                tone="warning"
+                >Đang kiểm tra</span
+              >
+            </td>
+            <td>Chưa xác định</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

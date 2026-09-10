@@ -18,7 +18,19 @@ multiple packages need a separately versioned configuration.
 
 The Angular application uses standalone APIs, strict TypeScript, routing, SCSS, hydration, and the Angular
 application builder in server output mode. The root route is prerendered during production builds and an Express
-SSR entry is produced for future dynamic routes. Phase 1 contains only an accessible product shell.
+SSR entry is produced for dynamic routes. The root route is prerendered, while `/design-system` is SSR-rendered
+and excluded from indexing. The application uses explicit zoneless change detection.
+
+The web design system is split into global SCSS modules for semantic tokens, themes, base rules, utilities, and
+controls. Components consume semantic custom properties instead of raw palette values. Light and dark themes are
+separate token assignments; the system preference follows `prefers-color-scheme`. A small prepaint script reads
+the persisted preference before the main bundle to avoid a theme flash, and the Angular theme service keeps that
+state synchronized after bootstrap.
+
+Standalone primitives under `apps/web/src/app/design-system` provide buttons, fields, cards, feedback states,
+breadcrumbs, and a controlled inline SVG icon set. Shared header and footer components live under
+`apps/web/src/app/layout`. The lazy `/design-system` route is the visual contract for these primitives and contains
+only clearly labeled illustrative values.
 
 ## API
 

@@ -1,0 +1,144 @@
+.container {
+  width: min(100% - 2rem, var(--content-width));
+  margin-inline: auto;
+}
+.section {
+  padding-block: var(--space-10);
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+}
+.grid > * {
+  min-width: 0;
+}
+.center {
+  text-align: center;
+  margin-inline: auto;
+}
+.divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin-block: var(--space-6);
+}
+.muted {
+  color: var(--text-secondary);
+}
+.small {
+  font-size: var(--text-small);
+}
+.caption {
+  font-size: var(--text-caption);
+  color: var(--text-muted);
+}
+.eyebrow {
+  color: var(--brand);
+  font-size: var(--text-small);
+  font-weight: 650;
+  letter-spacing: 0.06em;
+}
+.display {
+  font-size: var(--text-display);
+}
+.data-value {
+  font-size: 2rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  position: fixed;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
+  top: -10rem;
+  left: 1rem;
+  z-index: 10;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+.table-scroll {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--text-small);
+}
+caption {
+  text-align: left;
+  padding: var(--space-4);
+  font-weight: 600;
+}
+th,
+td {
+  padding: var(--space-4);
+  text-align: left;
+  border-top: 1px solid var(--border);
+}
+th {
+  background: var(--surface-subtle);
+  font-weight: 600;
+}
+.key-values {
+  margin: 0;
+}
+.key-values > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-block: var(--space-3);
+}
+.key-values > div + div {
+  border-top: 1px solid var(--border);
+}
+.key-values dt {
+  color: var(--text-secondary);
+  flex: 1;
+}
+.key-values dd {
+  margin: 0;
+  font-weight: 550;
+}
+
+@media (min-width: 48rem) {
+  .container {
+    width: min(100% - 4rem, var(--content-width));
+  }
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .section {
+    padding-block: var(--space-16);
+  }
+}
+@media (min-width: 64rem) {
+  .grid--three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

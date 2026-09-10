@@ -2,9 +2,9 @@
 
 ## Current Status
 
-Current phase: Phase 1 — Project foundation
-Status: Complete; Phase 0 and Phase 1 history pushed successfully to GitHub
-Last updated: 2026-09-09 (Asia/Ho_Chi_Minh)
+Current phase: Phase 2 — Design system
+Status: Complete; responsive design-system foundation ready for Phase 3
+Last updated: 2026-09-10 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
 
@@ -147,6 +147,43 @@ Quick continuation map:
 - Services: compose.yaml
 - Root commands: package.json
 
+### Phase 2 — Design system
+
+Status: Complete
+
+Implemented:
+
+- Added semantic color, typography, spacing, radius, shadow, layout, and motion tokens.
+- Added distinct light and dark themes plus a persisted system/light/dark preference with an SSR-safe prepaint script.
+- Added responsive header, mobile navigation, footer, skip link, breadcrumbs, and a reusable page shell.
+- Added reusable button, field, card, feedback, badge, skeleton, empty-state, data-table, and inline SVG icon patterns.
+- Added `/design-system` as a lazy SSR showcase route with `noindex, nofollow` in HTML and the response header.
+- Kept the root route as a restrained product shell; no business feature or fabricated factual data was introduced.
+- Configured Angular's explicit zoneless change detection and deterministic menu view updates for hydrated SSR interaction.
+
+Accessibility and responsive verification:
+
+- Keyboard menu open/close, Escape focus restoration, form labels, visible focus, semantic landmarks, and reduced motion are covered.
+- Browser checks passed at 320, 375, 390, 430, 768, 1024, 1280, and 1440 pixels with no horizontal overflow.
+- Light mobile and dark desktop renders were inspected visually.
+- Theme selection persists in local storage and updates the document theme.
+
+Tests and validation:
+
+- Angular tests: 4 passed across 3 files, including theme persistence/resolution and mobile navigation behavior.
+- ESLint, Prettier, workspace tests, API E2E, Prisma validation, and all production builds passed.
+- Final browser bundle: 283.75 kB initial raw, 78.39 kB estimated transfer; showcase is lazy-loaded.
+- Live SSR checks confirmed the showcase title and `noindex, nofollow` metadata.
+
+Commit: `feat: add responsive design system` (this checkpoint).
+Push: Intended for `origin/main`; verify the resulting hash with `git rev-parse origin/main`.
+
+Known limitations:
+
+- Language switching remains a visible placeholder for a later localization phase.
+- Header product areas remain labeled as upcoming until their dedicated phases.
+- Docker-backed runtime verification remains pending from Phase 1.
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -170,9 +207,8 @@ None. See `docs/data-sources.md` for the required provider registry fields.
 
 ### Next Phase
 
-Phase 2 — Design system. Create typography, spacing, color, form, button, card, navigation,
-feedback-state, responsive layout, and light/dark/system theme foundations on a responsive showcase page.
-Do not implement business features.
+Phase 3 — Data foundation. Define provider contracts, provenance, normalized storage, freshness rules,
+and the first source-backed data pipeline without expanding into unrelated product features.
 
 ## Known Issues
 
@@ -186,3 +222,4 @@ Do not implement business features.
 - Preserve this phase history and inspect repository evidence before continuing.
 - Do not reinitialize the Angular, NestJS, Prisma, Redis, BullMQ, or pnpm foundations.
 - Do not begin multiple major phases simultaneously or claim production readiness prematurely.
+- Do not recreate the Phase 2 design tokens, themes, primitives, responsive shell, or showcase route.

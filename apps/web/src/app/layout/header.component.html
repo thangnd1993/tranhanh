@@ -1,0 +1,81 @@
+<header class="header">
+  <div class="container header-inner">
+    <a
+      aria-label="TraNhanh — Trang chủ"
+      class="brand"
+      routerLink="/"
+    >
+      <span class="brand-mark"><tn-icon name="search" /></span>
+      <span>Tra<span class="brand-accent">Nhanh</span></span>
+    </a>
+    <nav
+      aria-label="Điều hướng chính"
+      class="desktop-nav"
+    >
+      <a
+        routerLink="/design-system"
+        routerLinkActive="active"
+        >Bộ giao diện</a
+      >
+      <span aria-disabled="true">Tra cứu</span>
+      <span aria-disabled="true">Công cụ</span>
+      <span aria-disabled="true">Hôm nay</span>
+    </nav>
+    <div class="header-actions">
+      <span
+        class="language"
+        title="Tiếng Việt · Chuyển ngôn ngữ sẽ có sau"
+        ><tn-icon name="globe" /> VI</span
+      >
+      <label
+        class="sr-only"
+        for="theme-preference"
+        >Giao diện</label
+      >
+      <select
+        class="theme-select"
+        id="theme-preference"
+        [value]="theme.preference()"
+        (change)="changeTheme($event)"
+      >
+        <option value="system">Hệ thống</option>
+        <option value="light">Sáng</option>
+        <option value="dark">Tối</option>
+      </select>
+      <button
+        #toggle
+        aria-controls="mobile-navigation"
+        aria-label="Menu điều hướng"
+        class="menu-toggle"
+        size="icon"
+        tnButton
+        type="button"
+        variant="ghost"
+        [attr.aria-expanded]="menuOpen()"
+        (click)="toggleMenu()"
+      >
+        <tn-icon [name]="menuOpen() ? 'close' : 'menu'" />
+      </button>
+    </div>
+  </div>
+  <nav
+    aria-label="Điều hướng trên điện thoại"
+    class="mobile-nav container"
+    id="mobile-navigation"
+    [hidden]="!menuOpen()"
+  >
+    <a
+      routerLink="/"
+      (click)="closeMenu()"
+      >Trang chủ</a
+    >
+    <a
+      routerLink="/design-system"
+      (click)="closeMenu()"
+      >Bộ giao diện</a
+    >
+    <span>Tra cứu <small>Sắp có</small></span>
+    <span>Công cụ <small>Sắp có</small></span>
+    <span>Hôm nay <small>Sắp có</small></span>
+  </nav>
+</header>
