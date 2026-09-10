@@ -2,9 +2,9 @@
 
 ## Current Status
 
-Current completed phase: Phase 3 — I18N Foundation
-Next phase: Phase 4 — SEO Foundation
-Status: Complete; bilingual SSR foundation implemented and validated
+Current completed phase: Phase 4 — SEO Foundation
+Next phase: Phase 5 — Database Core
+Status: Complete; centralized technical SEO and real localized HTTP 404 implemented
 Last updated: 2026-09-10 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
@@ -224,6 +224,45 @@ Known limitations:
 - Unknown routes use redirects, not a dedicated 404 page. Full SEO, canonical/hreflang, and sitemap work remain Phase 4.
 - Docker runtime verification remains pending from Phase 1 and does not block localization.
 
+### Phase 4 — SEO Foundation
+
+Status: Complete
+
+- Central typed SeoPageConfig, route resolver declarations, and one SeoService own SSR/browser head output and cleanup.
+- Localized route-specific titles/descriptions use existing dictionaries; brand/title-length helpers avoid blind truncation.
+- Validated PUBLIC_SITE_URL and PUBLIC_ALLOW_INDEXING are passed through request context and hydration TransferState.
+- No domain is assumed: default noindex, no fabricated canonical/alternates, and sitemap 503 until explicitly configured.
+- Absolute canonicals use the correct locale path and omit query/hash; vi/en homepage alternates reuse the route mapping.
+- Open Graph and Twitter summary metadata are localized; no invented social accounts or preview image URLs.
+- Typed JSON-LD supports WebSite, Organization, WebPage and BreadcrumbList, with safe serialization.
+- Homepage WebSite and showcase BreadcrumbList use factual content only; breadcrumb UI and JSON-LD share one model.
+- Home index/follow is environment-gated; showcase noindex/nofollow; 404 noindex/follow; private defaults are noindex.
+- Plain-text robots.txt and XML sitemap index/static segment list only real indexable localized homepages.
+- One-hop 308 redirects normalize root, legacy showcase, trailing/duplicate slashes and locale casing, preserving queries.
+- Arbitrary invalid paths now return localized HTTP 404 instead of redirecting to a successful homepage.
+- Angular RESPONSE_INIT sets real 404 status and robots headers; 404 has no canonical or language alternates.
+- Semantic review preserved navigation links/landmarks and corrected the showcase's extra sample H1.
+
+Validation:
+
+- Angular unit/component tests: 15 passed; existing API unit tests: 6 passed; API E2E: 1 passed.
+- Formatting, ESLint, shared/API/browser/SSR production builds, and Prisma schema validation passed.
+- HTTP tests cover localized metadata, canonicals, alternates, social locale, JSON-LD parsing, robots/sitemap,
+  deliberate redirects and true 404 responses in configured and safe/unconfigured environments.
+- XML parsed in unit tests; sitemap excludes showcase and nonexistent pages; script injection escaping verified.
+- Headless checks passed for vi/en 404 at 390px and 1440px, keyboard home navigation, and metadata cleanup/hydration.
+- Two representative screenshots reviewed and removed; browser/context/server processes closed after checks.
+- Initial browser bundle approximately 305 kB raw / 84 kB estimated transfer; no new runtime SEO dependency.
+
+Commit: `feat: add technical seo foundation` (this checkpoint).
+Push destination: origin/main; verify synchronized checkpoint with `git rev-parse origin/main` after push.
+
+Known limitations:
+
+- Actual production domain/indexing activation remain deployment configuration; no live search-engine indexing claim.
+- No social image, SearchAction, invented Organization details, or business sitemap segments are emitted.
+- Docker verification remains pending from Phase 1 and was not performed in this phase.
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -247,12 +286,12 @@ None. See `docs/data-sources.md` for the required provider registry fields.
 
 ### Next Phase
 
-Next phase: Phase 4 — SEO Foundation
+Next phase: Phase 5 — Database Core
 
 The master specification defines this order:
 
 1. Phase 3 — I18N Foundation (complete)
-2. Phase 4 — SEO Foundation
+2. Phase 4 — SEO Foundation (complete)
 3. Phase 5 — Database Core
 
 Do not rename or reorder phases without both a documented architectural reason and explicit user instruction.

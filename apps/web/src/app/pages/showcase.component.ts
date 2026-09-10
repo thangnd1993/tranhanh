@@ -1,7 +1,7 @@
+import { SeoService } from '../seo/seo.service';
 import { LocaleService } from '../i18n/locale.service';
 import { formatNumber } from '../i18n/format';
-import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { BreadcrumbComponent } from '../design-system/breadcrumb.component';
 import { ButtonDirective } from '../design-system/button.directive';
 import { CardComponent } from '../design-system/card.component';
@@ -26,22 +26,11 @@ import { IconComponent } from '../design-system/icon.component';
   templateUrl: './showcase.component.html',
   styleUrl: './showcase.component.scss',
 })
-export class ShowcaseComponent implements OnDestroy {
-  private readonly meta = inject(Meta);
+export class ShowcaseComponent {
+  protected readonly seo = inject(SeoService);
   protected readonly i18n = inject(LocaleService);
   protected readonly formatNumber = formatNumber;
   protected get breadcrumb() {
-    return [
-      { label: this.i18n.t('navigation.home'), url: this.i18n.path('home') },
-      { label: this.i18n.t('navigation.showcase') },
-    ];
-  }
-
-  constructor() {
-    this.meta.updateTag({ name: 'robots', content: 'noindex, nofollow' });
-  }
-
-  ngOnDestroy(): void {
-    this.meta.removeTag('name="robots"');
+    return this.seo.active()?.breadcrumbs ?? [];
   }
 }

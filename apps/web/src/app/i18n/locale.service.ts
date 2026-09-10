@@ -21,7 +21,6 @@ export class LocaleService {
   resolveRoute(locale: Locale): void {
     this.selected.set(locale);
     this.document.documentElement.lang = locale;
-    this.document.querySelector('meta[name="description"]')?.setAttribute('content', this.t('footer.description'));
   }
 
   t(key: TranslationKey): string {

@@ -1,12 +1,10 @@
+import { SeoBreadcrumb } from '../seo/models';
 import { LocaleService } from '../i18n/locale.service';
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IconComponent } from './icon.component';
 
-export interface BreadcrumbItem {
-  label: string;
-  url?: string;
-}
+export type BreadcrumbItem = SeoBreadcrumb;
 
 @Component({
   selector: 'tn-breadcrumb',

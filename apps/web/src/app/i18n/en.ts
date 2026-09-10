@@ -1,5 +1,15 @@
 import { Translations } from './vi';
 export const en = {
+  'seo.home.title': 'TraNhanh — Find what you need, instantly',
+  'seo.home.description':
+    'TraNhanh is building a bilingual home for everyday lookups and tools in Vietnamese and English. ' +
+    'Explore the interface as the product takes shape.',
+  'seo.showcase.title': 'TraNhanh design system',
+  'seo.showcase.description': 'Explore the shared interface components, forms, and display states used in TraNhanh.',
+  'seo.notFound.title': 'Page not found',
+  'seo.notFound.description': "The page you're looking for doesn't exist or may have moved.",
+  'notFound.home': 'Back to home',
+
   'navigation.home': 'Home',
   'navigation.showcase': 'Design system',
   'navigation.lookup': 'Lookup',

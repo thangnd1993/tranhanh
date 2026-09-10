@@ -34,12 +34,13 @@ try {
   for (const [path, target] of [
     ['/', '/vi'],
     ['/design-system', '/vi/design-system'],
-    ['/fr', '/vi'],
-    ['/abc', '/vi'],
   ]) {
     const response = await fetch(origin + path, { redirect: 'manual' });
     assert.ok([301, 302, 307, 308].includes(response.status), `${path}: ${response.status}`);
     assert.equal(new URL(response.headers.get('location'), origin).pathname, target);
+  }
+  for (const path of ['/fr', '/abc', '/vi/unknown', '/en/unknown']) {
+    assert.equal((await fetch(origin + path, { redirect: 'manual' })).status, 404, path);
   }
   for (const locale of ['vi', 'en']) {
     for (const suffix of ['', '/design-system']) {

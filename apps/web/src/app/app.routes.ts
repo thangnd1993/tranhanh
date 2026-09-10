@@ -1,3 +1,4 @@
+import { pageSeo } from './seo/seo.resolver';
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { LocaleService } from './i18n/locale.service';
@@ -20,16 +21,36 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full' as const,
-        title: () => `TraNhanh — ${inject(LocaleService).t('home.tagline')}`,
+        resolve: { seo: pageSeo('home') },
         loadComponent: () => import('./pages/home.component').then((m) => m.HomeComponent),
       },
       {
         path: 'design-system',
-        title: () => `${inject(LocaleService).t('navigation.showcase')} · TraNhanh`,
+        resolve: { seo: pageSeo('showcase') },
         loadComponent: () => import('./pages/showcase.component').then((m) => m.ShowcaseComponent),
       },
-      { path: '**', redirectTo: '' },
+      {
+        path: '**',
+        resolve: { seo: pageSeo('notFound') },
+        loadComponent: () => import('./pages/not-found.component').then((m) => m.NotFoundComponent),
+      },
     ],
   })),
-  { path: '**', redirectTo: 'vi' },
+  {
+    path: '**',
+    component: ShellComponent,
+    canActivate: [
+      () => {
+        inject(LocaleService).resolveRoute('vi');
+        return true;
+      },
+    ],
+    children: [
+      {
+        path: '',
+        resolve: { seo: pageSeo('notFound') },
+        loadComponent: () => import('./pages/not-found.component').then((m) => m.NotFoundComponent),
+      },
+    ],
+  },
 ];

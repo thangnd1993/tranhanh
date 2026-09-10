@@ -16,13 +16,14 @@ describe('route-authoritative localization', () => {
   });
   afterEach(() => localStorage.clear());
 
-  it('redirects root and invalid paths predictably', async () => {
+  it('redirects legacy entry points and preserves invalid paths for 404', async () => {
     const harness = await RouterTestingHarness.create('/');
     const router = TestBed.inject(Router);
     expect(router.url).toBe('/vi');
     for (const path of ['/fr', '/abc', '/vi/unknown']) {
       await harness.navigateByUrl(path);
-      expect(router.url).toBe('/vi');
+      expect(router.url).toBe(path);
+      expect(harness.routeNativeElement?.textContent).toContain(vi['seo.notFound.title']);
     }
     await harness.navigateByUrl('/design-system');
     expect(router.url).toBe('/vi/design-system');

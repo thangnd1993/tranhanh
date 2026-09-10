@@ -1,3 +1,5 @@
+import { readSiteConfig, redirectPath } from './app/seo/site-config';
+import { robotsTxt, sitemapIndexXml, sitemapUrls, sitemapXml } from './app/seo/sitemap';
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -11,6 +13,35 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
+const siteConfig = readSiteConfig(process.env);
+
+app.use((req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+  const queryStart = req.originalUrl.indexOf('?');
+  const pathname = queryStart < 0 ? req.originalUrl : req.originalUrl.slice(0, queryStart);
+  const target = redirectPath(pathname);
+  if (target) {
+    const query = queryStart < 0 ? '' : req.originalUrl.slice(queryStart);
+    res.redirect(308, target + query);
+    return;
+  }
+  next();
+});
+app.get('/robots.txt', (_req, res) => {
+  res.type('text/plain').send(robotsTxt(siteConfig));
+});
+app.get(['/sitemap.xml', '/sitemap-static.xml'], (req, res) => {
+  if (!siteConfig.origin || !siteConfig.allowIndexing) {
+    res
+      .status(503)
+      .set('X-Robots-Tag', 'noindex')
+      .type('text/plain')
+      .send('Sitemap unavailable: indexing is disabled.');
+    return;
+  }
+  const xml = req.path === '/sitemap.xml' ? sitemapIndexXml(siteConfig.origin) : sitemapXml(sitemapUrls(siteConfig));
+  res.type('application/xml').send(xml);
+});
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -40,7 +71,7 @@ app.use(
  */
 app.use((req, res, next) => {
   angularApp
-    .handle(req)
+    .handle(req, { siteConfig })
     .then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
     .catch(next);
 });

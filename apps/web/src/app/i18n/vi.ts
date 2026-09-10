@@ -1,4 +1,14 @@
 export const vi = {
+  'seo.home.title': 'TraNhanh — Cần biết gì, tra ngay',
+  'seo.home.description':
+    'TraNhanh đang xây dựng nền tảng tra cứu và tiện ích hằng ngày bằng tiếng Việt và tiếng Anh. ' +
+    'Khám phá giao diện và theo dõi những bước phát triển tiếp theo.',
+  'seo.showcase.title': 'Bộ giao diện TraNhanh',
+  'seo.showcase.description': 'Xem các thành phần giao diện, biểu mẫu và trạng thái hiển thị dùng chung của TraNhanh.',
+  'seo.notFound.title': 'Không tìm thấy trang',
+  'seo.notFound.description': 'Trang bạn đang tìm không tồn tại hoặc đã được chuyển.',
+  'notFound.home': 'Về trang chủ',
+
   'navigation.home': 'Trang chủ',
   'navigation.showcase': 'Bộ giao diện',
   'navigation.lookup': 'Tra cứu',

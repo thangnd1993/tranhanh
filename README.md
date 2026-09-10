@@ -53,8 +53,8 @@ No live data provider is configured, and no business feature from later phases i
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 3 — I18N Foundation.
-Next phase: Phase 4 — SEO Foundation, followed by Phase 5 — Database Core.
+Current completed phase: Phase 4 — SEO Foundation.
+Next phase: Phase 5 — Database Core.
 Follow the [master specification](docs/MASTER_EXECUTION_PROMPT.md) and preserve completed phase history.
 Roadmap changes require a documented architectural reason and explicit user instruction.
 
@@ -69,3 +69,12 @@ The root redirects to `/vi`; URL locale takes precedence over any stored prefere
 See [Localization architecture](docs/architecture.md#localization-phase-3) for translation and formatting conventions.
 After `pnpm build`, run `pnpm test:ssr` for production SSR localization checks.
 Optional headless browser configuration is documented in the architecture guide; no visible browser is required.
+
+## SEO environment and checks
+
+Keep `PUBLIC_ALLOW_INDEXING=false` locally and on staging. Before a public deployment, set `PUBLIC_SITE_URL` to the
+actual HTTPS origin and explicitly set `PUBLIC_ALLOW_INDEXING=true`. No final domain is assumed. Pass these variables
+to the SSR process; Node can load a local file explicitly with `--env-file=.env` when launched from the repository root.
+Without an origin, canonical/alternate URL output is omitted and sitemap endpoints return 503 rather than invented URLs.
+Run `pnpm test:seo` after `pnpm build` to verify production SSR metadata, sitemap/robots and HTTP 404 behavior using a test
+origin. See [Technical SEO architecture](docs/architecture.md#technical-seo-phase-4) for policies and extension points.
