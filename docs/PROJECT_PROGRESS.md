@@ -2,8 +2,9 @@
 
 ## Current Status
 
-Current phase: Phase 2 — Design system
-Status: Complete; responsive design-system foundation ready for Phase 3
+Current completed phase: Phase 2 — Design System
+Next phase: Phase 3 — I18N Foundation
+Status: Phase 2 complete; documentation/workflow correction only, no new implementation phase started
 Last updated: 2026-09-10 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
@@ -207,8 +208,26 @@ None. See `docs/data-sources.md` for the required provider registry fields.
 
 ### Next Phase
 
-Phase 3 — Data foundation. Define provider contracts, provenance, normalized storage, freshness rules,
-and the first source-backed data pipeline without expanding into unrelated product features.
+Next phase: Phase 3 — I18N Foundation
+
+The master specification defines this order:
+
+1. Phase 3 — I18N Foundation
+2. Phase 4 — SEO Foundation
+3. Phase 5 — Database Core
+
+Do not rename or reorder phases without both a documented architectural reason and explicit user instruction.
+
+## Permanent Testing Workflow
+
+Every subsequent session must follow [Testing strategy](testing-strategy.md): headless by default, preferably one
+browser process with safe context/page reuse, sequential viewport checks, and selective screenshots at 390px,
+768px when relevant, and 1440px. Clean up test-owned processes and temporary screenshots after validation.
+Backend phases normally need no browser testing unless frontend behavior changes. Required quality gates remain intact.
+
+Workflow checkpoint: `docs: refine testing workflow and roadmap`.
+This documentation-only correction preserves completed history and starts no implementation phase.
+Validation: documentation formatting, diff/scope review, and Git synchronization; no browser visual audit.
 
 ## Known Issues
 
