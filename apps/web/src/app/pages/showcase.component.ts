@@ -1,3 +1,5 @@
+import { LocaleService } from '../i18n/locale.service';
+import { formatNumber } from '../i18n/format';
 import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { BreadcrumbComponent } from '../design-system/breadcrumb.component';
@@ -26,7 +28,14 @@ import { IconComponent } from '../design-system/icon.component';
 })
 export class ShowcaseComponent implements OnDestroy {
   private readonly meta = inject(Meta);
-  protected readonly breadcrumb = [{ label: 'Trang chủ', url: '/' }, { label: 'Bộ giao diện' }];
+  protected readonly i18n = inject(LocaleService);
+  protected readonly formatNumber = formatNumber;
+  protected get breadcrumb() {
+    return [
+      { label: this.i18n.t('navigation.home'), url: this.i18n.path('home') },
+      { label: this.i18n.t('navigation.showcase') },
+    ];
+  }
 
   constructor() {
     this.meta.updateTag({ name: 'robots', content: 'noindex, nofollow' });

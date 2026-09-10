@@ -17,9 +17,9 @@ multiple packages need a separately versioned configuration.
 ## Web
 
 The Angular application uses standalone APIs, strict TypeScript, routing, SCSS, hydration, and the Angular
-application builder in server output mode. The root route is prerendered during production builds and an Express
-SSR entry is produced for dynamic routes. The root route is prerendered, while `/design-system` is SSR-rendered
-and excluded from indexing. The application uses explicit zoneless change detection.
+application builder in server output mode. Localized pages use request-time SSR through the Express entry.
+The root redirects to `/vi`; the two localized showcase routes are excluded from indexing.
+The application uses explicit zoneless change detection.
 
 The web design system is split into global SCSS modules for semantic tokens, themes, base rules, utilities, and
 controls. Components consume semantic custom properties instead of raw palette values. Light and dark themes are
@@ -29,7 +29,7 @@ state synchronized after bootstrap.
 
 Standalone primitives under `apps/web/src/app/design-system` provide buttons, fields, cards, feedback states,
 breadcrumbs, and a controlled inline SVG icon set. Shared header and footer components live under
-`apps/web/src/app/layout`. The lazy `/design-system` route is the visual contract for these primitives and contains
+`apps/web/src/app/layout`. The lazy `/:locale/design-system` routes are the visual contract for these primitives and contain
 only clearly labeled illustrative values.
 
 ## API
@@ -57,3 +57,40 @@ database, Redis, and migration-connectivity verification remains pending while t
 Providers must validate and normalize data before storage. Public requests must not call external providers on
 every visit. Use integer-safe or decimal arithmetic for money, effective dates for tariffs and administrative
 mappings, and safe API serialization. Never generate factual values using AI.
+
+## Localization (Phase 3)
+
+The route is the authoritative locale source: Vietnamese (`vi`, default) and English (`en`). A route guard resolves
+locale before creating the shared shell, for both SSR and browser navigation. `LocaleService` owns readonly locale
+state and typed translation access. `vi.ts` defines semantic translation keys; `en.ts` must satisfy the same key set.
+Both small dictionaries ship synchronously to avoid language flash, translation requests, and hydration races.
+No additional localization dependency is required; the initial estimated transfer grew from 78.39 kB to 82.27 kB.
+Split dictionaries by feature only when growth justifies the loading complexity.
+
+Registered page identities map through `i18n/routes.ts`: `/vi` and `/en` for home, and `/vi/design-system` and
+`/en/design-system` for the showcase. Language switching preserves the registered page, query parameters, and fragment.
+Native buttons expose the selected language with `aria-pressed`, with full language names in mobile navigation.
+Successful explicit switches persist `tranhanh.locale` when storage is available. Stored preference never overrides
+a direct URL or influences SSR. Browser Back/Forward resolves the locale again from its route.
+
+Angular SSR returns an HTTP redirect for `/` to `/vi`, and `/design-system` to `/vi/design-system`.
+Unsupported locale paths redirect to `/vi`; unknown paths within a supported locale redirect to that locale's home.
+This intentional redirect strategy avoids rendering Vietnamese under an invalid URL; a dedicated 404 page can be
+introduced by an explicitly scoped later phase. Neither legacy path renders duplicate indexable content.
+The showcase retains `noindex, nofollow` in the SSR response header and HTML for both locales.
+
+The guard updates the request-scoped injected document's `html.lang` and existing description before rendering.
+Route title resolvers supply translated titles. The browser runs the same resolution before hydration; there is no
+server dependency on local storage or unsafe global document/window access. Canonical/hreflang and the SEO metadata
+engine remain Phase 4 work.
+
+Tree-shakeable `Intl` presentation helpers provide numbers, ratio percentages, VND, dates, times, and date/time.
+They use `vi-VN` or `en-US` and an explicit default timezone of `Asia/Ho_Chi_Minh` to avoid server/browser drift.
+Callers supply a Date or epoch instant and may override timezone. Formatting is not business arithmetic or a monetary
+rounding policy. Common translation keys cover required/invalid validation and loading, empty, stale, error/retry states.
+
+After a production build, `pnpm test:ssr` starts a temporary SSR server and checks redirects and initial localized HTML.
+Set `PLAYWRIGHT_MODULE` to an installed Playwright module and optionally `CHROME_EXECUTABLE` to enable the same script's
+headless browser checks. It reuses one browser/context/page and checks viewports sequentially, then closes all resources.
+Optional `I18N_SCREENSHOTS=1` writes two temporary representative images for review; delete their reported directory
+after inspection. Routine screenshots are not version-controlled.

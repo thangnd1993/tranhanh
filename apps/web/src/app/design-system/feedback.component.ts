@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Directive, input } from '@angular/core';
+import { LocaleService } from '../i18n/locale.service';
+import { ChangeDetectionStrategy, Component, Directive, inject, input } from '@angular/core';
 import { IconComponent } from './icon.component';
 
 export type Tone = 'neutral' | 'success' | 'warning' | 'danger' | 'info';
@@ -64,7 +65,7 @@ export class FeedbackComponent {
 @Component({
   selector: 'tn-skeleton',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { role: 'status', '[attr.aria-label]': 'label()' },
+  host: { role: 'status', '[attr.aria-label]': "label() ?? i18n.t('common.loading')" },
   template: '<span></span><span></span><span></span>',
   styles: `
     :host {
@@ -86,5 +87,6 @@ export class FeedbackComponent {
   `,
 })
 export class SkeletonComponent {
-  readonly label = input('Đang tải nội dung');
+  protected readonly i18n = inject(LocaleService);
+  readonly label = input<string>();
 }

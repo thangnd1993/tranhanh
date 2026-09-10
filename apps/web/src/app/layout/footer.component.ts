@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { LocaleService } from '../i18n/locale.service';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -11,30 +12,30 @@ import { RouterLink } from '@angular/router';
         <div class="stack">
           <a
             class="footer-brand"
-            routerLink="/"
+            [routerLink]="i18n.path('home')"
             >TraNhanh<span> / </span></a
           >
-          <p class="muted small">Cần biết gì, tra ngay.</p>
-          <p class="caption">Tra cứu và tiện ích cho mỗi ngày.</p>
+          <p class="muted small">{{ i18n.t('home.tagline') }}</p>
+          <p class="caption">{{ i18n.t('footer.description') }}</p>
         </div>
         <div class="footer-groups">
           <div class="stack">
-            <h2>Khám phá</h2>
-            <span>Tra cứu · Sắp có</span>
-            <span>Công cụ · Sắp có</span>
-            <span>Hôm nay · Sắp có</span>
+            <h2>{{ i18n.t('common.explore') }}</h2>
+            <span>{{ i18n.t('footer.lookup') }}</span>
+            <span>{{ i18n.t('footer.tools') }}</span>
+            <span>{{ i18n.t('footer.today') }}</span>
           </div>
           <div class="stack">
-            <h2>Về TraNhanh</h2>
-            <span>Giới thiệu · Sắp có</span>
-            <span>Nguồn dữ liệu · Sắp có</span>
-            <a routerLink="/design-system">Bộ giao diện</a>
+            <h2>{{ i18n.t('footer.about') }}</h2>
+            <span>{{ i18n.t('footer.introduction') }}</span>
+            <span>{{ i18n.t('footer.sources') }}</span>
+            <a [routerLink]="i18n.path('showcase')">{{ i18n.t('navigation.showcase') }}</a>
           </div>
         </div>
       </div>
       <div class="footer-bottom caption">
-        <span>TraNhanh · Đang phát triển</span>
-        <span>Điều khoản · Quyền riêng tư: đang chuẩn bị</span>
+        <span>{{ i18n.t('footer.status') }}</span>
+        <span>{{ i18n.t('footer.legal') }}</span>
       </div>
     </footer>
   `,
@@ -93,4 +94,6 @@ import { RouterLink } from '@angular/router';
     }
   `,
 })
-export class FooterComponent {}
+export class FooterComponent {
+  protected readonly i18n = inject(LocaleService);
+}

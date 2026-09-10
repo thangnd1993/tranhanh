@@ -1,36 +1,36 @@
 <header class="header">
   <div class="container header-inner">
     <a
-      aria-label="TraNhanh — Trang chủ"
       class="brand"
-      routerLink="/"
+      [attr.aria-label]="i18n.t('navigation.brand')"
+      [routerLink]="i18n.path('home')"
     >
       <span class="brand-mark"><tn-icon name="search" /></span>
       <span>Tra<span class="brand-accent">Nhanh</span></span>
     </a>
     <nav
-      aria-label="Điều hướng chính"
       class="desktop-nav"
+      [attr.aria-label]="i18n.t('navigation.main')"
     >
       <a
-        routerLink="/design-system"
         routerLinkActive="active"
-        >Bộ giao diện</a
+        [routerLink]="i18n.path('showcase')"
+        >{{ i18n.t('navigation.showcase') }}</a
       >
-      <span aria-disabled="true">Tra cứu</span>
-      <span aria-disabled="true">Công cụ</span>
-      <span aria-disabled="true">Hôm nay</span>
+      <span aria-disabled="true">{{ i18n.t('navigation.lookup') }}</span>
+      <span aria-disabled="true">{{ i18n.t('navigation.tools') }}</span>
+      <span aria-disabled="true">{{ i18n.t('navigation.today') }}</span>
     </nav>
     <div class="header-actions">
-      <span
-        class="language"
-        title="Tiếng Việt · Chuyển ngôn ngữ sẽ có sau"
-        ><tn-icon name="globe" /> VI</span
-      >
+      <tn-language-switcher
+        class="desktop-language"
+        controlId="language-desktop"
+        [compact]="true"
+      />
       <label
         class="sr-only"
         for="theme-preference"
-        >Giao diện</label
+        >{{ i18n.t('theme.label') }}</label
       >
       <select
         class="theme-select"
@@ -38,19 +38,19 @@
         [value]="theme.preference()"
         (change)="changeTheme($event)"
       >
-        <option value="system">Hệ thống</option>
-        <option value="light">Sáng</option>
-        <option value="dark">Tối</option>
+        <option value="system">{{ i18n.t('theme.system') }}</option>
+        <option value="light">{{ i18n.t('theme.light') }}</option>
+        <option value="dark">{{ i18n.t('theme.dark') }}</option>
       </select>
       <button
         #toggle
         aria-controls="mobile-navigation"
-        aria-label="Menu điều hướng"
         class="menu-toggle"
         size="icon"
         tnButton
         type="button"
         variant="ghost"
+        [attr.aria-label]="i18n.t(menuOpen() ? 'navigation.closeMenu' : 'navigation.openMenu')"
         [attr.aria-expanded]="menuOpen()"
         (click)="toggleMenu()"
       >
@@ -59,23 +59,30 @@
     </div>
   </div>
   <nav
-    aria-label="Điều hướng trên điện thoại"
     class="mobile-nav container"
     id="mobile-navigation"
+    [attr.aria-label]="i18n.t('navigation.mobile')"
     [hidden]="!menuOpen()"
   >
     <a
-      routerLink="/"
+      [routerLink]="i18n.path('home')"
       (click)="closeMenu()"
-      >Trang chủ</a
+      >{{ i18n.t('navigation.home') }}</a
     >
     <a
-      routerLink="/design-system"
+      [routerLink]="i18n.path('showcase')"
       (click)="closeMenu()"
-      >Bộ giao diện</a
+      >{{ i18n.t('navigation.showcase') }}</a
     >
-    <span>Tra cứu <small>Sắp có</small></span>
-    <span>Công cụ <small>Sắp có</small></span>
-    <span>Hôm nay <small>Sắp có</small></span>
+    <span
+      >{{ i18n.t('navigation.lookup') }} <small>{{ i18n.t('common.soon') }}</small></span
+    >
+    <span
+      >{{ i18n.t('navigation.tools') }} <small>{{ i18n.t('common.soon') }}</small></span
+    >
+    <span
+      >{{ i18n.t('navigation.today') }} <small>{{ i18n.t('common.soon') }}</small></span
+    >
+    <tn-language-switcher controlId="language-mobile" />
   </nav>
 </header>

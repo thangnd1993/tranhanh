@@ -2,9 +2,9 @@
 
 ## Current Status
 
-Current completed phase: Phase 2 — Design System
-Next phase: Phase 3 — I18N Foundation
-Status: Phase 2 complete; documentation/workflow correction only, no new implementation phase started
+Current completed phase: Phase 3 — I18N Foundation
+Next phase: Phase 4 — SEO Foundation
+Status: Complete; bilingual SSR foundation implemented and validated
 Last updated: 2026-09-10 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
@@ -185,6 +185,45 @@ Known limitations:
 - Header product areas remain labeled as upcoming until their dedicated phases.
 - Docker-backed runtime verification remains pending from Phase 1.
 
+### Phase 3 — I18N Foundation
+
+Status: Complete
+
+- Architecture: typed semantic TypeScript dictionaries, one signal-based locale service, no new dependency.
+- Supported locales: `vi`, `en`; default: `vi`. Vietnamese remains the primary product language.
+- Routes: `/vi`, `/en`, `/vi/design-system`, `/en/design-system`; centralized equivalent-page mapping preserves query/hash.
+- Root and legacy showcase paths redirect on the server to Vietnamese equivalents.
+- Invalid locales redirect to `/vi`; unknown localized paths redirect to the same locale's home.
+- Explicit language switches persist locally when storage is available; direct URLs always override that preference.
+- SSR resolves locale before shell creation and sets `html.lang`, translated titles, and the existing description.
+- Translated header, mobile menu, theme labels, footer, home, showcase, breadcrumbs, forms, feedback, and accessibility copy.
+- Reusable common validation/state messages and Intl number, percentage, VND, date, time, and date/time helpers.
+- Fixed presentation timezone: `Asia/Ho_Chi_Minh`; formatting does not perform business arithmetic.
+- Language switcher: theme-compatible VI/EN buttons on desktop and full names in mobile navigation, keyboard accessible.
+- Showcase remains `noindex, nofollow` in both language versions, including the SSR response header.
+
+Validation:
+
+- Angular tests: 10 passed, covering route redirects, translations, storage precedence, equivalent routes, and formatting.
+- Existing API unit tests: 6 passed; API E2E: 1 passed.
+- Formatting, ESLint, Prisma schema validation, shared types, API build, Angular browser/SSR build passed.
+- Production SSR smoke: root/legacy/invalid-locale redirects, localized HTML and `lang`, 200 responses, showcase noindex.
+- Headless QA: keyboard switching on desktop/mobile, persistence, direct-URL priority, history, control labels, and themes.
+- No browser console or hydration errors observed. Sequential viewport checks passed for both pages and languages at
+  320, 375, 390, 430, 768, 1024, 1280, and 1440px with no horizontal overflow.
+- Visually reviewed Vietnamese mobile/light and English desktop/dark at 390px and 1440px.
+- One browser/context/page reused; server and browser closed; temporary screenshots removed after review.
+- Initial bundle: 298.91 kB raw / 82.27 kB estimated transfer, about 3.88 kB transfer above Phase 2.
+
+Commit: `feat: add bilingual localization foundation` (this checkpoint).
+Push destination: `origin/main`; resolve the pushed checkpoint with `git rev-parse origin/main` after synchronization.
+
+Known limitations:
+
+- Both small dictionaries are bundled eagerly for deterministic SSR/hydration; feature-level splitting is deferred.
+- Unknown routes use redirects, not a dedicated 404 page. Full SEO, canonical/hreflang, and sitemap work remain Phase 4.
+- Docker runtime verification remains pending from Phase 1 and does not block localization.
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -208,11 +247,11 @@ None. See `docs/data-sources.md` for the required provider registry fields.
 
 ### Next Phase
 
-Next phase: Phase 3 — I18N Foundation
+Next phase: Phase 4 — SEO Foundation
 
 The master specification defines this order:
 
-1. Phase 3 — I18N Foundation
+1. Phase 3 — I18N Foundation (complete)
 2. Phase 4 — SEO Foundation
 3. Phase 5 — Database Core
 

@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { LocaleService } from '../i18n/locale.service';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ButtonDirective } from '../design-system/button.directive';
 import { CardComponent } from '../design-system/card.component';
@@ -10,20 +11,20 @@ import { IconComponent } from '../design-system/icon.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="container section home-intro">
-      <p class="eyebrow">TRA NHANH · HIỂU RÕ</p>
-      <h1 class="display">Cần biết gì,<br />tra ngay.</h1>
-      <p class="muted">Một nơi cho những điều bạn cần biết mỗi ngày.</p>
+      <p class="eyebrow">{{ i18n.t('home.eyebrow') }}</p>
+      <h1 class="display">{{ i18n.t('home.tagline') }}</h1>
+      <p class="muted">{{ i18n.t('home.intro') }}</p>
       <a
         tnButton
-        routerLink="/design-system"
+        [routerLink]="i18n.path('showcase')"
         size="large"
       >
-        Khám phá bộ giao diện <tn-icon name="arrow" />
+        {{ i18n.t('home.explore') }} <tn-icon name="arrow" />
       </a>
-      <p class="caption">TraNhanh đang được xây dựng. Các tiện ích sẽ sớm có mặt.</p>
+      <p class="caption">{{ i18n.t('home.notice') }}</p>
     </section>
     <section
-      aria-label="Các nhóm tiện ích đang phát triển"
+      [attr.aria-label]="i18n.t('home.categories')"
       class="container section grid grid--three"
     >
       @for (category of categories; track category.title) {
@@ -32,7 +33,7 @@ import { IconComponent } from '../design-system/icon.component';
             <tn-icon [name]="category.icon" />
             <h2>{{ category.title }}</h2>
             <p class="muted small">{{ category.description }}</p>
-            <span class="caption">Đang phát triển</span>
+            <span class="caption">{{ i18n.t('common.developing') }}</span>
           </div>
         </tn-card>
       }
@@ -61,9 +62,12 @@ import { IconComponent } from '../design-system/icon.component';
   `,
 })
 export class HomeComponent {
-  protected readonly categories = [
-    { title: 'Tra cứu', description: 'Thông tin rõ ràng, dễ tìm.', icon: 'search' },
-    { title: 'Công cụ', description: 'Những tiện ích nhỏ cho công việc hằng ngày.', icon: 'tool' },
-    { title: 'Hôm nay', description: 'Thông tin hữu ích cho một ngày mới.', icon: 'sun' },
-  ] as const;
+  protected readonly i18n = inject(LocaleService);
+  protected get categories() {
+    return [
+      { title: this.i18n.t('navigation.lookup'), description: this.i18n.t('home.lookupDescription'), icon: 'search' },
+      { title: this.i18n.t('navigation.tools'), description: this.i18n.t('home.toolsDescription'), icon: 'tool' },
+      { title: this.i18n.t('navigation.today'), description: this.i18n.t('home.todayDescription'), icon: 'sun' },
+    ] as const;
+  }
 }

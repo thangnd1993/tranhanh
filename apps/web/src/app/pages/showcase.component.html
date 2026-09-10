@@ -1,10 +1,10 @@
 <section class="showcase-hero">
   <div class="container stack">
     <tn-breadcrumb [items]="breadcrumb" />
-    <p class="eyebrow">NỀN TẢNG GIAO DIỆN</p>
-    <h1>Bộ giao diện TraNhanh</h1>
+    <p class="eyebrow">{{ i18n.t('showcase.eyebrow') }}</p>
+    <h1>{{ i18n.t('showcase.title') }}</h1>
     <p class="muted intro">
-      Các thành phần dùng chung cho trải nghiệm tra cứu rõ ràng, dễ đọc và nhất quán trên mọi màn hình.
+      {{ i18n.t('showcase.intro') }}
     </p>
   </div>
 </section>
@@ -15,50 +15,50 @@
     class="demo-section"
   >
     <div class="section-heading">
-      <p class="eyebrow">NỀN TẢNG</p>
-      <h2 id="typography-title">Chữ và màu sắc</h2>
+      <p class="eyebrow">{{ i18n.t('showcase.foundation') }}</p>
+      <h2 id="typography-title">{{ i18n.t('showcase.typography') }}</h2>
     </div>
     <div class="grid">
       <tn-card>
         <div class="type-sample">
-          <p class="display">Tra ngay.</p>
-          <h1>Tiêu đề trang</h1>
-          <h2>Tiêu đề khu vực</h2>
-          <h3>Tiêu đề thẻ</h3>
-          <p>Nội dung chính rõ ràng với đầy đủ dấu tiếng Việt.</p>
-          <p class="small muted">Nội dung phụ giải thích ngắn gọn.</p>
-          <p class="caption">Cập nhật lúc 08:30 · Nguồn minh họa</p>
-          <p class="data-value">1.250.000</p>
+          <p class="display">{{ i18n.t('showcase.display') }}</p>
+          <h1>{{ i18n.t('showcase.pageHeading') }}</h1>
+          <h2>{{ i18n.t('showcase.sectionHeading') }}</h2>
+          <h3>{{ i18n.t('showcase.cardHeading') }}</h3>
+          <p>{{ i18n.t('showcase.body') }}</p>
+          <p class="small muted">{{ i18n.t('showcase.secondary') }}</p>
+          <p class="caption">{{ i18n.t('showcase.timestamp') }}</p>
+          <p class="data-value">{{ formatNumber(1250000, i18n.locale()) }}</p>
         </div>
       </tn-card>
       <tn-card>
         <div
           class="token-grid"
-          aria-label="Màu sắc ngữ nghĩa"
+          [attr.aria-label]="i18n.t('showcase.colors')"
         >
           <div>
             <span class="swatch brand"></span>
-            <p>Thương hiệu</p>
+            <p>{{ i18n.t('showcase.brand') }}</p>
           </div>
           <div>
             <span class="swatch surface"></span>
-            <p>Bề mặt</p>
+            <p>{{ i18n.t('showcase.surface') }}</p>
           </div>
           <div>
             <span class="swatch subtle"></span>
-            <p>Nền phụ</p>
+            <p>{{ i18n.t('showcase.subtle') }}</p>
           </div>
           <div>
             <span class="swatch success"></span>
-            <p>Thành công</p>
+            <p>{{ i18n.t('showcase.success') }}</p>
           </div>
           <div>
             <span class="swatch warning"></span>
-            <p>Cảnh báo</p>
+            <p>{{ i18n.t('showcase.warning') }}</p>
           </div>
           <div>
             <span class="swatch danger"></span>
-            <p>Lỗi</p>
+            <p>{{ i18n.t('showcase.danger') }}</p>
           </div>
         </div>
       </tn-card>
@@ -70,8 +70,8 @@
     class="demo-section"
   >
     <div class="section-heading">
-      <p class="eyebrow">TƯƠNG TÁC</p>
-      <h2 id="buttons-title">Nút bấm và nhãn</h2>
+      <p class="eyebrow">{{ i18n.t('showcase.interaction') }}</p>
+      <h2 id="buttons-title">{{ i18n.t('showcase.buttons') }}</h2>
     </div>
     <tn-card>
       <div class="stack">
@@ -80,28 +80,28 @@
             tnButton
             type="button"
           >
-            Tra cứu
+            {{ i18n.t('navigation.lookup') }}
           </button>
           <button
             tnButton
             type="button"
             variant="secondary"
           >
-            Xem chi tiết
+            {{ i18n.t('showcase.details') }}
           </button>
           <button
             tnButton
             type="button"
             variant="ghost"
           >
-            Bỏ qua
+            {{ i18n.t('showcase.skip') }}
           </button>
           <button
             tnButton
             type="button"
             variant="danger"
           >
-            Xóa
+            {{ i18n.t('showcase.delete') }}
           </button>
         </div>
         <div class="cluster">
@@ -110,59 +110,59 @@
             size="small"
             type="button"
           >
-            Nút nhỏ
+            {{ i18n.t('showcase.smallButton') }}
           </button>
           <button
             tnButton
             size="large"
             type="button"
           >
-            Nút lớn
+            {{ i18n.t('showcase.largeButton') }}
           </button>
           <button
             tnButton
             disabled
             type="button"
           >
-            Không khả dụng
+            {{ i18n.t('common.unavailable') }}
           </button>
           <button
             tnButton
             loading
             type="button"
           >
-            <span>Đang tải</span>
+            <span>{{ i18n.t('common.loading') }}</span>
           </button>
           <button
-            aria-label="Tìm kiếm"
             size="icon"
             tnButton
             type="button"
+            [attr.aria-label]="i18n.t('showcase.search')"
           >
             <tn-icon name="search" />
           </button>
         </div>
         <div class="cluster">
-          <span tnBadge>Mặc định</span>
+          <span tnBadge>{{ i18n.t('showcase.default') }}</span>
           <span
             tnBadge
             tone="success"
-            >Đã xác minh</span
+            >{{ i18n.t('showcase.verified') }}</span
           >
           <span
             tnBadge
             tone="warning"
-            >Dữ liệu cũ</span
+            >{{ i18n.t('showcase.stale') }}</span
           >
           <span
             tnBadge
             tone="danger"
-            >Không khả dụng</span
+            >{{ i18n.t('common.unavailable') }}</span
           >
           <span
             tnBadge
             tone="info"
-            >Thông tin</span
+            >{{ i18n.t('showcase.information') }}</span
           >
         </div>
       </div>
@@ -174,8 +174,8 @@
     class="demo-section"
   >
     <div class="section-heading">
-      <p class="eyebrow">BIỂU MẪU</p>
-      <h2 id="forms-title">Tìm kiếm và nhập liệu</h2>
+      <p class="eyebrow">{{ i18n.t('showcase.forms') }}</p>
+      <h2 id="forms-title">{{ i18n.t('showcase.inputs') }}</h2>
     </div>
     <form
       class="stack"
@@ -183,30 +183,30 @@
     >
       <tn-field
         controlId="showcase-search"
-        hint="Thử một từ khóa hoặc mã cần tra cứu."
-        label="Bạn cần tìm gì?"
+        [hint]="i18n.t('showcase.searchHint')"
+        [label]="i18n.t('showcase.searchLabel')"
       >
         <div class="search-control">
           <tn-icon name="search" />
           <input
-            placeholder="Ví dụ: mã vùng Đà Nẵng"
             tnControl
             type="search"
+            [placeholder]="i18n.t('showcase.searchPlaceholder')"
           />
           <button
             size="small"
             tnButton
             type="submit"
           >
-            Tra cứu
+            {{ i18n.t('navigation.lookup') }}
           </button>
         </div>
       </tn-field>
       <div class="form-grid">
         <tn-field
           controlId="showcase-number"
-          hint="Chỉ là trường minh họa, chưa tính toán."
-          label="Số lượng"
+          [hint]="i18n.t('showcase.numberHint')"
+          [label]="i18n.t('showcase.quantity')"
           ><input
             min="0"
             placeholder="0"
@@ -215,31 +215,31 @@
         /></tn-field>
         <tn-field
           controlId="showcase-select"
-          label="Loại thông tin"
+          [label]="i18n.t('showcase.type')"
         >
           <select tnControl>
-            <option>Tra cứu</option>
-            <option>Công cụ</option>
-            <option>Hôm nay</option>
+            <option>{{ i18n.t('navigation.lookup') }}</option>
+            <option>{{ i18n.t('navigation.tools') }}</option>
+            <option>{{ i18n.t('navigation.today') }}</option>
           </select>
         </tn-field>
         <tn-field
           controlId="showcase-error"
-          error="Vui lòng kiểm tra lại nội dung."
-          label="Trường có lỗi"
+          [error]="i18n.t('validation.invalid')"
+          [label]="i18n.t('showcase.errorField')"
           ><input
             aria-invalid="true"
             tnControl
-            value="Nội dung chưa hợp lệ"
+            [value]="i18n.t('showcase.invalidValue')"
         /></tn-field>
         <tn-field
           controlId="showcase-disabled"
-          hint="Trường này hiện không thể chỉnh sửa."
-          label="Không khả dụng"
+          [hint]="i18n.t('showcase.disabledHint')"
+          [label]="i18n.t('common.unavailable')"
           ><input
             disabled
             tnControl
-            value="Đang khóa"
+            [value]="i18n.t('showcase.locked')"
         /></tn-field>
       </div>
     </form>
@@ -250,44 +250,44 @@
     class="demo-section"
   >
     <div class="section-heading">
-      <p class="eyebrow">NỘI DUNG</p>
-      <h2 id="cards-title">Thẻ và dữ liệu</h2>
+      <p class="eyebrow">{{ i18n.t('showcase.content') }}</p>
+      <h2 id="cards-title">{{ i18n.t('showcase.cards') }}</h2>
     </div>
     <div class="grid grid--three">
       <tn-card>
         <div class="stack">
           <tn-icon name="search" />
-          <h3>Tra cứu nhanh</h3>
-          <p class="muted small">Thẻ điều hướng cho một nhóm thông tin.</p>
+          <h3>{{ i18n.t('showcase.quickLookup') }}</h3>
+          <p class="muted small">{{ i18n.t('showcase.cardDescription') }}</p>
           <button
             tnButton
             type="button"
             variant="ghost"
           >
-            Khám phá <tn-icon name="arrow" />
+            {{ i18n.t('common.explore') }} <tn-icon name="arrow" />
           </button>
         </div>
       </tn-card>
       <tn-card elevated>
         <div class="stack">
-          <span class="badge">Giá trị minh họa</span>
+          <span class="badge">{{ i18n.t('showcase.sampleValue') }}</span>
           <p class="data-value">24</p>
-          <p class="caption">Đơn vị mẫu · Không phải dữ liệu thực</p>
+          <p class="caption">{{ i18n.t('showcase.sampleUnit') }}</p>
         </div>
       </tn-card>
       <tn-card>
         <dl class="key-values">
           <div>
-            <dt>Trạng thái</dt>
-            <dd>Sẵn sàng</dd>
+            <dt>{{ i18n.t('showcase.status') }}</dt>
+            <dd>{{ i18n.t('showcase.ready') }}</dd>
           </div>
           <div>
-            <dt>Cập nhật</dt>
-            <dd>Vừa xong</dd>
+            <dt>{{ i18n.t('showcase.updated') }}</dt>
+            <dd>{{ i18n.t('showcase.justNow') }}</dd>
           </div>
           <div>
-            <dt>Nguồn</dt>
-            <dd>Minh họa</dd>
+            <dt>{{ i18n.t('showcase.source') }}</dt>
+            <dd>{{ i18n.t('showcase.example') }}</dd>
           </div>
         </dl>
       </tn-card>
@@ -299,31 +299,31 @@
     class="demo-section"
   >
     <div class="section-heading">
-      <p class="eyebrow">TRẠNG THÁI</p>
-      <h2 id="feedback-title">Phản hồi và tải dữ liệu</h2>
+      <p class="eyebrow">{{ i18n.t('showcase.states') }}</p>
+      <h2 id="feedback-title">{{ i18n.t('showcase.feedback') }}</h2>
     </div>
     <div class="feedback-grid">
-      <tn-feedback title="Thông tin hữu ích">Nội dung bổ sung giúp người dùng hiểu kết quả.</tn-feedback>
+      <tn-feedback [title]="i18n.t('showcase.useful')">{{ i18n.t('showcase.helpfulBody') }}</tn-feedback>
       <tn-feedback
-        title="Đã hoàn tất"
         tone="success"
-        >Tác vụ đã được xử lý thành công.</tn-feedback
+        [title]="i18n.t('showcase.completed')"
+        >{{ i18n.t('showcase.completedBody') }}</tn-feedback
       >
       <tn-feedback
-        title="Cần chú ý"
         tone="warning"
-        >Dữ liệu có thể chưa được cập nhật gần đây.</tn-feedback
+        [title]="i18n.t('showcase.attention')"
+        >{{ i18n.t('common.stale') }}</tn-feedback
       >
       <tn-feedback
-        title="Không thể tải"
         tone="danger"
-        >Vui lòng thử lại sau ít phút.</tn-feedback
+        [title]="i18n.t('showcase.failed')"
+        >{{ i18n.t('showcase.failedBody') }}</tn-feedback
       >
       <tn-card
         ><div class="empty stack center">
           <tn-icon name="search" />
-          <h3>Chưa có kết quả</h3>
-          <p class="muted small">Thử từ khóa khác hoặc kiểm tra lại nội dung.</p>
+          <h3>{{ i18n.t('showcase.noResults') }}</h3>
+          <p class="muted small">{{ i18n.t('showcase.noResultsHint') }}</p>
         </div></tn-card
       >
       <tn-card><tn-skeleton /></tn-card>
@@ -335,43 +335,45 @@
     class="demo-section"
   >
     <div class="section-heading">
-      <p class="eyebrow">DỮ LIỆU</p>
-      <h2 id="table-title">Bảng thích ứng</h2>
+      <p class="eyebrow">{{ i18n.t('showcase.data') }}</p>
+      <h2 id="table-title">{{ i18n.t('showcase.table') }}</h2>
     </div>
     <div class="table-scroll">
       <table>
         <caption>
-          Ví dụ cấu trúc dữ liệu trung tính
+          {{
+            i18n.t('showcase.caption')
+          }}
         </caption>
         <thead>
           <tr>
-            <th scope="col">Mục</th>
-            <th scope="col">Trạng thái</th>
-            <th scope="col">Thời điểm</th>
+            <th scope="col">{{ i18n.t('showcase.item') }}</th>
+            <th scope="col">{{ i18n.t('showcase.status') }}</th>
+            <th scope="col">{{ i18n.t('showcase.time') }}</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Thông tin A</td>
+            <td>{{ i18n.t('showcase.itemA') }}</td>
             <td>
               <span
                 tnBadge
                 tone="success"
-                >Sẵn sàng</span
+                >{{ i18n.t('showcase.ready') }}</span
               >
             </td>
-            <td>Vừa cập nhật</td>
+            <td>{{ i18n.t('showcase.justUpdated') }}</td>
           </tr>
           <tr>
-            <td>Thông tin B</td>
+            <td>{{ i18n.t('showcase.itemB') }}</td>
             <td>
               <span
                 tnBadge
                 tone="warning"
-                >Đang kiểm tra</span
+                >{{ i18n.t('showcase.checking') }}</span
               >
             </td>
-            <td>Chưa xác định</td>
+            <td>{{ i18n.t('showcase.unknown') }}</td>
           </tr>
         </tbody>
       </table>

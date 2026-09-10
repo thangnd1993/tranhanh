@@ -53,11 +53,19 @@ No live data provider is configured, and no business feature from later phases i
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 2 — Design System.
-Next phase: Phase 3 — I18N Foundation, followed by Phase 4 — SEO Foundation and Phase 5 — Database Core.
+Current completed phase: Phase 3 — I18N Foundation.
+Next phase: Phase 4 — SEO Foundation, followed by Phase 5 — Database Core.
 Follow the [master specification](docs/MASTER_EXECUTION_PROMPT.md) and preserve completed phase history.
 Roadmap changes require a documented architectural reason and explicit user instruction.
 
 Every session must follow the permanent [low-resource testing strategy](docs/testing-strategy.md).
 Keep required quality gates, using headless browser reuse, sequential viewport checks, selective screenshots,
 and cleanup of temporary test resources.
+
+## Bilingual routes and validation
+
+Use `/vi` (default) or `/en`. The showcase is at `/vi/design-system` and `/en/design-system`.
+The root redirects to `/vi`; URL locale takes precedence over any stored preference.
+See [Localization architecture](docs/architecture.md#localization-phase-3) for translation and formatting conventions.
+After `pnpm build`, run `pnpm test:ssr` for production SSR localization checks.
+Optional headless browser configuration is documented in the architecture guide; no visible browser is required.

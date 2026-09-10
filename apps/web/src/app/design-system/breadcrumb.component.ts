@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { LocaleService } from '../i18n/locale.service';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IconComponent } from './icon.component';
 
@@ -12,7 +13,7 @@ export interface BreadcrumbItem {
   imports: [RouterLink, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <nav aria-label="Đường dẫn trang">
+    <nav [attr.aria-label]="i18n.t('navigation.breadcrumb')">
       <ol>
         @for (item of items(); track $index; let last = $last) {
           <li>
@@ -57,5 +58,6 @@ export interface BreadcrumbItem {
   `,
 })
 export class BreadcrumbComponent {
+  protected readonly i18n = inject(LocaleService);
   readonly items = input.required<readonly BreadcrumbItem[]>();
 }

@@ -1,3 +1,5 @@
+import { LocaleService } from '../i18n/locale.service';
+import { LanguageSwitcherComponent } from '../i18n/language-switcher.component';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -15,13 +17,14 @@ import { parseTheme, ThemeService } from '../design-system/theme.service';
 
 @Component({
   selector: 'tn-header',
-  imports: [RouterLink, RouterLinkActive, ButtonDirective, IconComponent],
+  imports: [LanguageSwitcherComponent, RouterLink, RouterLinkActive, ButtonDirective, IconComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '(keydown.escape)': 'closeMenu(true)' },
 })
 export class HeaderComponent {
+  protected readonly i18n = inject(LocaleService);
   protected readonly theme = inject(ThemeService);
   readonly menuOpen = signal(false);
   private readonly toggle = viewChild<ElementRef<HTMLButtonElement>>('toggle');
