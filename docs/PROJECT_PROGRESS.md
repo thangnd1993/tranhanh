@@ -2,9 +2,9 @@
 
 ## Current Status
 
-Current completed phase: Phase 5 — Database Core
-Next phase: Phase 6 — Phone Prefix Lookup Backend
-Status: Complete locally with runtime database migration verification pending
+Current completed phase: Phase 6 — Phone Prefix Lookup Backend
+Next phase: Phase 7 — Phone Prefix Frontend + SEO
+Status: Complete locally with live migration/import/database verification pending
 Last updated: 2026-09-11 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
@@ -329,6 +329,80 @@ Commit: `feat: add core data foundation` (this checkpoint).
 Push destination: origin/main; verify the pushed checkpoint with `git rev-parse origin/main` after synchronization.
 Next phase: Phase 6 — Phone Prefix Lookup Backend
 
+### Phase 6 — Phone Prefix Lookup Backend
+
+Status: Complete locally with live migration/import/database verification pending
+
+Dataset and evidence:
+
+- Reviewed structured file: apps/api/data/phone-prefixes.json; 36 current prefix families and 21 legacy conversions.
+- Operators: Viettel (12 current), VinaPhone (8), MobiFone (8), Vietnamobile (4), Gmobile (2), iTel (1), Wintel (1).
+- Eight source publications reviewed on 2026-09-11, with UUID evidence, URLs, titles and actual retrieval instants.
+- Current allocations use official operator sites; conversions use a ministry-hosted Vietnam+ report. Full source
+  registry, exclusions, copyright/reuse notes and maintenance instructions are in docs/data-sources.md.
+- No editorial articles, images, SIM listings, subscriber facts or full downloaded pages are committed.
+- Exact effective instants are left null where a staged schedule/parallel dialing does not establish one whole-prefix cutover.
+- This is a reviewed allocation subset, not an exhaustive numbering registry, serving-network or subscriber lookup.
+- No live import has been run and no real SyncRun success is claimed while PostgreSQL remains unavailable.
+
+Backend and schema:
+
+- Added TelecomOperator, PhonePrefix and PhonePrefixMigration; added nullable document title to SourceReference.
+- String prefixes preserve leading zero and separate current three-digit from legacy four-digit formats.
+- UUID IDs, UTC TIMESTAMPTZ, nullable half-open effective intervals and RESTRICT history/evidence relations follow Phase 5.
+- Migration: 20260911010000_add_phone_prefix_lookup; Phase 5 migration unchanged.
+- Additive SQL: three tables, one enum, nullable title, three unique indexes, six query indexes, six FKs and four CHECKs.
+- Reviewed BEGIN/COMMIT migration with no destructive SQL or dataset inserts; actual migration execution remains pending.
+- Thin PhonePrefixesController and Prisma-backed service; no factual JSON fallback or hardcoded service dataset.
+- GET /api/v1/phone-prefixes and /search: q, prefix, operator, status, bounded page/pageSize, prefix ASC ordering.
+- GET /api/v1/phone-prefixes/:prefix: exact lookup, including legacy/current context, source and distinct timestamps.
+- GET /api/v1/phone-prefixes/lookup?value=...: domestic, +84, 0084 and 84 forms, spaces/hyphens, current and legacy lengths.
+- GET /api/v1/phone-prefixes/:prefix/related: up to 12 active related prefixes for the allocated operator.
+- Invalid/unsupported input returns 400; unknown numeric prefix 404; existing safe database error policy retained.
+- Shared request/response, evidence and migration contracts; no frontend dependency on generated Prisma types.
+- Swagger includes route purpose, validation, nested responses, factual prefix examples and error responses.
+- Canonical operator brands stay untranslated; reusable accent/case search normalization only changes search keys.
+- Response operatorResolution=PREFIX_ALLOCATION and currentSubscriberNetworkVerified=false avoid incorrect portability claims.
+
+Import and privacy:
+
+- Workspace commands phone-prefixes:validate and phone-prefixes:import build and run a reviewed-file CLI.
+- Validation checks structure, unique identities, URLs, dates, relations, status lengths and complete same-operator mappings.
+- Transactional upserts with an advisory lock, immutable evidence snapshots and unchanged-record timestamp preservation.
+- Silent operator reassignment and historical replacement changes are refused; omitted rows are never automatically deleted.
+- Actual runs use generic SyncRun audits and a clearly non-official TraNhanh maintainer provider; factual attribution
+  remains linked to the external source evidence. Failed domain transactions do not leave partial imported records.
+- Full user numbers are reduced to a prefix before DB queries and never persisted, echoed or logged by new application code.
+- Lookup responses are no-store/no-referrer; proxy/APM query logging and browser history need deployment privacy controls.
+- No subscriber identification, number-portability query, external lookup requests, Redis cache or queue was added.
+
+Validation:
+
+- Dependency consistency (frozen/offline lockfile and strict peer checks), Prettier, ESLint and full API TypeScript passed.
+- API unit tests: 81 passed across 8 files, including normalizer, authoritative dataset assertions, importer decisions
+  and service privacy/history guards. No database constraint success is inferred from these tests.
+- API E2E: 13 passed across 3 files. Phase 6 uses a clearly synthetic in-memory Prisma fixture; real controller,
+  DTO/service, source mapping, pagination/search, legacy/related results, errors and Swagger paths are exercised.
+- Angular regression: 15 passed across 5 files. Shared command passed with no test files; shared type build passed.
+- Shared, API, browser and SSR production builds passed; production HTTP i18n and configured/safe SEO checks passed.
+- Prisma format/validate/generate passed. Both the workspace validator command and built CLI validated 57 prefix rows.
+- Phase 6 SQL reviewed; Compose static configuration passed. Generated client, .env and temporary research files untracked.
+- Added 13 PostgreSQL cases for repeat imports, rollback on conflict, joined evidence, uniqueness, FK/delete and CHECK rules.
+  These 13 plus the 16 Phase 5 PostgreSQL cases (29 total) remain NOT executed while Docker is unavailable.
+- Zero visible browsers and zero screenshots; HTTP smoke-test processes close after validation.
+
+Runtime and remaining limits:
+
+- Docker daemon socket remains absent at /Users/nhuphan/.docker/run/docker.sock.
+- Phase 5/6 migrations, actual phone-prefix import, 29 PostgreSQL cases, Redis connectivity and successful readiness
+  remain pending. No reset/drop or unknown production database operation was performed.
+- Prefix families cannot prove subscriber existence/current network; unreviewed operators/suballocations are not inferred.
+- No phone-prefix frontend, SEO routes, sitemap additions, area-code model or unified search was started.
+
+Commit: `feat: add phone prefix lookup backend` (this checkpoint).
+Push destination: origin/main; verify the synchronized checkpoint with `git rev-parse origin/main` after push.
+Next phase: Phase 7 — Phone Prefix Frontend + SEO
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -338,7 +412,8 @@ Next phase: Phase 6 — Phone Prefix Lookup Backend
 
 ## Active Data Providers
 
-None. See `docs/data-sources.md` for the required provider registry fields.
+Phone-prefix reviewed-file importer implemented; official evidence registry reviewed. No live database import or
+external runtime provider is active yet. See `docs/data-sources.md` for sources and limitations.
 
 ## Environment Notes
 
@@ -352,14 +427,15 @@ None. See `docs/data-sources.md` for the required provider registry fields.
 
 ### Next Phase
 
-Next phase: Phase 6 — Phone Prefix Lookup Backend
+Next phase: Phase 7 — Phone Prefix Frontend + SEO
 
 The master specification defines this order:
 
 1. Phase 3 — I18N Foundation (complete)
 2. Phase 4 — SEO Foundation (complete)
 3. Phase 5 — Database Core (complete locally; runtime migration verification pending)
-4. Phase 6 — Phone Prefix Lookup Backend
+4. Phase 6 — Phone Prefix Lookup Backend (complete locally; runtime migration/import verification pending)
+5. Phase 7 — Phone Prefix Frontend + SEO
 
 Do not rename or reorder phases without both a documented architectural reason and explicit user instruction.
 

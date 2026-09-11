@@ -1,0 +1,764 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "key": "viettel",
+      "name": "Viettel",
+      "homepageUrl": "https://vietteltelecom.vn/",
+      "isOfficial": true
+    },
+    {
+      "key": "vinaphone",
+      "name": "VinaPhone",
+      "homepageUrl": "https://vnpt.vn/",
+      "isOfficial": true
+    },
+    {
+      "key": "mobifone",
+      "name": "MobiFone",
+      "homepageUrl": "https://www.mobifone.vn/",
+      "isOfficial": true
+    },
+    {
+      "key": "vietnamobile",
+      "name": "Vietnamobile",
+      "homepageUrl": "https://www.vietnamobile.com.vn/",
+      "isOfficial": true
+    },
+    {
+      "key": "gmobile",
+      "name": "Gmobile",
+      "homepageUrl": "https://gmobile.vn/",
+      "isOfficial": true
+    },
+    {
+      "key": "itel",
+      "name": "iTel",
+      "homepageUrl": "https://itel.vn/",
+      "isOfficial": true
+    },
+    {
+      "key": "wintel",
+      "name": "Wintel",
+      "homepageUrl": "https://wintel.vn/",
+      "isOfficial": true
+    },
+    {
+      "key": "mic-telecom-portal",
+      "name": "Cổng thông tin Bộ TT&TT (nay Bộ KH&CN)",
+      "homepageUrl": "https://mst.gov.vn/",
+      "isOfficial": true
+    }
+  ],
+  "references": [
+    {
+      "id": "69f6ded3-aeec-4af1-a494-2785ede11fd7",
+      "sourceKey": "viettel",
+      "title": "Những điều cần lưu ý khi mua sim số đẹp Viettel",
+      "url": "https://098.viettel.vn/tin-tuc/chi-tiet/nhung-dieu-can-luu-y-khi-mua-sim-so-dep-viettel/12591760",
+      "retrievedAt": "2026-09-11T02:26:52Z",
+      "publishedAt": null,
+      "notes": "Public factual prefix information only; no open-content license identified; editorial text and images excluded."
+    },
+    {
+      "id": "483743cb-6dd2-40ec-aa74-959f601e1bd8",
+      "sourceKey": "vinaphone",
+      "title": "Hướng dẫn mua sim VinaPhone số đẹp, giá rẻ, ngập tràn ưu đãi",
+      "url": "https://digishop.vnpt.vn/tin-tuc-km/tu-van/sim-vinaphone-so-dep-gia-re",
+      "retrievedAt": "2026-09-11T02:26:52Z",
+      "publishedAt": null,
+      "notes": "Public factual prefix information only; no open-content license identified; editorial text and images excluded."
+    },
+    {
+      "id": "bd7fda28-c0b6-4006-b825-6654b4974505",
+      "sourceKey": "mobifone",
+      "title": "Danh sách đầu số tổng đài di động MobiFone năm 2023",
+      "url": "https://giaiphap.mobifone.vn/danh-sach-dau-so-tong-dai-di-dong-mobifone/",
+      "retrievedAt": "2026-09-11T02:26:52Z",
+      "publishedAt": null,
+      "notes": "Public factual prefix information only; no open-content license identified; editorial text and images excluded."
+    },
+    {
+      "id": "f6941130-e666-49f4-8485-03813431eb37",
+      "sourceKey": "vietnamobile",
+      "title": "Tra cứu thông tin thuê bao cần cập nhật, xác thực",
+      "url": "https://www.vietnamobile.com.vn/tracuutttb",
+      "retrievedAt": "2026-09-11T02:26:52Z",
+      "publishedAt": null,
+      "notes": "Public factual prefix information only; no open-content license identified; editorial text and images excluded. Read only the public prefix placeholder; no subscriber form submitted or OTP requested."
+    },
+    {
+      "id": "91ae2217-f1f3-47db-9754-1d40dff720b3",
+      "sourceKey": "gmobile",
+      "title": "Gói Cước Gmobile",
+      "url": "https://gmobile.vn/goi-cuoc",
+      "retrievedAt": "2026-09-11T02:26:52Z",
+      "publishedAt": null,
+      "notes": "Public factual prefix information only; no open-content license identified; editorial text and images excluded. Listed subranges support the 059/099 parent allocation; no claim that every subscriber is active."
+    },
+    {
+      "id": "b9dbf926-b7e7-4fe7-be90-7a736ad4b8c8",
+      "sourceKey": "itel",
+      "title": "Thông báo: Thế Giới Di Động đã tích hợp tính năng đổi SIM cho thuê bao iTel đầu số 087",
+      "url": "https://itel.vn/tin-tuc/tin-tuc-itel/the-gioi-di-dong-tich-hop-tinh-nang-doi-sim-cho-thue-bao-itel.html",
+      "retrievedAt": "2026-09-11T02:26:52Z",
+      "publishedAt": null,
+      "notes": "Public factual prefix information only; no open-content license identified; editorial text and images excluded."
+    },
+    {
+      "id": "2e58ee74-b2d4-4988-9fdb-88b733fbd4b9",
+      "sourceKey": "wintel",
+      "title": "Đón tài lộc hanh thông, săn số đẹp 0đ với gói cước data ưu đãi chỉ từ 3.000đ/ ngày của mạng di động Wintel",
+      "url": "https://wintel.vn/tin-tuc/don-tai-loc-hanh-thong-san-so-dep-0d-voi-goi-cuoc-data-uu-dai-chi-tu-3-000d-ngay-cua-mang-di-dong-wintel",
+      "retrievedAt": "2026-09-11T02:26:52Z",
+      "publishedAt": null,
+      "notes": "Public factual prefix information only; no open-content license identified; editorial text and images excluded."
+    },
+    {
+      "id": "7559d758-73aa-46dc-8f21-05ea3f8eca5f",
+      "sourceKey": "mic-telecom-portal",
+      "title": "Chi tiết mốc thời gian chuyển đổi thuê bao từ 11 số xuống 10 số",
+      "url": "https://spdv.mic.gov.vn/chi-tiet-moc-thoi-gian-chuyen-doi-thue-bao-tu-11-so-xuong-10-so-197118208.htm",
+      "retrievedAt": "2026-09-11T02:26:52Z",
+      "publishedAt": "2018-09-18T02:42:00Z",
+      "notes": "Official ministry-hosted Vietnam+ report; attribution requested to https://mst.gov.vn. Phased 2018 rollout and parallel dialing: no single per-prefix effective instant asserted."
+    }
+  ],
+  "operators": [
+    {
+      "key": "viettel",
+      "name": "Viettel",
+      "website": "https://vietteltelecom.vn/",
+      "isActive": true,
+      "referenceId": "69f6ded3-aeec-4af1-a494-2785ede11fd7"
+    },
+    {
+      "key": "vinaphone",
+      "name": "VinaPhone",
+      "website": "https://vnpt.vn/",
+      "isActive": true,
+      "referenceId": "483743cb-6dd2-40ec-aa74-959f601e1bd8"
+    },
+    {
+      "key": "mobifone",
+      "name": "MobiFone",
+      "website": "https://www.mobifone.vn/",
+      "isActive": true,
+      "referenceId": "bd7fda28-c0b6-4006-b825-6654b4974505"
+    },
+    {
+      "key": "vietnamobile",
+      "name": "Vietnamobile",
+      "website": "https://www.vietnamobile.com.vn/",
+      "isActive": true,
+      "referenceId": "f6941130-e666-49f4-8485-03813431eb37"
+    },
+    {
+      "key": "gmobile",
+      "name": "Gmobile",
+      "website": "https://gmobile.vn/",
+      "isActive": true,
+      "referenceId": "91ae2217-f1f3-47db-9754-1d40dff720b3"
+    },
+    {
+      "key": "itel",
+      "name": "iTel",
+      "website": "https://itel.vn/",
+      "isActive": true,
+      "referenceId": "b9dbf926-b7e7-4fe7-be90-7a736ad4b8c8"
+    },
+    {
+      "key": "wintel",
+      "name": "Wintel",
+      "website": "https://wintel.vn/",
+      "isActive": true,
+      "referenceId": "2e58ee74-b2d4-4988-9fdb-88b733fbd4b9"
+    }
+  ],
+  "prefixes": [
+    {
+      "prefix": "0120",
+      "operatorKey": "mobifone",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0121",
+      "operatorKey": "mobifone",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0122",
+      "operatorKey": "mobifone",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0123",
+      "operatorKey": "vinaphone",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0124",
+      "operatorKey": "vinaphone",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0125",
+      "operatorKey": "vinaphone",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0126",
+      "operatorKey": "mobifone",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0127",
+      "operatorKey": "vinaphone",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0128",
+      "operatorKey": "mobifone",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0129",
+      "operatorKey": "vinaphone",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0162",
+      "operatorKey": "viettel",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0163",
+      "operatorKey": "viettel",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0164",
+      "operatorKey": "viettel",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0165",
+      "operatorKey": "viettel",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0166",
+      "operatorKey": "viettel",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0167",
+      "operatorKey": "viettel",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0168",
+      "operatorKey": "viettel",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0169",
+      "operatorKey": "viettel",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0186",
+      "operatorKey": "vietnamobile",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0188",
+      "operatorKey": "vietnamobile",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "0199",
+      "operatorKey": "gmobile",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "prefix": "032",
+      "operatorKey": "viettel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "69f6ded3-aeec-4af1-a494-2785ede11fd7"
+    },
+    {
+      "prefix": "033",
+      "operatorKey": "viettel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "69f6ded3-aeec-4af1-a494-2785ede11fd7"
+    },
+    {
+      "prefix": "034",
+      "operatorKey": "viettel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "69f6ded3-aeec-4af1-a494-2785ede11fd7"
+    },
+    {
+      "prefix": "035",
+      "operatorKey": "viettel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "69f6ded3-aeec-4af1-a494-2785ede11fd7"
+    },
+    {
+      "prefix": "036",
+      "operatorKey": "viettel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "69f6ded3-aeec-4af1-a494-2785ede11fd7"
+    },
+    {
+      "prefix": "037",
+      "operatorKey": "viettel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "69f6ded3-aeec-4af1-a494-2785ede11fd7"
+    },
+    {
+      "prefix": "038",
+      "operatorKey": "viettel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "69f6ded3-aeec-4af1-a494-2785ede11fd7"
+    },
+    {
+      "prefix": "039",
+      "operatorKey": "viettel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "69f6ded3-aeec-4af1-a494-2785ede11fd7"
+    },
+    {
+      "prefix": "052",
+      "operatorKey": "vietnamobile",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "f6941130-e666-49f4-8485-03813431eb37"
+    },
+    {
+      "prefix": "055",
+      "operatorKey": "wintel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "2e58ee74-b2d4-4988-9fdb-88b733fbd4b9"
+    },
+    {
+      "prefix": "056",
+      "operatorKey": "vietnamobile",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "f6941130-e666-49f4-8485-03813431eb37"
+    },
+    {
+      "prefix": "058",
+      "operatorKey": "vietnamobile",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "f6941130-e666-49f4-8485-03813431eb37"
+    },
+    {
+      "prefix": "059",
+      "operatorKey": "gmobile",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "91ae2217-f1f3-47db-9754-1d40dff720b3"
+    },
+    {
+      "prefix": "070",
+      "operatorKey": "mobifone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "bd7fda28-c0b6-4006-b825-6654b4974505"
+    },
+    {
+      "prefix": "076",
+      "operatorKey": "mobifone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "bd7fda28-c0b6-4006-b825-6654b4974505"
+    },
+    {
+      "prefix": "077",
+      "operatorKey": "mobifone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "bd7fda28-c0b6-4006-b825-6654b4974505"
+    },
+    {
+      "prefix": "078",
+      "operatorKey": "mobifone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "bd7fda28-c0b6-4006-b825-6654b4974505"
+    },
+    {
+      "prefix": "079",
+      "operatorKey": "mobifone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "bd7fda28-c0b6-4006-b825-6654b4974505"
+    },
+    {
+      "prefix": "081",
+      "operatorKey": "vinaphone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "483743cb-6dd2-40ec-aa74-959f601e1bd8"
+    },
+    {
+      "prefix": "082",
+      "operatorKey": "vinaphone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "483743cb-6dd2-40ec-aa74-959f601e1bd8"
+    },
+    {
+      "prefix": "083",
+      "operatorKey": "vinaphone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "483743cb-6dd2-40ec-aa74-959f601e1bd8"
+    },
+    {
+      "prefix": "084",
+      "operatorKey": "vinaphone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "483743cb-6dd2-40ec-aa74-959f601e1bd8"
+    },
+    {
+      "prefix": "085",
+      "operatorKey": "vinaphone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "483743cb-6dd2-40ec-aa74-959f601e1bd8"
+    },
+    {
+      "prefix": "086",
+      "operatorKey": "viettel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "69f6ded3-aeec-4af1-a494-2785ede11fd7"
+    },
+    {
+      "prefix": "087",
+      "operatorKey": "itel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "b9dbf926-b7e7-4fe7-be90-7a736ad4b8c8"
+    },
+    {
+      "prefix": "088",
+      "operatorKey": "vinaphone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "483743cb-6dd2-40ec-aa74-959f601e1bd8"
+    },
+    {
+      "prefix": "089",
+      "operatorKey": "mobifone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "bd7fda28-c0b6-4006-b825-6654b4974505"
+    },
+    {
+      "prefix": "090",
+      "operatorKey": "mobifone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "bd7fda28-c0b6-4006-b825-6654b4974505"
+    },
+    {
+      "prefix": "091",
+      "operatorKey": "vinaphone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "483743cb-6dd2-40ec-aa74-959f601e1bd8"
+    },
+    {
+      "prefix": "092",
+      "operatorKey": "vietnamobile",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "f6941130-e666-49f4-8485-03813431eb37"
+    },
+    {
+      "prefix": "093",
+      "operatorKey": "mobifone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "bd7fda28-c0b6-4006-b825-6654b4974505"
+    },
+    {
+      "prefix": "094",
+      "operatorKey": "vinaphone",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "483743cb-6dd2-40ec-aa74-959f601e1bd8"
+    },
+    {
+      "prefix": "096",
+      "operatorKey": "viettel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "69f6ded3-aeec-4af1-a494-2785ede11fd7"
+    },
+    {
+      "prefix": "097",
+      "operatorKey": "viettel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "69f6ded3-aeec-4af1-a494-2785ede11fd7"
+    },
+    {
+      "prefix": "098",
+      "operatorKey": "viettel",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "69f6ded3-aeec-4af1-a494-2785ede11fd7"
+    },
+    {
+      "prefix": "099",
+      "operatorKey": "gmobile",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "91ae2217-f1f3-47db-9754-1d40dff720b3"
+    }
+  ],
+  "migrations": [
+    {
+      "oldPrefix": "0120",
+      "newPrefix": "070",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0121",
+      "newPrefix": "079",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0122",
+      "newPrefix": "077",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0123",
+      "newPrefix": "083",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0124",
+      "newPrefix": "084",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0125",
+      "newPrefix": "085",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0126",
+      "newPrefix": "076",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0127",
+      "newPrefix": "081",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0128",
+      "newPrefix": "078",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0129",
+      "newPrefix": "082",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0162",
+      "newPrefix": "032",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0163",
+      "newPrefix": "033",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0164",
+      "newPrefix": "034",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0165",
+      "newPrefix": "035",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0166",
+      "newPrefix": "036",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0167",
+      "newPrefix": "037",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0168",
+      "newPrefix": "038",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0169",
+      "newPrefix": "039",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0186",
+      "newPrefix": "056",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0188",
+      "newPrefix": "058",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    },
+    {
+      "oldPrefix": "0199",
+      "newPrefix": "059",
+      "effectiveAt": null,
+      "referenceId": "7559d758-73aa-46dc-8f21-05ea3f8eca5f"
+    }
+  ]
+}

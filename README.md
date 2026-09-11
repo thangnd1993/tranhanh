@@ -49,12 +49,12 @@ with OpenAPI UI at http://localhost:3000/api/docs.
 - compose.yaml: development PostgreSQL and Redis services.
 - docs/PROJECT_PROGRESS.md: source of truth for phase status and continuation.
 
-No live data provider is configured, and no business feature from later phases is implemented.
+No external provider is queried at runtime. The phone-prefix backend reads explicitly imported reviewed data.
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 5 — Database Core (runtime migration verification pending).
-Next phase: Phase 6 — Phone Prefix Lookup Backend.
+Current completed phase: Phase 6 — Phone Prefix Lookup Backend (runtime verification pending).
+Next phase: Phase 7 — Phone Prefix Frontend + SEO.
 Follow the [master specification](docs/MASTER_EXECUTION_PROMPT.md) and preserve completed phase history.
 Roadmap changes require a documented architectural reason and explicit user instruction.
 
@@ -88,7 +88,7 @@ to the intended local development database before migration. When Docker Desktop
     pnpm db:migrate:deploy
     pnpm db:seed
 
-The seed is intentionally empty and does not connect or insert data. No provider or business dataset is approved yet.
+The foundation seed stays empty and does not connect or insert data. Phone-prefix data uses the separate import below.
 PostgreSQL 18 uses the /var/lib/postgresql volume layout; existing volumes are preserved, not automatically upgraded.
 For a new isolated test database, create it once (the command fails harmlessly if it already exists; do not drop it):
 
@@ -106,3 +106,14 @@ After starting the API, verify `/api/v1/health` and `/api/v1/health/ready`. Read
 Current Phase 5 verification covers schema generation/validation, SQL review, non-database tests, and production builds;
 live PostgreSQL migration, constraint tests, Redis connectivity, and successful readiness remain pending (Docker unavailable).
 See [Database migration notes](apps/api/prisma/migrations/README.md) for the reviewed migration and SQL-only CHECK rules.
+
+## Phone-prefix data commands
+
+    pnpm --filter @tranhanh/api phone-prefixes:validate
+    pnpm db:migrate:deploy
+    pnpm --filter @tranhanh/api phone-prefixes:import
+
+The first command needs no database. Import requires explicit DATABASE_URL pointing at the intended database; it loads the
+reviewed file and never runs automatically at API startup. Apply both migrations first. `pnpm test:database` runs Phase 5
+and Phase 6 constraints against the guarded local test database. Source coverage and update instructions are in
+[data sources](docs/data-sources.md#phone-prefix-dataset--phase-6); API routes are documented at /api/docs.

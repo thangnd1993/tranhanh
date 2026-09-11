@@ -284,3 +284,75 @@ or production database. Runtime migration/constraint/readiness verification rema
 Compose mounts PostgreSQL 18 at /var/lib/postgresql per the
 [official image guidance](https://docs.docker.com/guides/postgresql/). No existing volume was removed or migrated in Phase 5.
 If a volume has older data, inspect/backup and plan its upgrade separately; changing a mount is not a data migration.
+
+## Phone-prefix backend (Phase 6)
+
+### Schema and evidence
+
+TelecomOperator owns immutable key, canonical brand name, normalized searchName, website, active state and evidence FK.
+PhonePrefix has a unique string prefix (leading zero retained), operator FK, ACTIVE/LEGACY/INACTIVE state, optional UTC
+half-open effective interval, required evidence FK and importedAt separate from row updatedAt. Current prefix families
+have three digits; supported historical mobile families have four. There is no subscriber/phone-number table.
+PhonePrefixMigration has a unique old-prefix FK, new-prefix FK, nullable effectiveAt and independent evidence FK.
+The operator is resolved through the prefix relation, not duplicated on the migration row. SourceReference gains an
+optional title so consumers can display the actual document along with publisher URL, publication and retrieval times.
+
+Migration 20260911010000_add_phone_prefix_lookup leaves Phase 5 SQL intact. It adds three tables, one enum and the nullable
+evidence title, with no data inserts or destructive operations, wrapped in BEGIN/COMMIT. Three unique indexes cover
+operator key, prefix and old migration endpoint. Six query indexes cover operator/status/prefix listing, status/prefix,
+evidence joins and replacement lookups. Six FKs explicitly RESTRICT deletes/identity updates. Four SQL CHECKs enforce
+operator key syntax, status/number shape, effective interval and distinct migration endpoints. Cross-row operator/status
+consistency is enforced by the complete dataset validator/importer; foreign keys alone do not validate that business rule.
+
+No automatic migration/import happens at application startup. Runtime requests query Prisma only; no JSON fallback,
+hardcoded factual service results, external provider calls, Redis cache or full-text engine. Deployment must apply
+migrations and explicitly run the reviewed importer before factual results are available.
+
+### Parsing and query API
+
+PhonePrefixesModule owns thin controllers and a focused Prisma-backed service under /api/v1/phone-prefixes:
+
+- GET /:prefix: exact three/four-digit candidate; unknown allocation returns 404, malformed input 400.
+- GET /lookup?value=...: plain prefix or structurally valid current/legacy mobile number; only extracted prefix survives.
+- GET / and /search: q, prefix starts-with, operator key, status, page and pageSize; prefix ASC only.
+- GET /:prefix/related: up to 12 active prefixes of the same allocated operator, excluding the requested prefix.
+
+Static lookup/search routes are declared before the parameter route. Request DTOs reject unknown fields, arrays,
+unsupported status/sort inputs and oversized values. Pages are one-based, maximum 10000; pageSize defaults to 20 and is
+bounded at 100. Search uses a reusable Vietnamese diacritic/case normalizer against stored searchName while retaining
+canonical names; no fake brand translations or SQL concatenation. Small dataset searches need no extra search index.
+Counts and rows use one repeatable-read Prisma transaction; ordering is deterministic. No historical as-of API is claimed.
+
+The parser accepts domestic 10-digit mobile shape, historical 11-digit mobile shape, and +84/0084/84 equivalents with
+single spaces/hyphens between digit groups. International input must omit the domestic trunk zero. Letters, unsupported
+country codes, landlines, repeated separators, extensions, punctuation and wrong lengths return 400. A numeric 3/4-digit
+candidate can return 404; syntax alone never establishes an allocated prefix. Legacy full numbers require an actual
+legacy database mapping; no old number is declared currently dialable. URL-encode a leading plus sign as %2B.
+
+Shared PhonePrefixResult/PhonePrefixPage/PhonePrefixQuery/PhoneSource/PhoneMigration contracts are independent of Prisma.
+They expose canonical operator identity, explicit previous/replacement mappings, null unknown effective times, evidence,
+last content-changing importedAt and database updatedAt. Public responses omit internal IDs and subscriber digits.
+operatorResolution=PREFIX_ALLOCATION and currentSubscriberNetworkVerified=false distinguish allocation from mobile-number
+portability, shared subranges, current serving network and subscriber existence. Swagger documents nested responses,
+validated parameters, examples using reviewed prefix facts, 400/404 and safe database-unavailable responses.
+
+### Import and privacy
+
+The reviewed JSON holds source/publisher/reference identities, operators, prefix rows and migrations. Joi structural
+validation plus semantic checks run before persistence. Import is a bounded transactional upsert with an advisory lock;
+no deletion, silent reassignment or legacy-target replacement. Evidence snapshots cannot be changed in place. Identical
+imports do not rewrite prefix updatedAt/importedAt. Separate generic SyncRun audits record actual attempts and measured
+prefix create/update/skip counts. Audit/bootstrap metadata can survive a failed domain transaction; partial domain data
+cannot. The source registry documents exact coverage, source review and maintenance steps.
+
+Nest currently has startup/error logging, not access logging of request query values. No new request logger is added;
+normalization strips subscriber digits before queries, exceptions use fixed messages, and import logs only summary counts
+or safe errors. /lookup sends no-store and no-referrer headers on successful responses. Browser history and deployment
+proxy/APM logs are outside this server's control: configure them to omit query values and reject/full-mask number paths;
+prefer prefix-only input. No phone numbers are persisted, echoed, enriched or sent to external services.
+
+Unit/HTTP tests use explicitly synthetic fixtures where a database would otherwise be required; these are not PostgreSQL
+constraint proof. The guarded test:database suite adds 13 real tests to the 16 Phase 5 tests, including actual repeated
+imports, evidence joins, uniqueness, FK/delete rules and CHECK constraints. Fixtures roll back and refuse to overwrite
+pre-existing prefix keys. Docker remains unavailable; live migration, import, PostgreSQL tests, Redis and successful
+readiness are pending. Angular/SEO behavior is unchanged; Phase 7 owns the public frontend and SEO routes.

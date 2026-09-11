@@ -14,3 +14,12 @@ export interface ReadinessResponse extends HealthResponse {
 }
 
 export type { CursorResult, IntegerString, PageResult } from './pagination.js';
+
+export type {
+  PhonePrefixStatus,
+  PhoneSource,
+  PhoneMigration,
+  PhonePrefixResult,
+  PhonePrefixQuery,
+  PhonePrefixPage,
+} from './phone-prefixes.js';

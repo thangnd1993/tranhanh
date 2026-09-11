@@ -7,6 +7,7 @@ import { validateEnvironment } from './config/environment.js';
 import { DatabaseModule } from './database/database.module.js';
 import { HealthController } from './health/health.controller.js';
 import { HealthService } from './health/health.service.js';
+import { PhonePrefixesModule } from './phone-prefixes/phone-prefixes.module.js';
 import { RedisModule } from './redis/redis.module.js';
 
 @Module({
@@ -29,6 +30,7 @@ import { RedisModule } from './redis/redis.module.js';
       }),
     }),
     DatabaseModule,
+    PhonePrefixesModule,
     RedisModule,
   ],
   providers: [HealthService],
