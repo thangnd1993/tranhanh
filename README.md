@@ -53,8 +53,8 @@ No external provider is queried at runtime. The phone-prefix backend reads expli
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 6 — Phone Prefix Lookup Backend (runtime verification pending).
-Next phase: Phase 7 — Phone Prefix Frontend + SEO.
+Current completed phase: Phase 7 — Phone Prefix Frontend + SEO (live database verification pending).
+Next phase: Phase 8 — Area Code Backend.
 Follow the [master specification](docs/MASTER_EXECUTION_PROMPT.md) and preserve completed phase history.
 Roadmap changes require a documented architectural reason and explicit user instruction.
 
@@ -117,3 +117,28 @@ The first command needs no database. Import requires explicit DATABASE_URL point
 reviewed file and never runs automatically at API startup. Apply both migrations first. `pnpm test:database` runs Phase 5
 and Phase 6 constraints against the guarded local test database. Source coverage and update instructions are in
 [data sources](docs/data-sources.md#phone-prefix-dataset--phase-6); API routes are documented at /api/docs.
+
+## Phone-prefix frontend (Phase 7)
+
+Public routes are `/vi/tra-cuu/dau-so`, `/en/lookup/phone-prefix` and their `/:prefix` detail routes.
+The web server requires a reachable, migrated/imported API for real answers. There is no production fixture fallback.
+`API_ORIGIN` is a server-only HTTP(S) origin, defaulting to `http://127.0.0.1:3000` for local development.
+It must have no credentials, path, query or fragment. Export it for the SSR process; `.env.example` is a template,
+not automatically loaded by the web server. The browser uses the web server's scoped same-origin API gateway.
+The Angular development server uses `apps/web/proxy.conf.json` for the local API on port 3000.
+
+    pnpm build
+    API_ORIGIN=http://127.0.0.1:3000 pnpm --filter @tranhanh/web serve:ssr
+    pnpm test:phone
+
+`test:phone` starts a test-only HTTP adapter using reviewed backend fixtures and the backend number normalizer.
+It checks production SSR/SEO and sitemap behavior without claiming database integration. Build both apps first.
+For the single-browser headless checks, set `PLAYWRIGHT_MODULE` to an installed Playwright module and optionally
+`CHROME_EXECUTABLE` to Chrome. `PHONE_SCREENSHOTS` optionally names a temporary screenshot folder; inspect then remove it.
+No browser dependency is added to production. Existing `test:ssr` and `test:seo` remain regression gates.
+
+Production deployments should configure `API_ORIGIN`, `PUBLIC_SITE_URL`, and `PUBLIC_ALLOW_INDEXING` explicitly.
+Do not log lookup query strings in reverse proxies/APM: the existing backend lookup protocol uses a GET value parameter.
+The application clears submitted numbers, does not store search history, and uses no-store/no-referrer requests.
+Only normalized prefix URLs enter browser navigation. Sitemap generation reads the real API and omits the phone segment
+when its catalogue is unavailable or empty; direct requests to that unavailable segment return 503.

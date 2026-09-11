@@ -1,3 +1,5 @@
+import { phonePath } from '../i18n/routes';
+import { phoneCopy } from '../phone-prefixes/phone-copy';
 import { LocaleService } from '../i18n/locale.service';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -21,6 +23,7 @@ import { IconComponent } from '../design-system/icon.component';
       >
         {{ i18n.t('home.explore') }} <tn-icon name="arrow" />
       </a>
+      <a [routerLink]="phonePath(i18n.locale())">{{ phoneCopy(i18n.locale()).index }}</a>
       <p class="caption">{{ i18n.t('home.notice') }}</p>
     </section>
     <section
@@ -62,6 +65,8 @@ import { IconComponent } from '../design-system/icon.component';
   `,
 })
 export class HomeComponent {
+  protected readonly phonePath = phonePath;
+  protected readonly phoneCopy = phoneCopy;
   protected readonly i18n = inject(LocaleService);
   protected get categories() {
     return [

@@ -19,6 +19,8 @@ export type BreadcrumbItem = SeoBreadcrumb;
               <span [attr.aria-current]="last ? 'page' : null">{{ item.label }}</span>
             } @else {
               <a [routerLink]="item.url">{{ item.label }}</a>
+            }
+            @if (!last) {
               <tn-icon name="chevron" />
             }
           </li>

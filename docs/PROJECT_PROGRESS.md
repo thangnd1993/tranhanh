@@ -2,8 +2,8 @@
 
 ## Current Status
 
-Current completed phase: Phase 6 — Phone Prefix Lookup Backend
-Next phase: Phase 7 — Phone Prefix Frontend + SEO
+Current completed phase: Phase 7 — Phone Prefix Frontend + SEO
+Next phase: Phase 8 — Area Code Backend
 Status: Complete locally with live migration/import/database verification pending
 Last updated: 2026-09-11 (Asia/Ho_Chi_Minh)
 Branch: main
@@ -403,6 +403,51 @@ Commit: `feat: add phone prefix lookup backend` (this checkpoint).
 Push destination: origin/main; verify the synchronized checkpoint with `git rev-parse origin/main` after push.
 Next phase: Phase 7 — Phone Prefix Frontend + SEO
 
+### Phase 7 — Phone Prefix Frontend + SEO
+
+Status: Complete locally; live PostgreSQL-backed integration remains pending.
+
+- Implemented `/vi/tra-cuu/dau-so`, `/vi/tra-cuu/dau-so/:prefix`, `/en/lookup/phone-prefix`,
+  `/en/lookup/phone-prefix/:prefix`; no Phase 8 work or homepage redesign.
+- API-driven index groups verified current prefixes by operator, filters locally, and links legacy mappings.
+  Reusable result cards provide answer, status, source, distinct dates, related prefixes and historical navigation.
+- Search uses the existing backend normalizer; clears input and navigates only to a prefix. No subscriber search storage,
+  full-number URLs or metadata. Malformed/unknown/unavailable search feedback is localized and accessible.
+- Current wording: “Đầu số 086 được phân bổ cho Viettel.” MNP note distinguishes allocation from current serving network.
+  Legacy 0168 links to 038; missing migration dates remain explicitly unknown. Vietnamese and English copy reviewed.
+- SSR resolver consumes real API; server-only API_ORIGIN and same-origin browser gateway support separate deployment.
+  TransferState avoids duplicate detail/related hydration requests. Production contains no fixture fallback.
+- Localized titles/descriptions, OG, canonical, equivalent hreflang, WebPage and matching breadcrumb JSON-LD implemented.
+  Unknown/invalid routes are 404/noindex; unavailable, malformed or empty data is 503/noindex; errors have no canonical.
+  Query variants are noindex. Nonexistent conceptual Lookup breadcrumb is not linked.
+- API-driven phone sitemap segment includes 116 URLs for the reviewed 57-prefix fixture; no search/unknown/showcase URLs.
+  Empty/unavailable catalogues do not advertise a phone sitemap segment.
+
+Validation:
+
+- Prettier and ESLint passed. Angular: 25 tests across 6 files. API regression: 81 unit and 13 E2E tests passed.
+  Shared test command passed with no test files; shared type build passed.
+- Prisma validate/generate passed; dataset validator confirmed 7 operators, 57 prefixes and 21 legacy mappings.
+- API, Angular browser and SSR production builds passed. Existing i18n and both configured/safe SEO smoke tests passed.
+- Raw HTML verified vi/en current and legacy answers, titles, descriptions, language, canonical/hreflang, robots,
+  source and breadcrumb/WebPage JSON-LD. 404 and 503 states and sitemap inclusion/exclusion passed.
+- One headless browser, one context/page reused: six routes at 320/375/390/430/768/1024/1280/1440 passed overflow,
+  single-H1 and chip target checks. Search normalization/privacy, hydration request counts and mobile language switching passed.
+- Representative 390/1440 light/dark screenshots inspected: readable evidence, wrapped links, restrained MNP note,
+  primary answer above the fold, no overflow. Temporary screenshots removed; test-owned browser/server processes closed.
+- Final browser bundle approximately 316.8 kB raw / 87.6 kB transfer; feature component lazy-loaded.
+
+Runtime limits:
+
+- Docker checked again; daemon socket still absent. Actual migrations, import, 29 PostgreSQL cases, Redis readiness,
+  and live DB-backed API/SSR verification remain pending. Test adapters do not close this runtime gap.
+- Public production origin is not configured; indexing remains safely disabled until explicit deployment configuration.
+- Reverse-proxy/APM lookup query logging must stay disabled. Related-link failures hide that supplementary section only.
+
+Commit: `feat: add phone prefix lookup frontend` (this checkpoint).
+Push destination: origin/main; resolve the final synchronized hash with `git rev-parse origin/main`.
+Next phase: Phase 8 — Area Code Backend
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -427,7 +472,7 @@ external runtime provider is active yet. See `docs/data-sources.md` for sources 
 
 ### Next Phase
 
-Next phase: Phase 7 — Phone Prefix Frontend + SEO
+Next phase: Phase 8 — Area Code Backend
 
 The master specification defines this order:
 
@@ -435,7 +480,8 @@ The master specification defines this order:
 2. Phase 4 — SEO Foundation (complete)
 3. Phase 5 — Database Core (complete locally; runtime migration verification pending)
 4. Phase 6 — Phone Prefix Lookup Backend (complete locally; runtime migration/import verification pending)
-5. Phase 7 — Phone Prefix Frontend + SEO
+5. Phase 7 — Phone Prefix Frontend + SEO (complete locally; live DB-backed verification pending)
+6. Phase 8 — Area Code Backend
 
 Do not rename or reorder phases without both a documented architectural reason and explicit user instruction.
 

@@ -35,7 +35,7 @@ export interface SeoPageConfig {
   openGraph?: SeoOpenGraphConfig;
   structuredData?: readonly StructuredDataDefinition[];
   breadcrumbs?: readonly SeoBreadcrumb[];
-  status?: 200 | 404;
+  status?: 200 | 404 | 503;
 }
 export const publicRobots: SeoRobotsConfig = { index: true, follow: true };
 export const privateRobots: SeoRobotsConfig = { index: false, follow: false };

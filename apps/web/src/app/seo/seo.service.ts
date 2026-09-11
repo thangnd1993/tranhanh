@@ -68,7 +68,7 @@ export class SeoService {
       this.name('twitter:image:alt', og.image.alt);
     }
     // A 404 never advertises itself as a canonical public page or a translated equivalent.
-    if (!this.site.origin || config.status === 404) return;
+    if (!this.site.origin || (config.status && config.status !== 200)) return;
     const origin = this.site.origin;
     if (config.canonicalPath) {
       const canonical = absoluteUrl(origin, config.canonicalPath);

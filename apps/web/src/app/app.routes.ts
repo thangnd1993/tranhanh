@@ -1,3 +1,4 @@
+import { phoneResolver } from './phone-prefixes/phone.resolver';
 import { pageSeo } from './seo/seo.resolver';
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
@@ -18,6 +19,12 @@ export const routes: Routes = [
       },
     ],
     children: [
+      ...['', '/:prefix'].map((suffix) => ({
+        path: (locale === 'vi' ? 'tra-cuu/dau-so' : 'lookup/phone-prefix') + suffix,
+        resolve: { phone: phoneResolver },
+        runGuardsAndResolvers: 'paramsOrQueryParamsChange' as const,
+        loadComponent: () => import('./phone-prefixes/phone-page.component').then((m) => m.PhonePageComponent),
+      })),
       {
         path: '',
         pathMatch: 'full' as const,

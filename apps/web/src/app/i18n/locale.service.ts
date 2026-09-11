@@ -2,7 +2,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { en } from './en';
-import { defaultLocale, equivalentPath, Locale, PageId, pagePaths, supportedLocales } from './routes';
+import { defaultLocale, equivalentPath, Locale, PageId, pagePaths, phonePath, supportedLocales } from './routes';
 import { TranslationKey, vi } from './vi';
 
 export const LOCALE_STORAGE_KEY = 'tranhanh.locale';
@@ -36,7 +36,10 @@ export class LocaleService {
     const primary = current.root.children['primary'];
     const path = '/' + (primary?.segments.map((segment) => segment.path).join('/') ?? '');
     const target = this.router.parseUrl(equivalentPath(path, locale));
-    target.queryParams = current.queryParams;
+    // Phone searches never carry submitted values into translated URLs.
+    target.queryParams = supportedLocales.some((source) => path.startsWith(phonePath(source)))
+      ? {}
+      : current.queryParams;
     target.fragment = current.fragment;
     const success = await this.router.navigateByUrl(target);
     if (success && isPlatformBrowser(this.platform)) {

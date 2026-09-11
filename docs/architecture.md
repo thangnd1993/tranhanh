@@ -356,3 +356,36 @@ constraint proof. The guarded test:database suite adds 13 real tests to the 16 P
 imports, evidence joins, uniqueness, FK/delete rules and CHECK constraints. Fixtures roll back and refuse to overwrite
 pre-existing prefix keys. Docker remains unavailable; live migration, import, PostgreSQL tests, Redis and successful
 readiness are pending. Angular/SEO behavior is unchanged; Phase 7 owns the public frontend and SEO routes.
+
+## Phone-prefix frontend and SEO — Phase 7
+
+- Localized index/detail routes: `/vi/tra-cuu/dau-so[/:prefix]` and `/en/lookup/phone-prefix[/:prefix]`.
+  `phonePath` is shared by route equivalence, links and sitemap. The homepage gets one real feature link.
+- A route resolver awaits the real API before SSR renders. The typed client imports shared public contracts,
+  validates untrusted JSON, URL/date fields and allocation semantics, and bounds requests to five seconds.
+  `API_ORIGIN` is server-only request context; browser requests use a narrowly scoped same-origin Express gateway.
+  Angular dev-server has a local API proxy. No Prisma types or authoritative dataset enter browser business code.
+- Angular TransferState carries successful public catalogue/detail/related responses through hydration, then consumes
+  them once. The browser test verifies only two upstream requests for initial detail+related SSR and hydration.
+  Submitted lookup values never enter TransferState. There is no persistent frontend data cache.
+- Index groups active prefixes by operator with a local operator filter and a separate legacy section.
+  Reusable typed result cards put the answer first, followed by source evidence, dates, related links and history.
+  Related requests may fail independently without hiding the primary answer. Initial HTML is never just a loading shell;
+  existing pages expose a status indicator while client navigation resolves.
+- Search delegates normalization to `/lookup`, clears the input, and navigates only to the returned prefix.
+  Validation, unknown search and unavailable service messages are localized and associated with the labelled input.
+  Browser storage/history and metadata never intentionally receive subscriber numbers. Reverse proxies/APM must omit
+  lookup query strings from logs because the existing backend transport is GET. Phone language switching drops queries.
+- Vietnamese current answers say “Đầu số 086 được phân bổ cho Viettel.” Equivalent English says “is allocated to”.
+  Neither claims the subscriber's current serving network. A restrained MNP note explains number portability.
+  Legacy cards state old/new mapping and never invent an effective date. Source publication/retrieval, allocation dates,
+  and record update dates have distinct labels. Original source titles remain in their original language.
+- The existing SEO service owns titles, localized descriptions, OG, canonical, equivalent hreflang and JSON-LD.
+  WebPage and visible BreadcrumbList match; the conceptual Lookup parent has no nonexistent link.
+  Error pages return real 404 (unknown/malformed route) or 503 (unavailable/malformed API or empty catalogue), with
+  noindex and no canonical/alternates. Query variants are noindex, with a clean canonical only for valid pages.
+- `/sitemap-phone-prefix.xml` reads the API catalogue, includes both index routes and only returned active/legacy
+  prefixes, and appears in the sitemap index only when nonempty. With the Phase 6 catalogue this means 116 URLs.
+  No full number/query, design-system or arbitrary combination is generated. Public-origin/indexing safeguards remain.
+- Tests use typed Angular mocks and a standalone HTTP adapter under `apps/web/test`; neither is a production fallback.
+  Real PostgreSQL-backed SSR remains pending until Docker, migrations and the reviewed import are available.
