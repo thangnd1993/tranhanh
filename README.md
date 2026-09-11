@@ -43,7 +43,7 @@ with OpenAPI UI at http://localhost:3000/api/docs.
 
 - apps/web: Angular SSR/hybrid web application.
 - apps/api: NestJS API with configuration, health, database, Redis, and queue foundations.
-- apps/api/prisma/schema.prisma: PostgreSQL datasource and Prisma client generator.
+- apps/api/prisma/schema.prisma: core source/provider/sync/evidence/localized SEO schema.
 - packages/shared: framework-neutral API contracts.
 - .env.example: documented local environment.
 - compose.yaml: development PostgreSQL and Redis services.
@@ -53,8 +53,8 @@ No live data provider is configured, and no business feature from later phases i
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 4 — SEO Foundation.
-Next phase: Phase 5 — Database Core.
+Current completed phase: Phase 5 — Database Core (runtime migration verification pending).
+Next phase: Phase 6 — Phone Prefix Lookup Backend.
 Follow the [master specification](docs/MASTER_EXECUTION_PROMPT.md) and preserve completed phase history.
 Roadmap changes require a documented architectural reason and explicit user instruction.
 
@@ -78,3 +78,31 @@ to the SSR process; Node can load a local file explicitly with `--env-file=.env`
 Without an origin, canonical/alternate URL output is omitted and sitemap endpoints return 503 rather than invented URLs.
 Run `pnpm test:seo` after `pnpm build` to verify production SSR metadata, sitemap/robots and HTTP 404 behavior using a test
 origin. See [Technical SEO architecture](docs/architecture.md#technical-seo-phase-4) for policies and extension points.
+
+## Core database workflow
+
+Prisma CLI and API both load the repository-root `.env`; exported values take precedence. Confirm DATABASE_URL points
+to the intended local development database before migration. When Docker Desktop is running:
+
+    pnpm services:up
+    pnpm db:migrate:deploy
+    pnpm db:seed
+
+The seed is intentionally empty and does not connect or insert data. No provider or business dataset is approved yet.
+PostgreSQL 18 uses the /var/lib/postgresql volume layout; existing volumes are preserved, not automatically upgraded.
+For a new isolated test database, create it once (the command fails harmlessly if it already exists; do not drop it):
+
+    docker compose exec postgres createdb -U tranhanh tranhanh_test
+    TEST_DATABASE_URL=postgresql://tranhanh:tranhanh@localhost:5432/tranhanh_test pnpm test:database
+
+The runner refuses production mode, non-loopback hosts, non-test database names, and non-public schemas. It applies
+migrations to that explicit test database, runs integration checks sequentially, and rolls back all test fixtures.
+It never falls back to DATABASE_URL and never resets/drops an existing database. Credentials above are local Compose
+fixture credentials only. Database tests are intentionally separate from `pnpm test` so unavailable infrastructure is
+reported as pending, not replaced by mocked database constraint success.
+
+After starting the API, verify `/api/v1/health` and `/api/v1/health/ready`. Readiness should report both dependencies as ok;
+503 means a real dependency remains unavailable. You can also check Redis with `docker compose exec redis redis-cli ping`.
+Current Phase 5 verification covers schema generation/validation, SQL review, non-database tests, and production builds;
+live PostgreSQL migration, constraint tests, Redis connectivity, and successful readiness remain pending (Docker unavailable).
+See [Database migration notes](apps/api/prisma/migrations/README.md) for the reviewed migration and SQL-only CHECK rules.

@@ -26,7 +26,9 @@
     "services:down": "docker compose down",
     "validate": "pnpm format:check && pnpm lint && pnpm test && pnpm test:e2e && pnpm prisma:validate && pnpm build",
     "test:ssr": "node apps/web/test/i18n-smoke.mjs",
-    "test:seo": "node apps/web/test/seo-smoke.mjs"
+    "test:seo": "node apps/web/test/seo-smoke.mjs",
+    "db:seed": "pnpm --filter @tranhanh/api db:seed",
+    "test:database": "pnpm --filter @tranhanh/api test:database"
   },
   "devDependencies": {
     "@angular-eslint/eslint-plugin": "^22.0.0",

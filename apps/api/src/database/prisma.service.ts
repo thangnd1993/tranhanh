@@ -7,7 +7,8 @@ import { PrismaClient } from '../generated/prisma/client.js';
 export class PrismaService extends PrismaClient implements OnModuleDestroy {
   constructor(config: ConfigService) {
     const connectionString = config.getOrThrow<string>('DATABASE_URL');
-    super({ adapter: new PrismaPg({ connectionString }) });
+    const schema = new URL(connectionString).searchParams.get('schema') ?? 'public';
+    super({ adapter: new PrismaPg({ connectionString }, { schema }) });
   }
 
   async onModuleDestroy(): Promise<void> {

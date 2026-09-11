@@ -44,7 +44,7 @@ checks PostgreSQL and Redis, returning HTTP 503 and a safe per-dependency status
 
 Nest configuration validates environment variables through Joi at startup. Development defaults mirror
 .env.example; deployment values remain environment-controlled. Prisma uses PostgreSQL through the official
-pg driver adapter and creates connections lazily. No business model or SQL migration exists in Phase 1.
+pg driver adapter and creates connections lazily. Phase 5 adds the core schema and first reviewed migration.
 
 Redis uses a lazy client for readiness and future cache access. BullMQ is configured globally with the same
 Redis connection, but no queues or jobs are registered until provider phases require them.
@@ -167,3 +167,120 @@ SEO_SCREENSHOTS=1 writes two temporary 404 screenshots; remove the reported dire
 
 Framework and crawler behavior were checked against [Angular SSR](https://angular.dev/best-practices/performance/ssr)
 and [Google robots metadata guidance](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag).
+
+## Database core (Phase 5)
+
+### Identity, time, and exact numbers
+
+All seven core models use Prisma-generated UUID v4 primary keys stored as PostgreSQL UUID. UUIDs and stable
+lowercase kebab-case keys are immutable identities; migration CHECK constraints enforce source/provider/page key
+syntax. Provider external IDs belong to later domain tables with provider-scoped unique constraints. Official display
+names are not unique identifiers. Localized display text is separate from source identity; SEO slugs are normalized
+lowercase ASCII kebab-case route components and never database primary keys. A changed slug needs an explicit redirect.
+Prisma supplies UUID defaults and updatedAt; future raw SQL writers must supply those values explicitly.
+
+Every stored instant uses TIMESTAMPTZ(3), interpreted in UTC and localized at presentation. Mutable durable rows use
+createdAt and updatedAt. Evidence alone has optional effective dates: [effectiveFrom, effectiveTo), inclusive start,
+exclusive end; null end means ongoing, both null means unspecified. A known end requires a start and must follow it.
+Future domain history uses the same half-open convention, selecting current rows where start <= now and end is null
+or now < end. Preserve superseded facts as historical rows and enforce non-overlap per domain identity when required.
+
+Future VND columns use BIGINT with integer-safe arithmetic. Fractional rates use explicit-precision Decimal or integer
+basis points; never PostgreSQL float/double or JS number for arbitrary monetary values. Express's JSON replacer converts
+native BigInt recursively into base-10 strings, including negatives and zero, without a global prototype patch. Shared
+IntegerString documents the wire contract. Future DTO/OpenAPI schemas must declare string values, clients must parse
+with BigInt/exact decimal as appropriate, and decimal rates should also cross JSON as explicit exact strings. Existing
+Intl presentation helpers do not implement financial arithmetic or silently coerce arbitrary strings into numbers.
+
+### Sources, adapters, and evidence
+
+DataSource represents the publisher/origin with a stable key, official name, public URLs, and explicit active/official
+flags defaulting to false. DataSourceTranslation stores only localized description/license notes, unique by source and
+vi/en locale. No duplicate publisher rows per language. DataProvider identifies a specific adapter and references its
+source. Its providerType is a stable adapter-kind string, not a credentials/configuration blob; status is ACTIVE,
+DEGRADED, or DISABLED (default). Future importers must check both source activation and provider status.
+
+SourceReference represents a retrieved publication/evidence snapshot. Future domain rows use explicit sourceReferenceId
+foreign keys (or a domain-specific join for multiple references). No arbitrary entityType/entityId relationships.
+Multiple normalized facts from one publication can share evidence; repeated retrievals may create new references.
+Do not impose URL uniqueness because the same URL can publish changed data. publishedAt is optional; retrievedAt is
+required and must represent actual retrieval, not an invented date. Notes are short factual evidence notes, not a CMS.
+Once referenced, prefer new evidence snapshots over rewriting historical attribution.
+
+normalizeSourceUrl is the reusable application-boundary helper for future source/evidence writes: only HTTP(S), no
+credentials, query strings, or fragments, and a 2048-character normalized limit. Query-based public sources will need an
+explicit reviewed adapter policy before storing their URLs. The helper does not authorize network access: future
+adapters also require host allowlists and redirect validation. There is no source write endpoint in this phase, so no
+new write DTO bypasses validation. Secrets remain in environment/secret management, never in source/provider rows.
+
+### Sync lifecycle, transactions, and idempotency
+
+SyncRun records provider, jobType, RUNNING/SUCCEEDED/FAILED, timestamps, nullable nonnegative counts, and bounded safe
+error code/message. RUNNING requires null finishedAt; terminal statuses require finishedAt >= startedAt (database CHECK).
+PARTIAL is omitted: no partial-import semantics are defined. Counts are unknown when null; zero means measured zero.
+No arbitrary JSON metadata, queue ID coupling, raw response, or payload fingerprint column is needed yet.
+
+Future adapters fetch, validate, and normalize outside transactions. Create the RUNNING audit record, then use a bounded
+Prisma transaction for normalized upserts, attribution links, successful counts/status, and the provider success instant.
+If that transaction rolls back, record FAILED and the provider failure instant in a separate transaction using an
+allowlisted safe code/message, never error.message from an external response. Terminal audit records are retained;
+crash recovery must later reconcile stale RUNNING records explicitly. No queue, scheduler, or importer is implemented.
+
+Idempotency belongs to each later domain's source/provider-scoped external ID or natural-key unique constraint and upsert.
+If a provider lacks stable IDs, define a versioned SHA-256 fingerprint over validated, canonically ordered normalized fields
+with explicit units and dates, excluding volatile retrieval times and secrets. Do not hash/store whole raw responses by
+default. Network calls never run inside transactions; retries must be bounded and safe against already committed data.
+
+Raw third-party payloads are not persisted in Phase 5. A future justified debug/evidence/reprocessing store must define
+retention, size limits, secret/PII filtering, access control, and deletion before use. Normalized facts take priority.
+
+### Localized SEO persistence
+
+SeoPage is an explicit stable page identity with a unique key. SeoMetadata has a real page foreign key, vi/en locale,
+unique page+locale, globally unique localized canonicalPath, and nullable title/description/noindex overrides. A migration
+CHECK requires normalized locale-matching paths with no host, query, fragment, or trailing slash. Future domain models
+may own an optional unique seoPageId FK; avoid polymorphic target strings. A page or override row is not required for
+application-generated defaults. UI dictionaries remain TypeScript; there is no generic LocalizedContent/CMS table.
+
+Future resolvers can combine an actual entity, its optional page/locale overrides, and a registered canonical route into
+Phase 4 SeoPageConfig. Route declarations must agree with the stored path and validate editorial inputs. Database
+noindexOverride=false must never bypass deployment/private-page restrictions. There is no current database SEO read,
+admin editor, sitemap change, or modification to the existing safe noindex behavior.
+
+### Constraints, indexes, and deletion
+
+Unique constraints cover publisher/adapter/page keys, source+locale notes, page+locale metadata, and canonical paths.
+No duplicate indexes are added for these lookups. DataProvider.sourceId supports publisher joins; status supports enabled
+adapter selection. SyncRun(providerId, startedAt DESC, id) supports stable provider history ordering;
+SyncRun(status, startedAt) supports stale-run inspection. SourceReference(sourceId, retrievedAt DESC) supports evidence
+history. Existing compound unique indexes also cover their leading foreign-key columns. Review real query plans before
+adding more indexes; there is no low-selectivity standalone source boolean index.
+
+All five core foreign keys explicitly use RESTRICT for deletes and identity updates. Disable sources/providers rather
+than erase history; removing a provider cannot cascade to sync runs. No blanket deletedAt fields. Later domains must use
+the same audit-preserving policy for source references and page ownership. Administrative hard deletion and audit retention
+policies are deferred, not implicitly provided by a generic delete API.
+
+### Database integration and validation
+
+The global DatabaseModule owns one typed PrismaService. Connections remain lazy for honest dependency-free liveness;
+shutdown hooks disconnect the client and existing Redis client. The adapter honors DATABASE_URL's schema parameter.
+Prisma config uses Node's built-in optional .env loading; both CLI and API resolve the repository-root .env independent of
+working directory. Exported environment variables retain priority. No transitive dotenv import is required.
+A global Prisma exception filter returns safe conflict, relation conflict, missing-record, unavailable, or generic error
+responses; it excludes internal fields, SQL, credentials, and stacks. Readiness still probes PostgreSQL and Redis and
+reports 503 on failure. No public sources/providers endpoints or meaningless repository wrapper are added.
+
+Shared PageResult provides one-based offset pagination; CursorResult supports large histories with opaque stable cursors.
+Future endpoints validate bounded page sizes and explicit filter/sort DTOs; never pass arbitrary client Prisma fields.
+
+The seed command is deliberately a no-op: no approved foundation records are required. Test-only fixtures live in isolated
+integration transactions and always roll back. The migration is additive and wrapped in a PostgreSQL transaction, with
+reviewed CHECK constraints maintained in SQL because Prisma schema syntax cannot express them. Generate/validate does not
+prove live constraints. The guarded integration runner requires an explicit local tranhanh_test database, applies migrations,
+then verifies real uniqueness, relations, deletion, enums, intervals, timestamps, and canonical rules. Never reset an unknown
+or production database. Runtime migration/constraint/readiness verification remains pending until Docker is available.
+
+Compose mounts PostgreSQL 18 at /var/lib/postgresql per the
+[official image guidance](https://docs.docker.com/guides/postgresql/). No existing volume was removed or migrated in Phase 5.
+If a volume has older data, inspect/backup and plan its upgrade separately; changing a mount is not a data migration.

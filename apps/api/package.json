@@ -14,7 +14,9 @@
     "prisma:generate": "prisma generate",
     "prisma:validate": "prisma validate",
     "db:migrate": "prisma migrate dev",
-    "db:migrate:deploy": "prisma migrate deploy"
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:seed": "prisma db seed",
+    "test:database": "node test/run-database-tests.ts"
   },
   "dependencies": {
     "@nestjs/bullmq": "^12.0.0",

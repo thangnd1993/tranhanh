@@ -6,3 +6,138 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum Locale {
+  vi
+  en
+}
+
+enum ProviderStatus {
+  ACTIVE
+  DEGRADED
+  DISABLED
+}
+
+enum SyncStatus {
+  RUNNING
+  SUCCEEDED
+  FAILED
+}
+
+/// Publisher/origin identity; credentials belong in secret management.
+model DataSource {
+  id           String                  @id @default(uuid()) @db.Uuid
+  key          String                  @unique @db.VarChar(100)
+  name         String                  @db.VarChar(250)
+  homepageUrl  String?                 @db.VarChar(2048)
+  dataUrl      String?                 @db.VarChar(2048)
+  termsUrl     String?                 @db.VarChar(2048)
+  isOfficial   Boolean                 @default(false)
+  isActive     Boolean                 @default(false)
+  createdAt    DateTime                @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime                @updatedAt @db.Timestamptz(3)
+  translations DataSourceTranslation[]
+  providers    DataProvider[]
+  references   SourceReference[]
+}
+
+/// Persisted source notes only; official names and UI dictionaries stay separate.
+model DataSourceTranslation {
+  id           String     @id @default(uuid()) @db.Uuid
+  sourceId     String     @db.Uuid
+  locale       Locale
+  description  String?    @db.Text
+  licenseNotes String?    @db.Text
+  createdAt    DateTime   @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime   @updatedAt @db.Timestamptz(3)
+  source       DataSource @relation(fields: [sourceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@unique([sourceId, locale])
+}
+
+/// Adapter identity, distinct from its publisher. No credentials or arbitrary config JSON.
+model DataProvider {
+  id                   String         @id @default(uuid()) @db.Uuid
+  key                  String         @unique @db.VarChar(100)
+  name                 String         @db.VarChar(250)
+  sourceId             String         @db.Uuid
+  providerType         String         @db.VarChar(100)
+  status               ProviderStatus @default(DISABLED)
+  lastSuccessfulSyncAt DateTime?      @db.Timestamptz(3)
+  lastFailedSyncAt     DateTime?      @db.Timestamptz(3)
+  createdAt            DateTime       @default(now()) @db.Timestamptz(3)
+  updatedAt            DateTime       @updatedAt @db.Timestamptz(3)
+  source               DataSource     @relation(fields: [sourceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  syncRuns             SyncRun[]
+
+  @@index([sourceId])
+  @@index([status])
+}
+
+/// Migration CHECK constraints enforce counts and completion times.
+/// Counts represent committed work on success. Failure messages must be sanitized.
+model SyncRun {
+  id             String       @id @default(uuid()) @db.Uuid
+  providerId     String       @db.Uuid
+  jobType        String       @db.VarChar(100)
+  status         SyncStatus   @default(RUNNING)
+  startedAt      DateTime     @default(now()) @db.Timestamptz(3)
+  finishedAt     DateTime?    @db.Timestamptz(3)
+  recordsRead    Int?
+  recordsCreated Int?
+  recordsUpdated Int?
+  recordsSkipped Int?
+  errorCode      String?      @db.VarChar(100)
+  errorMessage   String?      @db.VarChar(1000)
+  createdAt      DateTime     @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime     @updatedAt @db.Timestamptz(3)
+  provider       DataProvider @relation(fields: [providerId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([providerId, startedAt(sort: Desc), id])
+  @@index([status, startedAt])
+}
+
+/// Migration CHECK enforces [effectiveFrom, effectiveTo).
+/// Evidence shared by future domain rows via explicit foreign keys, never entityType/entityId.
+model SourceReference {
+  id            String     @id @default(uuid()) @db.Uuid
+  sourceId      String     @db.Uuid
+  externalUrl   String?    @db.VarChar(2048)
+  publishedAt   DateTime?  @db.Timestamptz(3)
+  retrievedAt   DateTime   @db.Timestamptz(3)
+  effectiveFrom DateTime?  @db.Timestamptz(3)
+  effectiveTo   DateTime?  @db.Timestamptz(3)
+  notes         String?    @db.VarChar(2000)
+  createdAt     DateTime   @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime   @updatedAt @db.Timestamptz(3)
+  source        DataSource @relation(fields: [sourceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([sourceId, retrievedAt(sort: Desc)])
+}
+
+/// Explicit page identity. Future domains reference this row with a typed, optional unique FK.
+model SeoPage {
+  id        String        @id @default(uuid()) @db.Uuid
+  key       String        @unique @db.VarChar(150)
+  createdAt DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime      @updatedAt @db.Timestamptz(3)
+  metadata  SeoMetadata[]
+}
+
+/// Migration CHECK requires a normalized path matching locale.
+/// Optional overrides; canonical paths are relative to the configured public origin.
+model SeoMetadata {
+  id                  String   @id @default(uuid()) @db.Uuid
+  pageId              String   @db.Uuid
+  locale              Locale
+  canonicalPath       String   @db.VarChar(500)
+  titleOverride       String?  @db.VarChar(250)
+  descriptionOverride String?  @db.VarChar(1000)
+  noindexOverride     Boolean?
+  createdAt           DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt           DateTime @updatedAt @db.Timestamptz(3)
+  page                SeoPage  @relation(fields: [pageId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@unique([pageId, locale])
+  @@unique([canonicalPath])
+}

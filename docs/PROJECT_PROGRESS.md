@@ -2,10 +2,10 @@
 
 ## Current Status
 
-Current completed phase: Phase 4 — SEO Foundation
-Next phase: Phase 5 — Database Core
-Status: Complete; centralized technical SEO and real localized HTTP 404 implemented
-Last updated: 2026-09-10 (Asia/Ho_Chi_Minh)
+Current completed phase: Phase 5 — Database Core
+Next phase: Phase 6 — Phone Prefix Lookup Backend
+Status: Complete locally with runtime database migration verification pending
+Last updated: 2026-09-11 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
 
@@ -263,6 +263,72 @@ Known limitations:
 - No social image, SearchAction, invented Organization details, or business sitemap segments are emitted.
 - Docker verification remains pending from Phase 1 and was not performed in this phase.
 
+### Phase 5 — Database Core
+
+Status: Complete locally with runtime database migration verification pending
+
+Core persistence:
+
+- Models: DataSource, DataSourceTranslation, DataProvider, SyncRun, SourceReference, SeoPage, SeoMetadata.
+- One readable Prisma schema; UUID v4 IDs stored as PostgreSQL UUID, immutable lowercase kebab-case internal keys.
+- All instants use TIMESTAMPTZ(3); createdAt/updatedAt on mutable durable rows; presentation handles local timezone.
+- Evidence uses [effectiveFrom, effectiveTo), exclusive end, null end ongoing; database CHECK prevents invalid intervals.
+- DataSource is the publisher; DataProvider is a distinct adapter with a source FK and ACTIVE/DEGRADED/DISABLED status.
+- Sources start inactive/non-official; adapters start disabled. No provider is approved or integrated by this phase.
+- SyncRun records RUNNING/SUCCEEDED/FAILED, measured nullable counts, safe bounded errors and lifecycle timestamps.
+- No PARTIAL, queues, business importers, raw payload storage, or generic metadata JSON added.
+- SourceReference supports shared publication evidence with future explicit domain FKs, not polymorphic entity IDs.
+- Source translations are unique per source+vi/en locale. UI dictionaries remain application code.
+- SeoPage provides stable identity; SeoMetadata provides optional overrides, real page FK, locale and canonical path.
+- SEO uniqueness covers page+locale and canonical paths; normalized paths must match locale. No current frontend reads
+  or sitemap changes, and production origin/indexing still default safely.
+- VND convention: exact BIGINT; fractional rates: exact Decimal/basis points. API BigInt serializes to decimal strings.
+- Shared IntegerString, PageResult, and CursorResult describe wire contracts; future endpoints require explicit filters.
+- Global safe Prisma error mapping covers identity/relation conflicts, missing records, unavailable database, and fallback.
+- Singleton Prisma client stays lazy, honors schema configuration, and disconnects through enabled shutdown hooks.
+- Prisma CLI/API now resolve the root .env consistently; Node built-in loading removes the undeclared dotenv dependency.
+- Seed framework is an intentional no-op; test-only fixtures are transactionally rolled back in a guarded isolated suite.
+- Documentation records transactions, idempotent keys/upserts/fingerprints, evidence retention and raw-data restrictions.
+
+Migration and constraints:
+
+- Migration: `20260911000000_add_core_data_foundation`.
+- Generated from the empty Phase 1 schema with Prisma 7.10 and reviewed manually; seven tables and three enums.
+- Six unique indexes, five query indexes, five explicit RESTRICT foreign keys; no cascading history deletion.
+- Seven SQL CHECK constraints cover key syntax, nonnegative counts, sync completion, effective dates and canonical paths.
+- Atomic BEGIN/COMMIT; no DROP/TRUNCATE, destructive updates, business inserts, or database reset.
+- SQL-only CHECK rules are documented for preservation in later migrations. UUID/updatedAt remain Prisma-managed.
+- Migration SQL generated/reviewed, but NOT applied to live PostgreSQL in this phase.
+
+Validation:
+
+- Dependency consistency: frozen lockfile, offline install, ignored lifecycle scripts and strict peer checks passed;
+  no dependency or lockfile change was needed.
+- Prettier, ESLint, full API TypeScript check (including tests/config), shared types and production builds passed.
+- API unit tests: 29 passed across 5 files, including exact BigInt, safe errors, URL validation and database-runner guards.
+- API E2E: 4 passed across 2 files, including actual HTTP BigInt/error-filter behavior and existing liveness regression.
+- Angular regression: 15 passed across 5 files. Shared test command passed with no test files; shared type build passed.
+- API, browser and SSR builds passed. Production HTTP i18n and both configured/safe SEO smoke suites passed.
+- Built API liveness returned 200 with intentionally unavailable dependency addresses; SIGTERM shutdown completed.
+- Prisma format, validate and generate passed; generated client remains ignored. No-op seed command passed.
+- Docker Compose static configuration passed. PostgreSQL 18 volume mount corrected to /var/lib/postgresql;
+  no existing volume was deleted, moved, or migrated.
+- Sixteen real PostgreSQL integration cases are implemented but NOT executed: explicit local tranhanh_test required,
+  migration deployment before tests, fixture rollback, no production/unknown database reset or drop.
+- Zero browser windows and zero screenshots; test-owned HTTP/API processes were closed after validation.
+
+Runtime state and limitations:
+
+- Docker remains unavailable: daemon socket /Users/nhuphan/.docker/run/docker.sock does not exist.
+- PostgreSQL migration execution, live constraints/connectivity and successful readiness remain pending.
+- Redis live connectivity remains pending from Phase 1; no Redis functionality was expanded.
+- Non-database tests do not replace actual PostgreSQL constraint verification. Runtime pending is explicitly retained.
+- Public production origin/indexing remains unconfigured as before. No business domain or Phase 6 work started.
+
+Commit: `feat: add core data foundation` (this checkpoint).
+Push destination: origin/main; verify the pushed checkpoint with `git rev-parse origin/main` after synchronization.
+Next phase: Phase 6 — Phone Prefix Lookup Backend
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -286,13 +352,14 @@ None. See `docs/data-sources.md` for the required provider registry fields.
 
 ### Next Phase
 
-Next phase: Phase 5 — Database Core
+Next phase: Phase 6 — Phone Prefix Lookup Backend
 
 The master specification defines this order:
 
 1. Phase 3 — I18N Foundation (complete)
 2. Phase 4 — SEO Foundation (complete)
-3. Phase 5 — Database Core
+3. Phase 5 — Database Core (complete locally; runtime migration verification pending)
+4. Phase 6 — Phone Prefix Lookup Backend
 
 Do not rename or reorder phases without both a documented architectural reason and explicit user instruction.
 
