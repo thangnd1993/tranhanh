@@ -1,0 +1,2117 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "key": "mst-area-codes",
+      "name": "Bộ Khoa học và Công nghệ — Cục Viễn thông",
+      "homepageUrl": "https://mst.gov.vn",
+      "isOfficial": true
+    },
+    {
+      "key": "vnpt-hanoi-area-codes",
+      "name": "VNPT Hà Nội",
+      "homepageUrl": "https://vinaphonehanoi.vnpt.vn",
+      "isOfficial": true
+    }
+  ],
+  "references": [
+    {
+      "id": "21fda982-dd1f-45ab-be91-f4fe3c41a620",
+      "sourceKey": "mst-area-codes",
+      "title": "Thông cáo báo chí về việc thực hiện quy hoạch mã vùng điện thoại cố định mặt đất kể từ 01/7/2025",
+      "url": "https://mst.gov.vn/thong-cao-bao-chi-ve-viec-thuc-hien-quy-hoach-ma-vung-dien-thoai-co-dinh-mat-dat-ke-tu-01-7-2025-197250704101929995.htm",
+      "publishedAt": "2025-07-04T03:19:00Z",
+      "retrievedAt": "2026-09-11T04:35:11Z",
+      "notes": "Current and temporary parallel codes only; proposed consolidated codes excluded. Source-era territory names retained. Official PDF annex cross-checked. No open-content license claimed."
+    },
+    {
+      "id": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4",
+      "sourceKey": "vnpt-hanoi-area-codes",
+      "title": "Danh sách mã vùng điện thoại cố định sau chuyển đổi",
+      "url": "https://vinaphonehanoi.vnpt.vn/tin-tuc-chi-tiet/danh-sach-ma-vung-dien-thoai-co-dinh-sau-chuyen-doi-22",
+      "publishedAt": null,
+      "retrievedAt": "2026-09-11T04:35:11Z",
+      "notes": "Published 2018-11-02 (day precision only). Extracted 59 old/new mappings and transition start dates; contradictory phase-3 parallel-dialing end date excluded. Based on Decision 2036/QD-BTTTT dated 2016-11-21. Facts only; no open-content license claimed."
+    }
+  ],
+  "groups": [
+    {
+      "key": "an-giang-2025",
+      "name": "An Giang",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "bac-ninh-2025",
+      "name": "Bắc Ninh",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ca-mau-2025",
+      "name": "Cà Mau",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "can-tho-2025",
+      "name": "Cần Thơ",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "cao-bang-2025",
+      "name": "Cao Bằng",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "da-nang-2025",
+      "name": "Đà Nẵng",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "dak-lak-2025",
+      "name": "Đắk Lắk",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "dien-bien-2025",
+      "name": "Điện Biên",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "dong-nai-2025",
+      "name": "Đồng Nai",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "dong-thap-2025",
+      "name": "Đồng Tháp",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "gia-lai-2025",
+      "name": "Gia Lai",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ha-noi-2025",
+      "name": "Hà Nội",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ha-tinh-2025",
+      "name": "Hà Tĩnh",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "hai-phong-2025",
+      "name": "Hải Phòng",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ho-chi-minh-2025",
+      "name": "Hồ Chí Minh",
+      "aliases": ["TP.HCM", "TP HCM", "TP. Hồ Chí Minh"],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "hue-2025",
+      "name": "Huế",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "hung-yen-2025",
+      "name": "Hưng Yên",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "khanh-hoa-2025",
+      "name": "Khánh Hoà",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "lai-chau-2025",
+      "name": "Lai Châu",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "lam-dong-2025",
+      "name": "Lâm Đồng",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "lang-son-2025",
+      "name": "Lạng Sơn",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "lao-cai-2025",
+      "name": "Lào Cai",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "nghe-an-2025",
+      "name": "Nghệ An",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ninh-binh-2025",
+      "name": "Ninh Bình",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "phu-tho-2025",
+      "name": "Phú Thọ",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "quang-ngai-2025",
+      "name": "Quảng Ngãi",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "quang-ninh-2025",
+      "name": "Quảng Ninh",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "quang-tri-2025",
+      "name": "Quảng Trị",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "son-la-2025",
+      "name": "Sơn La",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "tay-ninh-2025",
+      "name": "Tây Ninh",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "thai-nguyen-2025",
+      "name": "Thái Nguyên",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "thanh-hoa-2025",
+      "name": "Thanh Hóa",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "tuyen-quang-2025",
+      "name": "Tuyên Quang",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "vinh-long-2025",
+      "name": "Vĩnh Long",
+      "aliases": [],
+      "effectiveFrom": "2025-07-01",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    }
+  ],
+  "localities": [
+    {
+      "key": "an-giang",
+      "name": "An Giang",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "an-giang-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ba-ria-vung-tau",
+      "name": "Bà Rịa - Vũng Tàu",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "ho-chi-minh-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "bac-can",
+      "name": "Bắc Cạn",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "thai-nguyen-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "bac-giang",
+      "name": "Bắc Giang",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "bac-ninh-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "bac-lieu",
+      "name": "Bạc Liêu",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "ca-mau-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "bac-ninh",
+      "name": "Bắc Ninh",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "bac-ninh-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ben-tre",
+      "name": "Bến Tre",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "vinh-long-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "binh-dinh",
+      "name": "Bình Định",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "gia-lai-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "binh-duong",
+      "name": "Bình Dương",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "ho-chi-minh-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "binh-phuoc",
+      "name": "Bình Phước",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "dong-nai-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "binh-thuan",
+      "name": "Bình Thuận",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "lam-dong-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ca-mau",
+      "name": "Cà Mau",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "ca-mau-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "can-tho",
+      "name": "Cần Thơ",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "can-tho-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "cao-bang",
+      "name": "Cao Bằng",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "cao-bang-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "da-nang",
+      "name": "Đà Nẵng",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "da-nang-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "dak-lak",
+      "name": "Đắk Lắk",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "dak-lak-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "dak-nong",
+      "name": "Đắk Nông",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "lam-dong-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "dien-bien",
+      "name": "Điện Biên",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "dien-bien-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "dong-nai",
+      "name": "Đồng Nai",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "dong-nai-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "dong-thap",
+      "name": "Đồng Tháp",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "dong-thap-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "gia-lai",
+      "name": "Gia Lai",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "gia-lai-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ha-giang",
+      "name": "Hà Giang",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "tuyen-quang-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ha-nam",
+      "name": "Hà Nam",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "ninh-binh-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ha-noi",
+      "name": "Hà Nội",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "ha-noi-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ha-tinh",
+      "name": "Hà Tĩnh",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "ha-tinh-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "hai-duong",
+      "name": "Hải Dương",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "hai-phong-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "hai-phong",
+      "name": "Hải Phòng",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "hai-phong-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "hau-giang",
+      "name": "Hậu Giang",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "can-tho-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ho-chi-minh",
+      "name": "Hồ Chí Minh",
+      "aliases": ["TP.HCM", "TP HCM", "TP. Hồ Chí Minh"],
+      "isActive": true,
+      "groupKey": "ho-chi-minh-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "hoa-binh",
+      "name": "Hòa Bình",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "phu-tho-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "hung-yen",
+      "name": "Hưng Yên",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "hung-yen-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "khanh-hoa",
+      "name": "Khánh Hoà",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "khanh-hoa-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "kien-giang",
+      "name": "Kiên Giang",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "an-giang-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "kon-tum",
+      "name": "Kon Tum",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "quang-ngai-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "lai-chau",
+      "name": "Lai Châu",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "lai-chau-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "lam-dong",
+      "name": "Lâm Đồng",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "lam-dong-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "lang-son",
+      "name": "Lạng Sơn",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "lang-son-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "lao-cai",
+      "name": "Lào Cai",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "lao-cai-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "long-an",
+      "name": "Long An",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "tay-ninh-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "nam-dinh",
+      "name": "Nam Định",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "ninh-binh-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "nghe-an",
+      "name": "Nghệ An",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "nghe-an-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ninh-binh",
+      "name": "Ninh Bình",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "ninh-binh-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "ninh-thuan",
+      "name": "Ninh Thuận",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "khanh-hoa-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "phu-tho",
+      "name": "Phú Thọ",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "phu-tho-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "phu-yen",
+      "name": "Phú Yên",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "dak-lak-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "quang-binh",
+      "name": "Quảng Bình",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "quang-tri-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "quang-nam",
+      "name": "Quảng Nam",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "da-nang-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "quang-ngai",
+      "name": "Quảng Ngãi",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "quang-ngai-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "quang-ninh",
+      "name": "Quảng Ninh",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "quang-ninh-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "quang-tri",
+      "name": "Quảng Trị",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "quang-tri-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "soc-trang",
+      "name": "Sóc Trăng",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "can-tho-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "son-la",
+      "name": "Sơn La",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "son-la-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "tay-ninh",
+      "name": "Tây Ninh",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "tay-ninh-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "thai-binh",
+      "name": "Thái Bình",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "hung-yen-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "thai-nguyen",
+      "name": "Thái Nguyên",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "thai-nguyen-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "thanh-hoa",
+      "name": "Thanh Hóa",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "thanh-hoa-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "thua-thien-hue",
+      "name": "Thừa Thiên - Huế",
+      "aliases": ["Huế"],
+      "isActive": true,
+      "groupKey": "hue-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "tien-giang",
+      "name": "Tiền Giang",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "dong-thap-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "tra-vinh",
+      "name": "Trà Vinh",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "vinh-long-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "tuyen-quang",
+      "name": "Tuyên Quang",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "tuyen-quang-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "vinh-long",
+      "name": "Vĩnh Long",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "vinh-long-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "vinh-phuc",
+      "name": "Vĩnh Phúc",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "phu-tho-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "key": "yen-bai",
+      "name": "Yên Bái",
+      "aliases": [],
+      "isActive": true,
+      "groupKey": "lao-cai-2025",
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    }
+  ],
+  "codes": [
+    {
+      "code": "020",
+      "localityKey": "lao-cai",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0203",
+      "localityKey": "quang-ninh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0204",
+      "localityKey": "bac-giang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0205",
+      "localityKey": "lang-son",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0206",
+      "localityKey": "cao-bang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0207",
+      "localityKey": "tuyen-quang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0208",
+      "localityKey": "thai-nguyen",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0209",
+      "localityKey": "bac-can",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0210",
+      "localityKey": "phu-tho",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0211",
+      "localityKey": "vinh-phuc",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0212",
+      "localityKey": "son-la",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-02-11",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0213",
+      "localityKey": "lai-chau",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-02-11",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0214",
+      "localityKey": "lao-cai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-02-11",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0215",
+      "localityKey": "dien-bien",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-02-11",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0216",
+      "localityKey": "yen-bai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-02-11",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0218",
+      "localityKey": "hoa-binh",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0219",
+      "localityKey": "ha-giang",
+      "status": "ACTIVE",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "022",
+      "localityKey": "son-la",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0220",
+      "localityKey": "hai-duong",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0221",
+      "localityKey": "hung-yen",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0222",
+      "localityKey": "bac-ninh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0225",
+      "localityKey": "hai-phong",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0226",
+      "localityKey": "ha-nam",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0227",
+      "localityKey": "thai-binh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0228",
+      "localityKey": "nam-dinh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0229",
+      "localityKey": "ninh-binh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0230",
+      "localityKey": "dien-bien",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0231",
+      "localityKey": "lai-chau",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0232",
+      "localityKey": "quang-binh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-02-11",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0233",
+      "localityKey": "quang-tri",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-02-11",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0234",
+      "localityKey": "thua-thien-hue",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-02-11",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0235",
+      "localityKey": "quang-nam",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-02-11",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0236",
+      "localityKey": "da-nang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-02-11",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0237",
+      "localityKey": "thanh-hoa",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-02-11",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0238",
+      "localityKey": "nghe-an",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-02-11",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0239",
+      "localityKey": "ha-tinh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-02-11",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "024",
+      "localityKey": "ha-noi",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0240",
+      "localityKey": "bac-giang",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0241",
+      "localityKey": "bac-ninh",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "025",
+      "localityKey": "lang-son",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0251",
+      "localityKey": "dong-nai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0252",
+      "localityKey": "binh-thuan",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0254",
+      "localityKey": "ba-ria-vung-tau",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0255",
+      "localityKey": "quang-ngai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0256",
+      "localityKey": "binh-dinh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0257",
+      "localityKey": "phu-yen",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0258",
+      "localityKey": "khanh-hoa",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0259",
+      "localityKey": "ninh-thuan",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "026",
+      "localityKey": "cao-bang",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0260",
+      "localityKey": "kon-tum",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0261",
+      "localityKey": "dak-nong",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0262",
+      "localityKey": "dak-lak",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0263",
+      "localityKey": "lam-dong",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0269",
+      "localityKey": "gia-lai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "027",
+      "localityKey": "tuyen-quang",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0270",
+      "localityKey": "vinh-long",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0271",
+      "localityKey": "binh-phuoc",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0272",
+      "localityKey": "long-an",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0273",
+      "localityKey": "tien-giang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0274",
+      "localityKey": "binh-duong",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0275",
+      "localityKey": "ben-tre",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0276",
+      "localityKey": "tay-ninh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0277",
+      "localityKey": "dong-thap",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "028",
+      "localityKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-06-17",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0280",
+      "localityKey": "thai-nguyen",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0281",
+      "localityKey": "bac-can",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "029",
+      "localityKey": "yen-bai",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0290",
+      "localityKey": "ca-mau",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0291",
+      "localityKey": "bac-lieu",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0292",
+      "localityKey": "can-tho",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0293",
+      "localityKey": "hau-giang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0294",
+      "localityKey": "tra-vinh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0296",
+      "localityKey": "an-giang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0297",
+      "localityKey": "kien-giang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "0299",
+      "localityKey": "soc-trang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2017-04-15",
+      "effectiveTo": null,
+      "referenceId": "21fda982-dd1f-45ab-be91-f4fe3c41a620"
+    },
+    {
+      "code": "030",
+      "localityKey": "ninh-binh",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "031",
+      "localityKey": "hai-phong",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0320",
+      "localityKey": "hai-duong",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0321",
+      "localityKey": "hung-yen",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "033",
+      "localityKey": "quang-ninh",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0350",
+      "localityKey": "nam-dinh",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0351",
+      "localityKey": "ha-nam",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "036",
+      "localityKey": "thai-binh",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "037",
+      "localityKey": "thanh-hoa",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "038",
+      "localityKey": "nghe-an",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "039",
+      "localityKey": "ha-tinh",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "04",
+      "localityKey": "ha-noi",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0500",
+      "localityKey": "dak-lak",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0501",
+      "localityKey": "dak-nong",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0510",
+      "localityKey": "quang-nam",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0511",
+      "localityKey": "da-nang",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "052",
+      "localityKey": "quang-binh",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "053",
+      "localityKey": "quang-tri",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "054",
+      "localityKey": "thua-thien-hue",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "055",
+      "localityKey": "quang-ngai",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "056",
+      "localityKey": "binh-dinh",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "057",
+      "localityKey": "phu-yen",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "058",
+      "localityKey": "khanh-hoa",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "059",
+      "localityKey": "gia-lai",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "060",
+      "localityKey": "kon-tum",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "061",
+      "localityKey": "dong-nai",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "062",
+      "localityKey": "binh-thuan",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "063",
+      "localityKey": "lam-dong",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "064",
+      "localityKey": "ba-ria-vung-tau",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0650",
+      "localityKey": "binh-duong",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0651",
+      "localityKey": "binh-phuoc",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "066",
+      "localityKey": "tay-ninh",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "067",
+      "localityKey": "dong-thap",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "068",
+      "localityKey": "ninh-thuan",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "070",
+      "localityKey": "vinh-long",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0710",
+      "localityKey": "can-tho",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0711",
+      "localityKey": "hau-giang",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "072",
+      "localityKey": "long-an",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "073",
+      "localityKey": "tien-giang",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "074",
+      "localityKey": "tra-vinh",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "075",
+      "localityKey": "ben-tre",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "076",
+      "localityKey": "an-giang",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "077",
+      "localityKey": "kien-giang",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0780",
+      "localityKey": "ca-mau",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "0781",
+      "localityKey": "bac-lieu",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "079",
+      "localityKey": "soc-trang",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "code": "08",
+      "localityKey": "ho-chi-minh",
+      "status": "LEGACY",
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    }
+  ],
+  "migrations": [
+    {
+      "oldCode": "020",
+      "newCode": "0214",
+      "effectiveDate": "2017-02-11",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "022",
+      "newCode": "0212",
+      "effectiveDate": "2017-02-11",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0230",
+      "newCode": "0215",
+      "effectiveDate": "2017-02-11",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0231",
+      "newCode": "0213",
+      "effectiveDate": "2017-02-11",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0240",
+      "newCode": "0204",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0241",
+      "newCode": "0222",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "025",
+      "newCode": "0205",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "026",
+      "newCode": "0206",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "027",
+      "newCode": "0207",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0280",
+      "newCode": "0208",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0281",
+      "newCode": "0209",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "029",
+      "newCode": "0216",
+      "effectiveDate": "2017-02-11",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "030",
+      "newCode": "0229",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "031",
+      "newCode": "0225",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0320",
+      "newCode": "0220",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0321",
+      "newCode": "0221",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "033",
+      "newCode": "0203",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0350",
+      "newCode": "0228",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0351",
+      "newCode": "0226",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "036",
+      "newCode": "0227",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "037",
+      "newCode": "0237",
+      "effectiveDate": "2017-02-11",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "038",
+      "newCode": "0238",
+      "effectiveDate": "2017-02-11",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "039",
+      "newCode": "0239",
+      "effectiveDate": "2017-02-11",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "04",
+      "newCode": "024",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0500",
+      "newCode": "0262",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0501",
+      "newCode": "0261",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0510",
+      "newCode": "0235",
+      "effectiveDate": "2017-02-11",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0511",
+      "newCode": "0236",
+      "effectiveDate": "2017-02-11",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "052",
+      "newCode": "0232",
+      "effectiveDate": "2017-02-11",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "053",
+      "newCode": "0233",
+      "effectiveDate": "2017-02-11",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "054",
+      "newCode": "0234",
+      "effectiveDate": "2017-02-11",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "055",
+      "newCode": "0255",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "056",
+      "newCode": "0256",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "057",
+      "newCode": "0257",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "058",
+      "newCode": "0258",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "059",
+      "newCode": "0269",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "060",
+      "newCode": "0260",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "061",
+      "newCode": "0251",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "062",
+      "newCode": "0252",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "063",
+      "newCode": "0263",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "064",
+      "newCode": "0254",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0650",
+      "newCode": "0274",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0651",
+      "newCode": "0271",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "066",
+      "newCode": "0276",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "067",
+      "newCode": "0277",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "068",
+      "newCode": "0259",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "070",
+      "newCode": "0270",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0710",
+      "newCode": "0292",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0711",
+      "newCode": "0293",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "072",
+      "newCode": "0272",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "073",
+      "newCode": "0273",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "074",
+      "newCode": "0294",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "075",
+      "newCode": "0275",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "076",
+      "newCode": "0296",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "077",
+      "newCode": "0297",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0780",
+      "newCode": "0290",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "0781",
+      "newCode": "0291",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "079",
+      "newCode": "0299",
+      "effectiveDate": "2017-04-15",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    },
+    {
+      "oldCode": "08",
+      "newCode": "028",
+      "effectiveDate": "2017-06-17",
+      "referenceId": "6e96ba77-b54a-4a9c-90b0-d8a0606ee5c4"
+    }
+  ]
+}

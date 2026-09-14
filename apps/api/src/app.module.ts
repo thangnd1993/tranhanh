@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url';
 import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AreaCodesModule } from './area-codes/area-codes.module.js';
 import { AppController } from './app.controller.js';
 import { validateEnvironment } from './config/environment.js';
 import { DatabaseModule } from './database/database.module.js';
@@ -31,6 +32,7 @@ import { RedisModule } from './redis/redis.module.js';
     }),
     DatabaseModule,
     PhonePrefixesModule,
+    AreaCodesModule,
     RedisModule,
   ],
   providers: [HealthService],

@@ -121,3 +121,75 @@ No rows are automatically deleted when omitted from a later file. Retire a curre
 review its historical relations first. Operator reassignments and changed old→new targets are refused and need a reviewed
 history/correction migration; a new JSON row must not erase prior attribution. Test fixtures are isolated under test/
 and never read by the production CLI. Live migration/import and constraint tests remain pending while Docker is unavailable.
+
+## Fixed-line area-code dataset — Phase 8
+
+Reviewed on 2026-09-11; implementation completed on 2026-09-14. File: `apps/api/data/area-codes.json`.
+Only factual assignments, names, dates and evidence metadata are retained; no article bodies, images, subscriber
+records or downloaded source documents are bundled. Each code and migration has a SourceReference UUID.
+
+### Primary current-assignment source
+
+- Publisher: Bộ Khoa học và Công nghệ — Cục Viễn thông (official ministry/regulator).
+- Title: Thông cáo báo chí về việc thực hiện quy hoạch mã vùng điện thoại cố định mặt đất kể từ 01/7/2025.
+- [Ministry publication](https://mst.gov.vn/thong-cao-bao-chi-ve-viec-thuc-hien-quy-hoach-ma-vung-dien-thoai-co-dinh-mat-dat-ke-tu-01-7-2025-197250704101929995.htm).
+- [Attached 2784/BKHCN-CVT document](https://mic.mediacdn.vn/639352410187198464/2025/7/4/qd-2784-17515990510092008338259.pdf).
+- Published: 2025-07-04 10:19 Vietnam time; instructions apply from 2025-07-01.
+- Retrieval: public HTML tables read manually; the attached PDF text/annex cross-checked. Reviewed 2026-09-11.
+- Extracted: 63 operating codes, 63 source-era service-area names, and their 34 telecom groupings.
+  The 23 merged groups temporarily retain multiple codes. Proposed future consolidation is deliberately excluded.
+- Reuse: ministry footer requests attribution to mst.gov.vn. No open-content license or unrestricted reuse permission
+  is inferred; only factual data and attribution are retained.
+
+### Historical conversion source
+
+- Publisher: VNPT Hà Nội, official operator website; the page credits Xã hội thông tin.
+- Title: Danh sách mã vùng điện thoại cố định sau chuyển đổi.
+- [Operator publication and conversion tables](https://vinaphonehanoi.vnpt.vn/tin-tuc-chi-tiet/danh-sach-ma-vung-dien-thoai-co-dinh-sau-chuyen-doi-22).
+- Published: 2018-11-02, day precision. SourceReference.publishedAt is null because no publication instant is given;
+  the known publication day is recorded in reference notes. Retrieved/reviewed 2026-09-11.
+- Extracted: 59 historical old/new code pairs, starting in three phases: 13 on 2017-02-11, 23 on 2017-04-15,
+  and 23 on 2017-06-17. The four unchanged codes are 0210, 0211, 0218 and 0219; no self-migrations are invented.
+- Retrieval: manually read public HTML tables. The regulator's
+  [Decision 2036/QĐ-BTTTT registry](https://mst.gov.vn/van-ban-phap-luat/13812.htm) confirms the underlying decision
+  and issue date 2016-11-21; its scanned attachment is not used as machine-extracted evidence for table values.
+- Date caution: the operator's narrative gives a contradictory phase-three parallel-dialing end date. It is not used.
+  Calendar transition-start dates come from the phase headings, not an invented universal switch-off instant.
+- Reuse: site states VNPT Hà Nội copyright. No open-content license identified; no editorial text or imagery copied.
+
+### Coverage, names and date semantics
+
+There are **63 ACTIVE and 59 LEGACY codes**, **59 mappings**, **63 telecom service areas**, and **34 reviewed groups**.
+Stored codes include domestic trunk zero; source tables generally omit it. For example, 236 is stored as 0236.
+The source-backed 0511 → 0236 transition starts on 2017-02-11; 04 → 024 and 08 → 028 start on 2017-06-17.
+All 2025 temporarily parallel codes remain ACTIVE. A proposal to consolidate them is not an enacted migration.
+The dataset is a dated review, not a guarantee that every subsequent official notice has been captured.
+
+Names preserve the ministry table's source-era coverage, including “Bắc Cạn”, “Khánh Hoà” and “Thừa Thiên - Huế”.
+The last area's group uses “Huế”, supported by the ministry's unchanged-locality paragraph. Names are not silently
+rewritten into a current administrative register. The `TELECOM_SERVICE_AREA` context and separately sourced group
+make this explicit in responses. Only useful HCM abbreviations and Huế are stored as aliases; accent-insensitive
+normalization handles Da Nang/Đà Nẵng without inventing English names. English UI may use Vietnamese proper names.
+
+Group `effectiveFrom` describes the reviewed 2025 telecom instruction, not the legal creation date of a province.
+A legacy response's group is the reviewed contemporary grouping, not an assertion about its 2017 administration.
+`effectiveDate` is a calendar transition-start date, stored as PostgreSQL DATE. Allocation starts for the four unchanged
+codes and legacy switch-off dates remain null. Retrieval, publication and actual database/import clocks stay distinct.
+No subscriber ownership, current subscriber location, line existence or network operator is inferred.
+
+### Maintenance and import
+
+Verify an official notice → update the structured file/new evidence UUIDs → validate → import/upsert → tests → update
+source notes → commit. Run `pnpm --filter @tranhanh/api area-codes:validate`, then use `area-codes:import` only after
+migrations and an explicit DATABASE_URL are configured. There is no runtime scraping or production fixture fallback.
+
+Validation covers formats, dates, identities, source/locality/group relations, active allocations and complete same-area
+legacy mappings. A transaction with an advisory lock upserts sources, references, groups, localities, codes and mappings.
+Repeated imports preserve unchanged code timestamps. Omitted rows are retained. Immutable evidence needs a new UUID;
+new review metadata can be attached without changing a grouping identity. Reassignment, group membership/name changes,
+changed replacement targets and retirement of retained historical targets require explicit reviewed history work.
+Routine additions, aliases and evidence refreshes do not require changing query-service logic.
+
+The importer records RUNNING/SUCCEEDED/FAILED via the existing provider/sync audit infrastructure. Its maintainer provider
+is not an official factual source. Failures roll back domain changes and emit only safe generic errors.
+Live imports and PostgreSQL constraints remain pending while Docker is unavailable; memory tests do not prove them.

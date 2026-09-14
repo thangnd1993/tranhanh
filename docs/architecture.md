@@ -389,3 +389,50 @@ readiness are pending. Angular/SEO behavior is unchanged; Phase 7 owns the publi
   No full number/query, design-system or arbitrary combination is generated. Public-origin/indexing safeguards remain.
 - Tests use typed Angular mocks and a standalone HTTP adapter under `apps/web/test`; neither is a production fallback.
   Real PostgreSQL-backed SSR remains pending until Docker, migrations and the reviewed import are available.
+
+## Fixed-line area-code backend — Phase 8
+
+The Nest `AreaCodesModule` is a backend-only domain under `/api/v1/area-codes`: list, `/search`, `/lookup`,
+`/:code`, and `/:code/related`. No area-code Angular routes, SEO metadata or sitemap URLs are created in this phase.
+The reviewed file contains 63 active and 59 historical codes; production services query PostgreSQL, not the JSON file.
+
+`AreaCode` references a stable `TelecomLocality` service area. Its `TelecomLocalityGroup` records a sourced contemporary
+telecom grouping; multiple codes can remain active together after administrative restructuring. Neither model is an
+administrative unit, and there are no wards, communes, administrative identifiers or a national administrative hierarchy.
+Future administrative integration should add explicit dated links to canonical administrative units rather than replace
+telecom IDs or infer correspondence by name. A future regrouping needs reviewed membership history; the current importer
+refuses to overwrite names/membership blindly. A temporal membership join can be added without replacing area-code IDs.
+
+`AreaCodeMigration` links an old code to its verified current target with source and transition-start date. The new
+`20260911020000_add_area_code_lookup` migration is additive: four tables, one enum, four unique and eight query indexes,
+eight RESTRICT foreign keys and five CHECK constraints. Existing migrations are unchanged. SQL-only CHECKs enforce stable
+keys, domestic code/status format, date intervals and distinct migration endpoints. Required alias arrays are NOT NULL.
+Cross-row locality/status mapping consistency is validated in the importer, not claimed as a PostgreSQL CHECK guarantee.
+
+Calendar dates use PostgreSQL DATE and serialize as YYYY-MM-DD, avoiding fake timestamp precision. SourceReference
+publication/retrieval instants and actual import/update clocks retain their existing semantics. Source-era locality names,
+contemporary groups, predecessors and replacements are exposed through shared contracts independent of Prisma. The
+existing source DTO shape is reused; no English name translation or frontend SEO copy is invented by the API.
+
+Normalization first validates bounded syntax. Code-only input supports domestic zero, omitted zero, +84/0084/84,
+spaces/hyphens, and a trailing hyphen. Exact routes require canonical domestic code format; `/lookup` performs normalization.
+Full current fixed-line input requires 11 domestic digits including trunk zero and uses the longest matching known ACTIVE
+code, not a guessed fixed prefix length. This is structural parsing, not subscriber validation. Full legacy numbers are
+rejected because of overlap with mobile ranges; legacy code-only queries preserve their historical identity.
+Malformed input is 400, a structurally valid unknown code is 404, and database failures use the existing sanitized policy.
+
+The subscriber suffix remains only in request memory. DB operations for number lookup read active code keys, then query
+the normalized code only. Responses never echo numbers, and lookup uses no-store/no-referrer headers. There is no query
+logger or new analytics. Deployment reverse proxies/APM must continue excluding raw lookup query strings. Search accepts
+locality/alias text or at most four numeric digits; full numbers belong only in `/lookup`.
+
+List/search uses bounded pagination, deterministic code ordering and a repeatable-read count/page transaction. Search
+reuses the existing accent-insensitive normalizer across service-area names, reviewed group names and limited aliases.
+Filters are explicit code/locality/group/status fields. Related results include same-area historical/current codes and
+active codes in the same reviewed group, never unrelated SEO links. No Redis cache, external search engine or parser
+for global search is added.
+
+The validated file importer follows the existing transactional reviewed-import/audit pattern, with a separate advisory
+lock and provider key. Immutable evidence, assignment and retained-history guards prevent silent overwrites; no omissions
+cause deletion. Typed memory fixtures exercise service/HTTP/import decisions only. Eighteen new guarded PostgreSQL tests
+are compiled but pending, alongside the 29 earlier cases, until local Docker services are available.

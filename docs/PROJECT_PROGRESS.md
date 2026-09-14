@@ -2,10 +2,10 @@
 
 ## Current Status
 
-Current completed phase: Phase 7 — Phone Prefix Frontend + SEO
-Next phase: Phase 8 — Area Code Backend
+Current completed phase: Phase 8 — Area Code Backend
+Next phase: Phase 9 — Area Code Frontend + SEO
 Status: Complete locally with live migration/import/database verification pending
-Last updated: 2026-09-11 (Asia/Ho_Chi_Minh)
+Last updated: 2026-09-14 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
 
@@ -448,6 +448,54 @@ Commit: `feat: add phone prefix lookup frontend` (this checkpoint).
 Push destination: origin/main; resolve the final synchronized hash with `git rev-parse origin/main`.
 Next phase: Phase 8 — Area Code Backend
 
+### Phase 8 — Area Code Backend
+
+Status: Complete locally; PostgreSQL migration/import/constraint verification pending.
+
+- Reviewed ministry/Cục Viễn thông 2025 publication and attached annex, the ministry's 2036/QĐ-BTTTT registry,
+  and VNPT Hà Nội's historical conversion tables. Detailed provenance/reuse limits are in `docs/data-sources.md`.
+- Dataset: 63 ACTIVE codes, 59 LEGACY codes and 59 mappings, 63 telecom service areas and 34 reviewed groups.
+  2025 temporary parallel codes remain ACTIVE; proposed consolidation is not treated as an effective migration.
+- Source-era names stay separate from contemporary telecom grouping. No administrative hierarchy or canonical
+  administrative IDs are invented; future phases can add dated administrative links without replacing telecom IDs.
+- Added AreaCode, AreaCodeMigration, TelecomLocality and TelecomLocalityGroup, with sourced relations and calendar dates.
+  Transition-start dates are not switch-off instants; unknown dates remain null.
+- New additive migration `20260911020000_add_area_code_lookup`: four tables, one enum, four unique indexes,
+  eight query indexes, eight RESTRICT foreign keys and five CHECKs. Prior migrations verified unchanged.
+- Implemented list/search/lookup/exact/related routes under `/api/v1/area-codes`, shared contracts and Swagger.
+  Search supports accents, reviewed aliases and grouped service areas; filters and pagination are bounded.
+- Normalization supports 0236/236/+84236/0084236/84 236/0236-. Full current fixed-line inputs use actual known codes
+  and longest matching. Legacy full numbers are deliberately unsupported; code-only historical lookup retains context.
+- Input errors are 400, known-format unknowns 404, infrastructure errors sanitized. No subscriber identity, persistence,
+  query logging, caching or full-number echo. Full numeric searches are rejected outside the dedicated lookup endpoint.
+- Validator and separate import commands implemented. Import is transactional/idempotent, preserves omitted history,
+  refuses assignment/group/history overwrites and retains immutable source snapshots plus safe sync audit outcomes.
+
+Validation:
+
+- Prettier, ESLint and complete API TypeScript checks passed; shared test command/type build passed.
+- API: 118 unit tests across 10 files; 23 E2E tests across 4 files passed. New coverage includes source accuracy,
+  grouping semantics, normalization, privacy, errors, searches, related codes, import decisions and Swagger.
+- Angular regression: 25 tests passed. API, shared, browser and SSR production builds passed.
+- Existing i18n/SEO and Phase 7 phone SSR/sitemap smoke regressions passed using the explicit test adapter.
+- Prisma format/validate/generate and area/phone dataset validators passed. SQL reviewed; Compose static config passed.
+- Eighteen new PostgreSQL tests prepared for import idempotency, joined relations, uniqueness, FKs, RESTRICT,
+  SQL CHECKs and rollback. These plus the earlier 29 cases (47 total) have NOT run against PostgreSQL.
+- Backend-only validation: no browser visual audit, no visible browser windows or UI screenshots. No source downloads
+  or temporary data dumps included in the commit. No Angular/phone source, area SEO routes or sitemap additions.
+
+Runtime and limits:
+
+- Docker checked at initial work and continuation; daemon socket still absent. Migrations, actual imports, 47 database
+  cases, Redis connectivity, successful readiness and live DB-backed frontend verification remain pending.
+- Data was reviewed on 2026-09-11, not continuously synchronized. Source-era spelling is intentional. Later telecom
+  regrouping needs reviewed history work; current group keys are not permanent administrative-unit identifiers.
+- Production domain/indexing configuration remains unset and safely disabled. Phase 9 was not started.
+
+Commit: `feat: add area code lookup backend` (this checkpoint).
+Push destination: origin/main; resolve the final synchronized hash with `git rev-parse origin/main`.
+Next phase: Phase 9 — Area Code Frontend + SEO
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -457,7 +505,7 @@ Next phase: Phase 8 — Area Code Backend
 
 ## Active Data Providers
 
-Phone-prefix reviewed-file importer implemented; official evidence registry reviewed. No live database import or
+Phone-prefix and area-code reviewed-file importers implemented; official evidence registries reviewed. No live database import or
 external runtime provider is active yet. See `docs/data-sources.md` for sources and limitations.
 
 ## Environment Notes
@@ -472,7 +520,7 @@ external runtime provider is active yet. See `docs/data-sources.md` for sources 
 
 ### Next Phase
 
-Next phase: Phase 8 — Area Code Backend
+Next phase: Phase 9 — Area Code Frontend + SEO
 
 The master specification defines this order:
 
@@ -481,7 +529,8 @@ The master specification defines this order:
 3. Phase 5 — Database Core (complete locally; runtime migration verification pending)
 4. Phase 6 — Phone Prefix Lookup Backend (complete locally; runtime migration/import verification pending)
 5. Phase 7 — Phone Prefix Frontend + SEO (complete locally; live DB-backed verification pending)
-6. Phase 8 — Area Code Backend
+6. Phase 8 — Area Code Backend (complete locally; live DB-backed verification pending)
+7. Phase 9 — Area Code Frontend + SEO
 
 Do not rename or reorder phases without both a documented architectural reason and explicit user instruction.
 

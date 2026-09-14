@@ -18,7 +18,9 @@
     "db:seed": "prisma db seed",
     "test:database": "node test/run-database-tests.ts",
     "phone-prefixes:validate": "pnpm build && node dist/phone-prefixes/dataset-cli.js validate",
-    "phone-prefixes:import": "pnpm build && node dist/phone-prefixes/dataset-cli.js import"
+    "phone-prefixes:import": "pnpm build && node dist/phone-prefixes/dataset-cli.js import",
+    "area-codes:validate": "pnpm build && node dist/area-codes/dataset-cli.js validate",
+    "area-codes:import": "pnpm build && node dist/area-codes/dataset-cli.js import"
   },
   "dependencies": {
     "@nestjs/bullmq": "^12.0.0",

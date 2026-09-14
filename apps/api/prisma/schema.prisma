@@ -100,21 +100,25 @@ model SyncRun {
 /// Migration CHECK enforces [effectiveFrom, effectiveTo).
 /// Evidence shared by future domain rows via explicit foreign keys, never entityType/entityId.
 model SourceReference {
-  id              String                 @id @default(uuid()) @db.Uuid
-  sourceId        String                 @db.Uuid
-  externalUrl     String?                @db.VarChar(2048)
-  publishedAt     DateTime?              @db.Timestamptz(3)
-  retrievedAt     DateTime               @db.Timestamptz(3)
-  effectiveFrom   DateTime?              @db.Timestamptz(3)
-  effectiveTo     DateTime?              @db.Timestamptz(3)
-  notes           String?                @db.VarChar(2000)
-  createdAt       DateTime               @default(now()) @db.Timestamptz(3)
-  updatedAt       DateTime               @updatedAt @db.Timestamptz(3)
-  title           String?                @db.VarChar(500)
-  operators       TelecomOperator[]
-  phonePrefixes   PhonePrefix[]
-  phoneMigrations PhonePrefixMigration[]
-  source          DataSource             @relation(fields: [sourceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  id                String                 @id @default(uuid()) @db.Uuid
+  sourceId          String                 @db.Uuid
+  externalUrl       String?                @db.VarChar(2048)
+  publishedAt       DateTime?              @db.Timestamptz(3)
+  retrievedAt       DateTime               @db.Timestamptz(3)
+  effectiveFrom     DateTime?              @db.Timestamptz(3)
+  effectiveTo       DateTime?              @db.Timestamptz(3)
+  notes             String?                @db.VarChar(2000)
+  createdAt         DateTime               @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime               @updatedAt @db.Timestamptz(3)
+  title             String?                @db.VarChar(500)
+  areaCodes         AreaCode[]
+  areaMigrations    AreaCodeMigration[]
+  telecomLocalities TelecomLocality[]
+  telecomGroups     TelecomLocalityGroup[]
+  operators         TelecomOperator[]
+  phonePrefixes     PhonePrefix[]
+  phoneMigrations   PhonePrefixMigration[]
+  source            DataSource             @relation(fields: [sourceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
   @@index([sourceId, retrievedAt(sort: Desc)])
 }
@@ -202,5 +206,86 @@ model PhonePrefixMigration {
   updatedAt         DateTime        @updatedAt @db.Timestamptz(3)
 
   @@index([newPrefixId])
+  @@index([sourceReferenceId])
+}
+
+enum AreaCodeStatus {
+  ACTIVE
+  LEGACY
+  INACTIVE
+}
+
+/// A reviewed telecom grouping, not an administrative unit or an administrative hierarchy.
+model TelecomLocalityGroup {
+  id                String            @id @default(uuid()) @db.Uuid
+  key               String            @unique @db.VarChar(100)
+  name              String            @db.VarChar(250)
+  aliases           String[]
+  searchName        String            @db.VarChar(1000)
+  effectiveFrom     DateTime?         @db.Date
+  sourceReferenceId String            @db.Uuid
+  sourceReference   SourceReference   @relation(fields: [sourceReferenceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  localities        TelecomLocality[]
+  createdAt         DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime          @updatedAt @db.Timestamptz(3)
+
+  @@index([sourceReferenceId])
+}
+
+/// Stable telephone service area. The name reflects source-era coverage, not immutable province boundaries.
+model TelecomLocality {
+  id                String               @id @default(uuid()) @db.Uuid
+  key               String               @unique @db.VarChar(100)
+  name              String               @db.VarChar(250)
+  aliases           String[]
+  searchName        String               @db.VarChar(1000)
+  isActive          Boolean              @default(true)
+  groupId           String               @db.Uuid
+  group             TelecomLocalityGroup @relation(fields: [groupId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  sourceReferenceId String               @db.Uuid
+  sourceReference   SourceReference      @relation(fields: [sourceReferenceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  codes             AreaCode[]
+  createdAt         DateTime             @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime             @updatedAt @db.Timestamptz(3)
+
+  @@index([groupId])
+  @@index([sourceReferenceId])
+}
+
+model AreaCode {
+  id                String              @id @default(uuid()) @db.Uuid
+  code              String              @unique @db.VarChar(4)
+  localityId        String              @db.Uuid
+  locality          TelecomLocality     @relation(fields: [localityId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  status            AreaCodeStatus
+  effectiveFrom     DateTime?           @db.Date
+  effectiveTo       DateTime?           @db.Date
+  sourceReferenceId String              @db.Uuid
+  sourceReference   SourceReference     @relation(fields: [sourceReferenceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  importedAt        DateTime            @db.Timestamptz(3)
+  createdAt         DateTime            @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime            @updatedAt @db.Timestamptz(3)
+  replacement       AreaCodeMigration?  @relation("OldAreaCode")
+  previous          AreaCodeMigration[] @relation("NewAreaCode")
+
+  @@index([localityId, status, code])
+  @@index([status, code])
+  @@index([sourceReferenceId])
+}
+
+model AreaCodeMigration {
+  id                String          @id @default(uuid()) @db.Uuid
+  oldCodeId         String          @unique @db.Uuid
+  newCodeId         String          @db.Uuid
+  oldCode           AreaCode        @relation("OldAreaCode", fields: [oldCodeId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  newCode           AreaCode        @relation("NewAreaCode", fields: [newCodeId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  /// Start of the transition, not necessarily the end of parallel dialing.
+  effectiveDate     DateTime?       @db.Date
+  sourceReferenceId String          @db.Uuid
+  sourceReference   SourceReference @relation(fields: [sourceReferenceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  createdAt         DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime        @updatedAt @db.Timestamptz(3)
+
+  @@index([newCodeId])
   @@index([sourceReferenceId])
 }

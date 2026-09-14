@@ -23,3 +23,5 @@ export type {
   PhonePrefixQuery,
   PhonePrefixPage,
 } from './phone-prefixes.js';
+
+export * from './area-codes.js';

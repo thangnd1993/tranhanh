@@ -53,8 +53,8 @@ No external provider is queried at runtime. The phone-prefix backend reads expli
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 7 — Phone Prefix Frontend + SEO (live database verification pending).
-Next phase: Phase 8 — Area Code Backend.
+Current completed phase: Phase 8 — Area Code Backend (live database verification pending).
+Next phase: Phase 9 — Area Code Frontend + SEO.
 Follow the [master specification](docs/MASTER_EXECUTION_PROMPT.md) and preserve completed phase history.
 Roadmap changes require a documented architectural reason and explicit user instruction.
 
@@ -142,3 +142,17 @@ Do not log lookup query strings in reverse proxies/APM: the existing backend loo
 The application clears submitted numbers, does not store search history, and uses no-store/no-referrer requests.
 Only normalized prefix URLs enter browser navigation. Sitemap generation reads the real API and omits the phone segment
 when its catalogue is unavailable or empty; direct requests to that unavailable segment return 503.
+
+## Area-code data commands
+
+    pnpm --filter @tranhanh/api area-codes:validate
+    pnpm db:migrate:deploy
+    pnpm --filter @tranhanh/api area-codes:import
+
+Validation needs no database. Import requires explicit DATABASE_URL and the additive Phase 8 migration; it never runs
+at startup. Existing `pnpm test:database` discovers the new area-code tests along with earlier pending DB checks against
+an explicitly configured local `tranhanh_test` database. Never reset an existing database to run fixtures.
+
+The API is under `/api/v1/area-codes`; Swagger documents normalized code lookup, fixed-line input and scoped search.
+See [area-code sources](docs/data-sources.md#fixed-line-area-code-dataset--phase-8) for source-era names, parallel codes,
+transition dates and the maintenance workflow. Docker runtime verification is still pending; no new frontend is included.
