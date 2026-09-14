@@ -1,4 +1,5 @@
 import { phoneResolver } from './phone-prefixes/phone.resolver';
+import { areaResolver } from './area-codes/area.resolver';
 import { pageSeo } from './seo/seo.resolver';
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
@@ -19,6 +20,12 @@ export const routes: Routes = [
       },
     ],
     children: [
+      ...['', '/:code'].map((suffix) => ({
+        path: (locale === 'vi' ? 'tra-cuu/ma-vung' : 'lookup/area-code') + suffix,
+        resolve: { area: areaResolver },
+        runGuardsAndResolvers: 'paramsOrQueryParamsChange' as const,
+        loadComponent: () => import('./area-codes/area-page.component').then((m) => m.AreaPageComponent),
+      })),
       ...['', '/:prefix'].map((suffix) => ({
         path: (locale === 'vi' ? 'tra-cuu/dau-so' : 'lookup/phone-prefix') + suffix,
         resolve: { phone: phoneResolver },

@@ -1,0 +1,148 @@
+<section class="container area-page">
+  <tn-breadcrumb [items]="data().seo.breadcrumbs || []" />
+  <header class="page-heading">
+    <h1>{{ heading() }}</h1>
+    @if (!data().row && data().status === 200) {
+      <p class="muted">{{ copy().intro }}</p>
+    }
+  </header>
+  @if (data().row && data().status === 200) {
+    <div class="detail-layout">
+      <tn-area-result
+        [row]="data().row!"
+        [locale]="i18n.locale()"
+      />
+      <aside class="stack">
+        @if (data().related.length) {
+          <tn-card
+            ><h2>{{ copy().related }}</h2>
+            <div class="related-list">
+              @for (row of data().related; track row.code) {
+                <a [routerLink]="path(row.code)"
+                  ><strong>{{ row.code }}</strong
+                  ><span>{{ row.locality.name }}</span></a
+                >
+              }
+            </div></tn-card
+          >
+        }
+        @if (data().row!.previousCodes.length) {
+          <tn-card
+            ><h2>{{ copy().history }}</h2>
+            <div class="chips">
+              @for (migration of data().row!.previousCodes; track migration.oldCode) {
+                <a [routerLink]="path(migration.oldCode)">{{ migration.oldCode }} → {{ migration.newCode }}</a>
+              }
+            </div></tn-card
+          >
+        }
+        <a [routerLink]="path()">{{ copy().back }} →</a>
+      </aside>
+    </div>
+  }
+  @if (data().status !== 200) {
+    <tn-card class="error-state"
+      ><p>{{ data().status === 404 ? copy().missingBody : copy().unavailableBody }}</p>
+      <a [routerLink]="path()">{{ copy().back }}</a>
+      @if (data().status === 503) {
+        <a [href]="retryPath()">{{ copy().retry }}</a>
+      }
+    </tn-card>
+  }
+  <form
+    class="search-panel"
+    [attr.aria-busy]="pending()"
+    (submit)="search($event, areaInput)"
+  >
+    <tn-field
+      controlId="area-search"
+      [label]="copy().label"
+      [hint]="copy().hint"
+      [error]="error() ? copy()[error()!] : ''"
+    >
+      <input
+        #areaInput
+        tnControl
+        type="search"
+        autocomplete="off"
+        maxlength="100"
+        [attr.aria-label]="copy().label"
+      />
+    </tn-field>
+    <button
+      tnButton
+      type="submit"
+      [disabled]="pending()"
+    >
+      {{ pending() ? copy().loading : copy().submit }}
+    </button>
+    <p class="caption muted privacy">{{ copy().privacy }}</p>
+    <span
+      class="sr-only"
+      role="status"
+      >{{ error() ? copy()[error()!] : pending() || navigation() ? copy().loading : '' }}</span
+    >
+  </form>
+  @if (results().length) {
+    <section
+      class="search-results"
+      aria-live="polite"
+    >
+      <h2>{{ copy().results }}</h2>
+      <div class="result-grid">
+        @for (row of results(); track row.code) {
+          <a [routerLink]="path(row.code)"
+            ><strong>{{ row.code }}</strong
+            ><span>{{ row.locality.name }}</span
+            ><small>{{ copy()[row.status] }}</small></a
+          >
+        }
+      </div>
+    </section>
+  }
+  @if (navigation()) {
+    <p
+      class="navigation-loading"
+      role="status"
+    >
+      {{ copy().loading }}
+    </p>
+  }
+  @if (!data().row && data().status === 200) {
+    <section class="catalogue">
+      <h2>{{ copy().groups }}</h2>
+      <div class="group-grid">
+        @for (group of groups(); track group.key) {
+          <tn-card
+            ><h3>{{ group.name }}</h3>
+            <div class="code-list">
+              @for (row of group.rows; track row.code) {
+                <a
+                  [routerLink]="path(row.code)"
+                  [attr.aria-label]="copy().view + ' ' + row.code + ', ' + row.locality.name"
+                >
+                  <strong>{{ row.code }}</strong
+                  ><span>{{ row.locality.name }}</span>
+                </a>
+              }
+            </div></tn-card
+          >
+        }
+      </div>
+    </section>
+    @if (legacy().length) {
+      <section class="legacy-section">
+        <h2>{{ copy().legacy }}</h2>
+        <div class="chips">
+          @for (row of legacy(); track row.code) {
+            <a [routerLink]="path(row.code)">{{ row.code }} → {{ row.currentCode }}</a>
+          }
+        </div>
+      </section>
+    }
+    <section class="explanation">
+      <p>{{ copy().disclaimer }}</p>
+      <p>{{ copy().evidence }}</p>
+    </section>
+  }
+</section>

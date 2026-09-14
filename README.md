@@ -156,3 +156,13 @@ an explicitly configured local `tranhanh_test` database. Never reset an existing
 The API is under `/api/v1/area-codes`; Swagger documents normalized code lookup, fixed-line input and scoped search.
 See [area-code sources](docs/data-sources.md#fixed-line-area-code-dataset--phase-8) for source-era names, parallel codes,
 transition dates and the maintenance workflow. Docker runtime verification is still pending; no new frontend is included.
+
+## Area-code frontend (Phase 9)
+
+Public SSR routes are /vi/tra-cuu/ma-vung and /en/lookup/area-code, including verified current and legacy detail pages.
+Build both apps before running the isolated SSR, SEO, sitemap, privacy, and optional headless responsive checks:
+
+    pnpm test:area
+
+The optional PLAYWRIGHT_MODULE, CHROME_EXECUTABLE, and AREA_SCREENSHOTS variables enable the single-browser responsive
+and light/dark checks. Sitemap generation omits only an unavailable vertical and keeps other healthy segments.

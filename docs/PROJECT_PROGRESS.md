@@ -2,8 +2,8 @@
 
 ## Current Status
 
-Current completed phase: Phase 8 — Area Code Backend
-Next phase: Phase 9 — Area Code Frontend + SEO
+Current completed phase: Phase 9 — Area Code Frontend + SEO
+Next phase: Phase 10 — Vehicle Plate Backend
 Status: Complete locally with live migration/import/database verification pending
 Last updated: 2026-09-14 (Asia/Ho_Chi_Minh)
 Branch: main
@@ -494,7 +494,42 @@ Runtime and limits:
 
 Commit: `feat: add area code lookup backend` (this checkpoint).
 Push destination: origin/main; resolve the final synchronized hash with `git rev-parse origin/main`.
-Next phase: Phase 9 — Area Code Frontend + SEO
+Next phase: Phase 10 — Vehicle Plate Backend
+
+### Phase 9 — Area Code Frontend + SEO
+
+Status: Complete locally; live PostgreSQL-backed verification pending.
+
+- Added bilingual index/detail routes: /vi/tra-cuu/ma-vung[/:code] and /en/lookup/area-code[/:code].
+- Current pages provide an immediate sourced locality answer. Verified legacy pages retain their own URL, historical
+  context, replacement link and supported migration date; /0511 does not redirect to /0236.
+- The index groups 63 current codes by reviewed telecom-locality group and lists 59 legacy mappings separately.
+  Telecom labels remain source-backed and include a concise administrative-name context note.
+- Search delegates numeric/full-number normalization and locality aliases to the backend. Multiple locality matches are
+  shown as a short result list. Full numbers are cleared and never enter canonical URLs, metadata, HTML or storage.
+- Added typed API boundary validation, SSR transfer state, visible source provenance and localized 404/503 states.
+- Added localized title/description, canonical, paired hreflang, WebPage/BreadcrumbList and sitemap-area-code.xml with
+  246 verified URLs. Existing Phone Prefix sitemap remains at 116 URLs.
+- UI uses existing tokens and is answer-first, responsive and accessible in light/dark themes.
+
+Validation:
+
+- Prettier, ESLint and TypeScript passed. Angular: 36 tests across 7 files passed.
+- API regression: 118 unit and 23 E2E tests passed. Shared test command passed.
+- API and Angular browser/SSR production builds passed; Prisma validate/generate and Area Code validator passed.
+- I18N/SEO, Phone Prefix and Area Code SSR/sitemap smoke tests passed.
+- One headless Chrome process covered 6 routes at 8 widths (320–1440), SSR hydration, locality search, full-number privacy,
+  and light/dark. Four representative 390/1440 screenshots were visually reviewed; temporary images were not committed.
+
+Runtime and limits:
+
+- Docker daemon remains unavailable. The 47 prepared PostgreSQL tests, migrations/imports, Redis connectivity, readiness
+  and live DB-backed SSR remain pending. Production origin/indexing configuration remains unset and safely disabled.
+- No vehicle-plate, administrative-domain or global-search work was started.
+
+Commit: feat: add area code lookup frontend (this checkpoint).
+Push destination: origin/main; resolve the synchronized hash after push.
+Next phase: Phase 10 — Vehicle Plate Backend
 
 ## Current Architecture Decisions
 
@@ -520,7 +555,7 @@ external runtime provider is active yet. See `docs/data-sources.md` for sources 
 
 ### Next Phase
 
-Next phase: Phase 9 — Area Code Frontend + SEO
+Next phase: Phase 10 — Vehicle Plate Backend
 
 The master specification defines this order:
 
@@ -530,7 +565,8 @@ The master specification defines this order:
 4. Phase 6 — Phone Prefix Lookup Backend (complete locally; runtime migration/import verification pending)
 5. Phase 7 — Phone Prefix Frontend + SEO (complete locally; live DB-backed verification pending)
 6. Phase 8 — Area Code Backend (complete locally; live DB-backed verification pending)
-7. Phase 9 — Area Code Frontend + SEO
+7. Phase 9 — Area Code Frontend + SEO (complete locally; live DB-backed verification pending)
+8. Phase 10 — Vehicle Plate Backend
 
 Do not rename or reorder phases without both a documented architectural reason and explicit user instruction.
 

@@ -11,6 +11,13 @@ export function isLocale(value: string): value is Locale {
 }
 export function equivalentPath(path: string, locale: Locale): string {
   for (const source of supportedLocales) {
+    const base = areaPath(source);
+    const clean = path.replace(/\/$/, '');
+    if (clean === base) return areaPath(locale);
+    if (clean.startsWith(base + '/') && /^0[1-9]\d{0,2}$/.test(clean.slice(base.length + 1)))
+      return areaPath(locale, clean.slice(base.length + 1));
+  }
+  for (const source of supportedLocales) {
     const base = phonePath(source);
     const clean = path.replace(/\/$/, '');
     if (clean === base) return phonePath(locale);
@@ -22,8 +29,11 @@ export function equivalentPath(path: string, locale: Locale): string {
   );
   return pagePaths[page ?? 'home'][locale];
 }
-
 export function phonePath(locale: Locale, prefix?: string): string {
   const base = locale === 'vi' ? '/vi/tra-cuu/dau-so' : '/en/lookup/phone-prefix';
   return prefix ? `${base}/${prefix}` : base;
+}
+export function areaPath(locale: Locale, code?: string): string {
+  const base = locale === 'vi' ? '/vi/tra-cuu/ma-vung' : '/en/lookup/area-code';
+  return code ? `${base}/${code}` : base;
 }

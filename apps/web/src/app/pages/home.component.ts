@@ -1,4 +1,4 @@
-import { phonePath } from '../i18n/routes';
+import { areaPath, phonePath } from '../i18n/routes';
 import { phoneCopy } from '../phone-prefixes/phone-copy';
 import { LocaleService } from '../i18n/locale.service';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
@@ -24,6 +24,9 @@ import { IconComponent } from '../design-system/icon.component';
         {{ i18n.t('home.explore') }} <tn-icon name="arrow" />
       </a>
       <a [routerLink]="phonePath(i18n.locale())">{{ phoneCopy(i18n.locale()).index }}</a>
+      <a [routerLink]="areaPath(i18n.locale())">{{
+        i18n.locale() === 'vi' ? 'Tra cứu mã vùng điện thoại' : 'Landline area code lookup'
+      }}</a>
       <p class="caption">{{ i18n.t('home.notice') }}</p>
     </section>
     <section
@@ -66,6 +69,7 @@ import { IconComponent } from '../design-system/icon.component';
 })
 export class HomeComponent {
   protected readonly phonePath = phonePath;
+  protected readonly areaPath = areaPath;
   protected readonly phoneCopy = phoneCopy;
   protected readonly i18n = inject(LocaleService);
   protected get categories() {

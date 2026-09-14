@@ -436,3 +436,33 @@ The validated file importer follows the existing transactional reviewed-import/a
 lock and provider key. Immutable evidence, assignment and retained-history guards prevent silent overwrites; no omissions
 cause deletion. Typed memory fixtures exercise service/HTTP/import decisions only. Eighteen new guarded PostgreSQL tests
 are compiled but pending, alongside the 29 earlier cases, until local Docker services are available.
+
+## Area-code frontend and SEO — Phase 9
+
+The bilingual public routes are /vi/tra-cuu/ma-vung[/:code] and /en/lookup/area-code[/:code]. A route resolver
+awaits the typed Area Code API client before server rendering, so valid current and legacy pages contain their direct
+answer, telecom locality, status, history and source in raw HTML. Successful catalogue/detail/related responses use
+Angular TransferState once during hydration; submitted landline values never enter transfer state or persistent storage.
+The server-only API origin and narrowly scoped same-origin gateway follow the Phone Prefix deployment pattern.
+
+The index groups current codes by sourced telecom-locality group and separately lists verified legacy mappings. Group
+labels are not presented as administrative regions. Locality search delegates aliases and accent folding to the backend
+and displays all matches instead of choosing an ambiguous locality. Numeric/formatted/full-landline input delegates to
+the lookup endpoint, clears the input and navigates only to the returned canonical code path. No subscriber digits enter
+canonical URLs, metadata, HTML, local/session storage or a frontend cache.
+
+Current pages answer where the code is used. Legacy pages retain their own URL and explicitly link old code, current code,
+locality and verified transition date; they do not redirect to the replacement. Visible source cards distinguish source
+publication, code effective dates, source review and record update. A concise note explains that telecom allocation names
+may differ from current administrative-unit names. Vietnamese and English copy preserve canonical Vietnamese proper names.
+
+Valid pages receive localized title/description, clean canonical, paired vi/en hreflang, WebPage data and a BreadcrumbList
+built from the same visible model. Unknown or malformed code paths return HTTP 404 and noindex; unavailable/malformed API
+responses and empty catalogues return 503 and noindex. Query variants are noindex. /sitemap-area-code.xml contains two
+index pages plus both locale paths for all 63 current and 59 verified legacy codes: 246 URLs. It excludes queries, full
+numbers and unknown codes and is included independently in the sitemap index only when its API catalogue succeeds.
+
+The answer-first layout uses Phase 2 tokens and stacks at narrow widths. One headless browser covered six routes at 320,
+375, 390, 430, 768, 1024, 1280 and 1440 pixels, transfer-state behavior, locality search and number privacy.
+Representative light/dark screenshots at 390 and 1440 pixels were visually reviewed and then removed. Production data
+still requires the pending PostgreSQL migrations/import; test adapters are isolated from production code.

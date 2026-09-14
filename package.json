@@ -29,7 +29,8 @@
     "test:seo": "node apps/web/test/seo-smoke.mjs",
     "db:seed": "pnpm --filter @tranhanh/api db:seed",
     "test:database": "pnpm --filter @tranhanh/api test:database",
-    "test:phone": "node apps/web/test/phone-smoke.mjs"
+    "test:phone": "node apps/web/test/phone-smoke.mjs",
+    "test:area": "node apps/web/test/area-smoke.mjs"
   },
   "devDependencies": {
     "@angular-eslint/eslint-plugin": "^22.0.0",
