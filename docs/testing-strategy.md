@@ -49,3 +49,43 @@ use browser testing only if user-visible frontend behavior changes.
 Store routine screenshots in temporary storage and remove them after validation. Do not commit routine visual output.
 Retain screenshots only when intentionally required as a documented reference, test fixture, or regression artifact
 specifically meant to be version-controlled. Keep temporary browser profiles and test resources out of the repository.
+
+## Permanent execution policy — minimize questions, act autonomously
+
+For normal engineering work, inspect the repository, choose the safest reasonable implementation, document material
+choices, and continue without confirmation. Work already required by the current phase is authorized: edit files,
+fix lint or test failures, run required validation, update relevant documentation, commit, and push. Do not ask whether
+to continue, modify a file, run tests, update notes, commit, push, or take the next routine step.
+
+Resolve routine Angular, NestJS, Prisma, DTO, validation, error-handling, caching, naming, file organization, SCSS,
+responsive, and test choices using existing conventions, the specification, maintainability, security, performance,
+and simplicity. Ask about preferences only when the decision materially changes the product or authorized scope.
+Prefer existing dependencies/platform APIs. Add a necessary maintained open-source dependency without routine approval
+when its license is acceptable and its runtime/bundle impact is modest; document important additions. Ask if it requires
+a paid service, external account, telemetry, a licensing decision, or major architectural lock-in.
+
+Ask only when human input is required for:
+
+- Missing credentials/authentication that cannot be resolved from the environment.
+- A third-party account, paid API, subscription, billing action, or legal agreement.
+- Destructive work with irreversible data-loss risk.
+- Production deployment or production database mutation requiring explicit approval.
+- Security-sensitive authorization or exposing, deleting, rotating, or replacing secrets.
+- Genuinely conflicting product requirements that project documentation cannot resolve.
+- Required OS, browser, filesystem, GitHub, or tool access approval.
+- Meaningful remote Git changes that cannot safely be reconciled automatically.
+- An undefined business/product decision that materially changes scope.
+
+Tool-enforced permissions remain mandatory. Request only the exact blocked access with one short reason, without
+unrelated confirmation questions. Continue automatically once access is available. Investigate technical failures,
+try reasonable safe fixes/alternatives, retry, and document unresolved blockers; optional failures should not halt
+independent required work. Ask only when the remaining blocker requires a person.
+
+Run phase-required validation automatically using the low-resource workflow above. Update PROJECT_PROGRESS.md,
+architecture.md, data-sources.md, and README automatically when relevant. After a successfully validated phase, inspect
+the diff, update progress notes, commit, push to origin/main, verify local/remote HEAD and Git status, and report the
+result. Preserve remote work; never force push without an explicit later instruction.
+
+When the user says “continue”, “làm tiếp”, “phase tiếp theo”, or provides a phase specification, start the authorized
+work immediately without routine reconfirmation or repeating the roadmap. This policy does not authorize unrelated
+scope expansion or waive required system permissions.

@@ -614,6 +614,18 @@ The master specification defines this order:
 
 Do not rename or reorder phases without both a documented architectural reason and explicit user instruction.
 
+## Permanent Execution Policy
+
+Follow [Permanent execution policy](testing-strategy.md#permanent-execution-policy--minimize-questions-act-autonomously)
+in every session: perform routine phase work, fixes, required tests, relevant documentation, commits and pushes without
+confirmation. Resolve normal implementation decisions from repository conventions and the specification. Ask only for
+required human input, consequential scope decisions, unsafe/destructive actions, or tool-enforced access permission;
+continue automatically after access is granted. Preserve remote work and never force push without explicit instruction.
+
+Policy checkpoint: `docs: reduce unnecessary execution prompts` (2026-09-15).
+Validation: modified-document formatting, policy/link and diff review; no application behavior changes.
+Commit and push this checkpoint before starting Phase 11 — Vehicle Plate Frontend + SEO, which is authorized next.
+
 ## Permanent Testing Workflow
 
 Every subsequent session must follow [Testing strategy](testing-strategy.md): headless by default, preferably one
