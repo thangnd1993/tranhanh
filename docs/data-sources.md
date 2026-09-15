@@ -193,3 +193,60 @@ Routine additions, aliases and evidence refreshes do not require changing query-
 The importer records RUNNING/SUCCEEDED/FAILED via the existing provider/sync audit infrastructure. Its maintainer provider
 is not an official factual source. Failures roll back domain changes and emit only safe generic errors.
 Live imports and PostgreSQL constraints remain pending while Docker is unavailable; memory tests do not prove them.
+
+## Vehicle-plate allocation dataset — Phase 10
+
+Reviewed on 2026-09-15. The versioned snapshot is `apps/api/data/vehicle-plates.json`: 81 active numeric
+prefixes assigned to 34 current localities and Cục Cảnh sát giao thông. It also contains 29 source-backed
+transitions from former allocation names, giving 64 retained allocation targets in total. This is a public
+allocation table, not a registration, vehicle, owner, enforcement, or plate-validity database.
+
+### Official sources and legal date
+
+- Bộ Công an, [Thông tư 51/2025/TT-BCA and Appendix 02](https://bocongan.gov.vn/media/bca-media/photo-library/20250722155624_718a2904-71b2-4a66-a97a-ea695f49cbeb-TT51.2025.TT.BCA.pdf): issued 2025-06-30 and effective 2025-07-01. Appendix 02 supplies the current numeric-prefix allocation table.
+- Cổng Thông tin điện tử Chính phủ, [official metadata for Thông tư 51/2025/TT-BCA](https://vanban.chinhphu.vn/?classid=1&docid=214486&pageid=27160&typegroupid=6): cross-checks document status and effective date. The query-bearing registry URL is documented but not stored as SourceReference because the current source-URL boundary rejects query strings.
+- Cổng Thông tin điện tử Chính phủ, [full Thông tư 79/2024/TT-BCA](https://xaydungchinhsach.chinhphu.vn/toan-van-thong-tu-79-2024-tt-bca-quy-dinh-ve-cap-thu-hoi-chung-nhan-dang-ky-xe-bien-so-xe-co-gioi-xe-may-chuyen-dung-119250102193812924.htm): supplies the immediately preceding Appendix 02 allocation names. Its 2025-01-01 effective date is not treated as the beginning of every historical allocation, so history effectiveFrom remains null.
+- Bộ Công an, [series and plate-colour explanation effective from 01/01/2025](https://bocongan.gov.vn/bai-viet/nhan-dien-mau-sac-seri-ky-hieu-bien-so-xe-cua-co-quan-to-chuc-ca-nhan-tu-01012025-d1-t1617): supplies public series/category semantics. It does not assign `K` or another series to a narrower locality within numeric code 51.
+
+The review found no authoritative later instrument replacing the current Appendix 02 allocation as of 2026-09-15.
+That is a review statement, not continuous synchronization. Recheck the official legal registries before a release that
+requires current legal accuracy. No source document or article body is bundled. Only factual mappings, names, dates,
+reference metadata, and attribution are retained. Government copyright/attribution is respected; no general open-content
+license or permission to republish richer source content is claimed.
+
+### Allocation, series, and history semantics
+
+The current rows preserve every numeric code in Appendix 02. Examples include 29–33 and 40 for Hà Nội; 41, 50–59,
+61 and 72 for TP. Hồ Chí Minh; 43 and 92 for Đà Nẵng; and 80 for Cục Cảnh sát giao thông. Target type therefore
+explicitly distinguishes LOCALITY from CENTRAL_AUTHORITY. These target records are a dated vehicle-registration domain,
+not canonical administrative units and not links into a general administrative hierarchy.
+
+All current records have seriesPrefix null because the current locality table allocates the numeric prefix. Input such
+as `51K` retains parsed public series `K`, resolves the sourced numeric code 51, and returns
+seriesAllocationVerified=false. The schema can hold a future source-backed series-specific row; a numeric or series
+lookup returns every matching allocation and sets ambiguous=true when several rows remain. It never chooses one target
+arbitrarily. Series syntax follows the reviewed domestic series families and special `RM`; syntax does not establish an
+allocation or a vehicle category.
+
+The 29 history rows capture only codes whose former name differs from the current target: for example 61 Bình Dương →
+TP. Hồ Chí Minh, 92 Quảng Nam → Đà Nẵng, and 98 Bắc Giang → Bắc Ninh. The previous allocation evidence and the
+transition instrument are separate references. effectiveTo=2025-07-01 marks the allocation-table transition; it does
+not invalidate an already issued plate or prove a vehicle moved. Unknown earlier start dates remain null.
+
+### Privacy, validation, and import
+
+Lookup accepts a two-digit numeric prefix, an optional one/two-character public series, or selected common full formats
+such as `51K-123.45` and `51K 12345`. Normalization discards the registration serial before any database operation.
+The server does not persist, log, return, enrich, or send full submitted plates to an external service. Responses state
+resolution=NUMERIC_PREFIX_ALLOCATION and vehicleOrOwnerVerified=false. Successful lookup responses use no-store and
+no-referrer headers. Deployment access logs/APM remain an operational boundary and must omit lookup query values.
+
+Run `pnpm --filter @tranhanh/api vehicle-plates:validate` without a database. After applying migrations to an explicitly
+confirmed database, run `vehicle-plates:import`. The importer validates the whole snapshot before writes, uses its own
+advisory lock and SyncRun provider, and upserts in one domain transaction. Repeated identical imports preserve allocation
+importedAt/updatedAt. It never deletes omitted rows, mutates evidence UUIDs, renames source-era targets, or silently
+reassigns allocation identities. Such changes need new reviewed evidence/history.
+
+The guarded PostgreSQL suite adds five Phase 10 cases for real idempotency/joins, scope uniqueness, foreign keys, CHECKs,
+and RESTRICT history retention. They remain pending with the earlier 47 cases while Docker is unavailable. In-memory
+fixtures and HTTP tests prove application decisions only, not database migration execution.

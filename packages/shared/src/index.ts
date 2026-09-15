@@ -25,3 +25,4 @@ export type {
 } from './phone-prefixes.js';
 
 export * from './area-codes.js';
+export * from './vehicle-plates.js';

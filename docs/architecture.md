@@ -466,3 +466,25 @@ The answer-first layout uses Phase 2 tokens and stacks at narrow widths. One hea
 375, 390, 430, 768, 1024, 1280 and 1440 pixels, transfer-state behavior, locality search and number privacy.
 Representative light/dark screenshots at 390 and 1440 pixels were visually reviewed and then removed. Production data
 still requires the pending PostgreSQL migrations/import; test adapters are isolated from production code.
+
+## Vehicle-plate backend — Phase 10
+
+VehiclePlateTarget models a source-era public allocation target and explicitly distinguishes a locality from the central
+traffic-police authority. It does not model administrative ancestry. VehiclePlateAllocation has a stable key, two-digit
+numeric prefix, optional source-backed series prefix, current target, status, calendar effective interval, evidence, and
+import clocks. Numeric prefix is intentionally not globally unique: a later official instrument can add distinct
+series-specific allocations. The migration enforces uniqueness of numericPrefix plus nullable-series scope with an
+expression index. VehiclePlateAllocationHistory retains the prior target, nullable unknown start, required transition
+end, previous allocation evidence, and separate transition evidence. All evidence and target deletes are restricted.
+
+The API exposes list/search/lookup/exact/related endpoints under `/api/v1/vehicle-plates`. Exact and lookup responses use
+a wrapper containing parsed public allocation components and every matching allocation. `ambiguous` is derived from the
+result count, so the service cannot silently select a locality when a numeric prefix has multiple sourced allocations.
+The current snapshot is numeric-only; parsed series is transparent and `seriesAllocationVerified=false`. Related results
+share the current allocation target. Search is deterministic, paginated, accent-insensitive, and limited to public
+allocation facts.
+
+Full-plate parsing exists only to extract numeric prefix and optional public series. Registration serials are discarded
+before Prisma and never appear in DTOs, errors, audit records, caches, or external requests. No vehicle/owner existence,
+registration status, plate validity, location, or category is inferred. The reviewed JSON importer follows the existing
+transactional source/audit pattern, with immutable references and refusal of silent target/identity changes.

@@ -53,8 +53,8 @@ No external provider is queried at runtime. The phone-prefix backend reads expli
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 8 — Area Code Backend (live database verification pending).
-Next phase: Phase 9 — Area Code Frontend + SEO.
+Current completed phase: Phase 10 — Vehicle Plate Backend (live database verification pending).
+Next phase: Phase 11 — Vehicle Plate Frontend + SEO.
 Follow the [master specification](docs/MASTER_EXECUTION_PROMPT.md) and preserve completed phase history.
 Roadmap changes require a documented architectural reason and explicit user instruction.
 
@@ -166,3 +166,14 @@ Build both apps before running the isolated SSR, SEO, sitemap, privacy, and opti
 
 The optional PLAYWRIGHT_MODULE, CHROME_EXECUTABLE, and AREA_SCREENSHOTS variables enable the single-browser responsive
 and light/dark checks. Sitemap generation omits only an unavailable vertical and keeps other healthy segments.
+
+## Vehicle-plate data commands
+
+    pnpm --filter @tranhanh/api vehicle-plates:validate
+    pnpm db:migrate:deploy
+    pnpm --filter @tranhanh/api vehicle-plates:import
+
+The API is under `/api/v1/vehicle-plates`. Validation is database-free; import requires the additive Phase 10 migration
+and an explicitly configured DATABASE_URL. Lookup accepts public prefix/series input and selected full-plate formats,
+but discards the registration serial before querying. It returns allocation facts only and does not identify a vehicle
+or owner. See [vehicle-plate sources](docs/data-sources.md#vehicle-plate-allocation-dataset--phase-10).

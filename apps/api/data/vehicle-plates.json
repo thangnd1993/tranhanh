@@ -1,0 +1,1611 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "key": "bo-cong-an",
+      "name": "Bộ Công an",
+      "homepageUrl": "https://bocongan.gov.vn",
+      "isOfficial": true
+    },
+    {
+      "key": "cong-thong-tin-chinh-phu",
+      "name": "Cổng Thông tin điện tử Chính phủ",
+      "homepageUrl": "https://xaydungchinhsach.chinhphu.vn",
+      "isOfficial": true
+    }
+  ],
+  "references": [
+    {
+      "id": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695",
+      "sourceKey": "bo-cong-an",
+      "title": "Thông tư 51/2025/TT-BCA và Phụ lục 02 về ký hiệu biển số xe trong nước",
+      "url": "https://bocongan.gov.vn/media/bca-media/photo-library/20250722155624_718a2904-71b2-4a66-a97a-ea695f49cbeb-TT51.2025.TT.BCA.pdf",
+      "retrievedAt": "2026-09-15T02:21:09Z",
+      "publishedAt": null,
+      "notes": "Ban hành ngày 2025-06-30, hiệu lực 2025-07-01. Dùng cho 81 mã số hiện hành thuộc 34 địa phương sau sắp xếp và Cục CSGT."
+    },
+    {
+      "id": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "sourceKey": "cong-thong-tin-chinh-phu",
+      "title": "Thông tư 79/2024/TT-BCA và Phụ lục 02 trước thay đổi năm 2025",
+      "url": "https://xaydungchinhsach.chinhphu.vn/toan-van-thong-tu-79-2024-tt-bca-quy-dinh-ve-cap-thu-hoi-chung-nhan-dang-ky-xe-bien-so-xe-co-gioi-xe-may-chuyen-dung-119250102193812924.htm",
+      "retrievedAt": "2026-09-15T02:21:09Z",
+      "publishedAt": null,
+      "notes": "Hiệu lực 2025-01-01. Dùng làm bằng chứng cho tên đơn vị được phân bổ trước chuyển tiếp; không suy diễn ngày bắt đầu lịch sử."
+    },
+    {
+      "id": "c725f07c-c562-49eb-9b08-9ca359788236",
+      "sourceKey": "bo-cong-an",
+      "title": "Nhận diện màu sắc, seri ký hiệu biển số xe từ 01/01/2025",
+      "url": "https://bocongan.gov.vn/bai-viet/nhan-dien-mau-sac-seri-ky-hieu-bien-so-xe-cua-co-quan-to-chuc-ca-nhan-tu-01012025-d1-t1617",
+      "retrievedAt": "2026-09-15T02:21:09Z",
+      "publishedAt": null,
+      "notes": "Dùng để xác định semantics seri và loại xe. Không dùng seri để suy diễn địa phương nhỏ hơn mã số khi nguồn phân bổ hiện hành chỉ quy định mã số."
+    }
+  ],
+  "targets": [
+    {
+      "key": "an-giang",
+      "name": "An Giang",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "ba-ria-vung-tau",
+      "name": "Bà Rịa - Vũng Tàu",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "bac-can",
+      "name": "Bắc Cạn",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "bac-giang",
+      "name": "Bắc Giang",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "bac-lieu",
+      "name": "Bạc Liêu",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "bac-ninh",
+      "name": "Bắc Ninh",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "ben-tre",
+      "name": "Bến Tre",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "binh-dinh",
+      "name": "Bình Định",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "binh-duong",
+      "name": "Bình Dương",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "binh-phuoc",
+      "name": "Bình Phước",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "binh-thuan",
+      "name": "Bình Thuận",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "ca-mau",
+      "name": "Cà Mau",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "can-tho",
+      "name": "Cần Thơ",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "cao-bang",
+      "name": "Cao Bằng",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "cuc-canh-sat-giao-thong",
+      "name": "Cục Cảnh sát giao thông",
+      "aliases": ["Cục CSGT", "CSGT"],
+      "type": "CENTRAL_AUTHORITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "da-nang",
+      "name": "Đà Nẵng",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "dak-lak",
+      "name": "Đắk Lắk",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "dak-nong",
+      "name": "Đắk Nông",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "dien-bien",
+      "name": "Điện Biên",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "dong-nai",
+      "name": "Đồng Nai",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "dong-thap",
+      "name": "Đồng Tháp",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "gia-lai",
+      "name": "Gia Lai",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "ha-giang",
+      "name": "Hà Giang",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "ha-nam",
+      "name": "Hà Nam",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "ha-noi",
+      "name": "Hà Nội",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "ha-tinh",
+      "name": "Hà Tĩnh",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "hai-duong",
+      "name": "Hải Dương",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "hai-phong",
+      "name": "Hải Phòng",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "hau-giang",
+      "name": "Hậu Giang",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "ho-chi-minh",
+      "name": "TP. Hồ Chí Minh",
+      "aliases": ["Hồ Chí Minh", "TP.HCM", "TP HCM", "TPHCM", "Ho Chi Minh"],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "hoa-binh",
+      "name": "Hoà Bình",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "hung-yen",
+      "name": "Hưng Yên",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "khanh-hoa",
+      "name": "Khánh Hoà",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "kien-giang",
+      "name": "Kiên Giang",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "kon-tum",
+      "name": "Kon Tum",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "lai-chau",
+      "name": "Lai Châu",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "lam-dong",
+      "name": "Lâm Đồng",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "lang-son",
+      "name": "Lạng Sơn",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "lao-cai",
+      "name": "Lào Cai",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "long-an",
+      "name": "Long An",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "nam-dinh",
+      "name": "Nam Định",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "nghe-an",
+      "name": "Nghệ An",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "ninh-binh",
+      "name": "Ninh Bình",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "ninh-thuan",
+      "name": "Ninh Thuận",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "phu-tho",
+      "name": "Phú Thọ",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "phu-yen",
+      "name": "Phú Yên",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "quang-binh",
+      "name": "Quảng Bình",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "quang-nam",
+      "name": "Quảng Nam",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "quang-ngai",
+      "name": "Quảng Ngãi",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "quang-ninh",
+      "name": "Quảng Ninh",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "quang-tri",
+      "name": "Quảng Trị",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "soc-trang",
+      "name": "Sóc Trăng",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "son-la",
+      "name": "Sơn La",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "tay-ninh",
+      "name": "Tây Ninh",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "thai-binh",
+      "name": "Thái Bình",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "thai-nguyen",
+      "name": "Thái Nguyên",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "thanh-hoa",
+      "name": "Thanh Hoá",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "thua-thien-hue",
+      "name": "Thừa Thiên Huế",
+      "aliases": ["Huế", "Hue"],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "tien-giang",
+      "name": "Tiền Giang",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "tra-vinh",
+      "name": "Trà Vinh",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "tuyen-quang",
+      "name": "Tuyên Quang",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "vinh-long",
+      "name": "Vĩnh Long",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": true,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "vinh-phuc",
+      "name": "Vĩnh Phúc",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    },
+    {
+      "key": "yen-bai",
+      "name": "Yên Bái",
+      "aliases": [],
+      "type": "LOCALITY",
+      "isActive": false,
+      "referenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391"
+    }
+  ],
+  "allocations": [
+    {
+      "key": "11-current",
+      "numericPrefix": "11",
+      "seriesPrefix": null,
+      "targetKey": "cao-bang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "12-current",
+      "numericPrefix": "12",
+      "seriesPrefix": null,
+      "targetKey": "lang-son",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "14-current",
+      "numericPrefix": "14",
+      "seriesPrefix": null,
+      "targetKey": "quang-ninh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "15-current",
+      "numericPrefix": "15",
+      "seriesPrefix": null,
+      "targetKey": "hai-phong",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "16-current",
+      "numericPrefix": "16",
+      "seriesPrefix": null,
+      "targetKey": "hai-phong",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "17-current",
+      "numericPrefix": "17",
+      "seriesPrefix": null,
+      "targetKey": "hung-yen",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "18-current",
+      "numericPrefix": "18",
+      "seriesPrefix": null,
+      "targetKey": "ninh-binh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "19-current",
+      "numericPrefix": "19",
+      "seriesPrefix": null,
+      "targetKey": "phu-tho",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "20-current",
+      "numericPrefix": "20",
+      "seriesPrefix": null,
+      "targetKey": "thai-nguyen",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "21-current",
+      "numericPrefix": "21",
+      "seriesPrefix": null,
+      "targetKey": "lao-cai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "22-current",
+      "numericPrefix": "22",
+      "seriesPrefix": null,
+      "targetKey": "tuyen-quang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "23-current",
+      "numericPrefix": "23",
+      "seriesPrefix": null,
+      "targetKey": "tuyen-quang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "24-current",
+      "numericPrefix": "24",
+      "seriesPrefix": null,
+      "targetKey": "lao-cai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "25-current",
+      "numericPrefix": "25",
+      "seriesPrefix": null,
+      "targetKey": "lai-chau",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "26-current",
+      "numericPrefix": "26",
+      "seriesPrefix": null,
+      "targetKey": "son-la",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "27-current",
+      "numericPrefix": "27",
+      "seriesPrefix": null,
+      "targetKey": "dien-bien",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "28-current",
+      "numericPrefix": "28",
+      "seriesPrefix": null,
+      "targetKey": "phu-tho",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "29-current",
+      "numericPrefix": "29",
+      "seriesPrefix": null,
+      "targetKey": "ha-noi",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "30-current",
+      "numericPrefix": "30",
+      "seriesPrefix": null,
+      "targetKey": "ha-noi",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "31-current",
+      "numericPrefix": "31",
+      "seriesPrefix": null,
+      "targetKey": "ha-noi",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "32-current",
+      "numericPrefix": "32",
+      "seriesPrefix": null,
+      "targetKey": "ha-noi",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "33-current",
+      "numericPrefix": "33",
+      "seriesPrefix": null,
+      "targetKey": "ha-noi",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "34-current",
+      "numericPrefix": "34",
+      "seriesPrefix": null,
+      "targetKey": "hai-phong",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "35-current",
+      "numericPrefix": "35",
+      "seriesPrefix": null,
+      "targetKey": "ninh-binh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "36-current",
+      "numericPrefix": "36",
+      "seriesPrefix": null,
+      "targetKey": "thanh-hoa",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "37-current",
+      "numericPrefix": "37",
+      "seriesPrefix": null,
+      "targetKey": "nghe-an",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "38-current",
+      "numericPrefix": "38",
+      "seriesPrefix": null,
+      "targetKey": "ha-tinh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "39-current",
+      "numericPrefix": "39",
+      "seriesPrefix": null,
+      "targetKey": "dong-nai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "40-current",
+      "numericPrefix": "40",
+      "seriesPrefix": null,
+      "targetKey": "ha-noi",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "41-current",
+      "numericPrefix": "41",
+      "seriesPrefix": null,
+      "targetKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "43-current",
+      "numericPrefix": "43",
+      "seriesPrefix": null,
+      "targetKey": "da-nang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "47-current",
+      "numericPrefix": "47",
+      "seriesPrefix": null,
+      "targetKey": "dak-lak",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "48-current",
+      "numericPrefix": "48",
+      "seriesPrefix": null,
+      "targetKey": "lam-dong",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "49-current",
+      "numericPrefix": "49",
+      "seriesPrefix": null,
+      "targetKey": "lam-dong",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "50-current",
+      "numericPrefix": "50",
+      "seriesPrefix": null,
+      "targetKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "51-current",
+      "numericPrefix": "51",
+      "seriesPrefix": null,
+      "targetKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "52-current",
+      "numericPrefix": "52",
+      "seriesPrefix": null,
+      "targetKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "53-current",
+      "numericPrefix": "53",
+      "seriesPrefix": null,
+      "targetKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "54-current",
+      "numericPrefix": "54",
+      "seriesPrefix": null,
+      "targetKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "55-current",
+      "numericPrefix": "55",
+      "seriesPrefix": null,
+      "targetKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "56-current",
+      "numericPrefix": "56",
+      "seriesPrefix": null,
+      "targetKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "57-current",
+      "numericPrefix": "57",
+      "seriesPrefix": null,
+      "targetKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "58-current",
+      "numericPrefix": "58",
+      "seriesPrefix": null,
+      "targetKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "59-current",
+      "numericPrefix": "59",
+      "seriesPrefix": null,
+      "targetKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "60-current",
+      "numericPrefix": "60",
+      "seriesPrefix": null,
+      "targetKey": "dong-nai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "61-current",
+      "numericPrefix": "61",
+      "seriesPrefix": null,
+      "targetKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "62-current",
+      "numericPrefix": "62",
+      "seriesPrefix": null,
+      "targetKey": "tay-ninh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "63-current",
+      "numericPrefix": "63",
+      "seriesPrefix": null,
+      "targetKey": "dong-thap",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "64-current",
+      "numericPrefix": "64",
+      "seriesPrefix": null,
+      "targetKey": "vinh-long",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "65-current",
+      "numericPrefix": "65",
+      "seriesPrefix": null,
+      "targetKey": "can-tho",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "66-current",
+      "numericPrefix": "66",
+      "seriesPrefix": null,
+      "targetKey": "dong-thap",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "67-current",
+      "numericPrefix": "67",
+      "seriesPrefix": null,
+      "targetKey": "an-giang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "68-current",
+      "numericPrefix": "68",
+      "seriesPrefix": null,
+      "targetKey": "an-giang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "69-current",
+      "numericPrefix": "69",
+      "seriesPrefix": null,
+      "targetKey": "ca-mau",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "70-current",
+      "numericPrefix": "70",
+      "seriesPrefix": null,
+      "targetKey": "tay-ninh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "71-current",
+      "numericPrefix": "71",
+      "seriesPrefix": null,
+      "targetKey": "vinh-long",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "72-current",
+      "numericPrefix": "72",
+      "seriesPrefix": null,
+      "targetKey": "ho-chi-minh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "73-current",
+      "numericPrefix": "73",
+      "seriesPrefix": null,
+      "targetKey": "quang-tri",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "74-current",
+      "numericPrefix": "74",
+      "seriesPrefix": null,
+      "targetKey": "quang-tri",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "75-current",
+      "numericPrefix": "75",
+      "seriesPrefix": null,
+      "targetKey": "thua-thien-hue",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "76-current",
+      "numericPrefix": "76",
+      "seriesPrefix": null,
+      "targetKey": "quang-ngai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "77-current",
+      "numericPrefix": "77",
+      "seriesPrefix": null,
+      "targetKey": "gia-lai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "78-current",
+      "numericPrefix": "78",
+      "seriesPrefix": null,
+      "targetKey": "dak-lak",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "79-current",
+      "numericPrefix": "79",
+      "seriesPrefix": null,
+      "targetKey": "khanh-hoa",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "80-current",
+      "numericPrefix": "80",
+      "seriesPrefix": null,
+      "targetKey": "cuc-canh-sat-giao-thong",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "81-current",
+      "numericPrefix": "81",
+      "seriesPrefix": null,
+      "targetKey": "gia-lai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "82-current",
+      "numericPrefix": "82",
+      "seriesPrefix": null,
+      "targetKey": "quang-ngai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "83-current",
+      "numericPrefix": "83",
+      "seriesPrefix": null,
+      "targetKey": "can-tho",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "84-current",
+      "numericPrefix": "84",
+      "seriesPrefix": null,
+      "targetKey": "vinh-long",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "85-current",
+      "numericPrefix": "85",
+      "seriesPrefix": null,
+      "targetKey": "khanh-hoa",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "86-current",
+      "numericPrefix": "86",
+      "seriesPrefix": null,
+      "targetKey": "lam-dong",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "88-current",
+      "numericPrefix": "88",
+      "seriesPrefix": null,
+      "targetKey": "phu-tho",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "89-current",
+      "numericPrefix": "89",
+      "seriesPrefix": null,
+      "targetKey": "hung-yen",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "90-current",
+      "numericPrefix": "90",
+      "seriesPrefix": null,
+      "targetKey": "ninh-binh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "92-current",
+      "numericPrefix": "92",
+      "seriesPrefix": null,
+      "targetKey": "da-nang",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "93-current",
+      "numericPrefix": "93",
+      "seriesPrefix": null,
+      "targetKey": "dong-nai",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "94-current",
+      "numericPrefix": "94",
+      "seriesPrefix": null,
+      "targetKey": "ca-mau",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "95-current",
+      "numericPrefix": "95",
+      "seriesPrefix": null,
+      "targetKey": "can-tho",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "97-current",
+      "numericPrefix": "97",
+      "seriesPrefix": null,
+      "targetKey": "thai-nguyen",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "98-current",
+      "numericPrefix": "98",
+      "seriesPrefix": null,
+      "targetKey": "bac-ninh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "key": "99-current",
+      "numericPrefix": "99",
+      "seriesPrefix": null,
+      "targetKey": "bac-ninh",
+      "status": "ACTIVE",
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": null,
+      "referenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    }
+  ],
+  "history": [
+    {
+      "allocationKey": "17-current",
+      "previousTargetKey": "thai-binh",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "18-current",
+      "previousTargetKey": "nam-dinh",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "21-current",
+      "previousTargetKey": "yen-bai",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "23-current",
+      "previousTargetKey": "ha-giang",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "28-current",
+      "previousTargetKey": "hoa-binh",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "34-current",
+      "previousTargetKey": "hai-duong",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "48-current",
+      "previousTargetKey": "dak-nong",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "61-current",
+      "previousTargetKey": "binh-duong",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "62-current",
+      "previousTargetKey": "long-an",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "63-current",
+      "previousTargetKey": "tien-giang",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "68-current",
+      "previousTargetKey": "kien-giang",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "71-current",
+      "previousTargetKey": "ben-tre",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "72-current",
+      "previousTargetKey": "ba-ria-vung-tau",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "73-current",
+      "previousTargetKey": "quang-binh",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "77-current",
+      "previousTargetKey": "binh-dinh",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "78-current",
+      "previousTargetKey": "phu-yen",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "82-current",
+      "previousTargetKey": "kon-tum",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "83-current",
+      "previousTargetKey": "soc-trang",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "84-current",
+      "previousTargetKey": "tra-vinh",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "85-current",
+      "previousTargetKey": "ninh-thuan",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "86-current",
+      "previousTargetKey": "binh-thuan",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "88-current",
+      "previousTargetKey": "vinh-phuc",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "90-current",
+      "previousTargetKey": "ha-nam",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "92-current",
+      "previousTargetKey": "quang-nam",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "93-current",
+      "previousTargetKey": "binh-phuoc",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "94-current",
+      "previousTargetKey": "bac-lieu",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "95-current",
+      "previousTargetKey": "hau-giang",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "97-current",
+      "previousTargetKey": "bac-can",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    },
+    {
+      "allocationKey": "98-current",
+      "previousTargetKey": "bac-giang",
+      "effectiveFrom": null,
+      "effectiveTo": "2025-07-01",
+      "sourceReferenceId": "0d7b3718-42a8-4db9-b0c7-985bd3102391",
+      "transitionReferenceId": "4ab424bc-7fcc-4d3f-91dd-4e7db1176695"
+    }
+  ],
+  "seriesPolicy": {
+    "referenceId": "c725f07c-c562-49eb-9b08-9ca359788236",
+    "allocationResolution": "NUMERIC_PREFIX_ONLY",
+    "allowedSeriesPattern": "^(?:[ABCDEFGHKLMNPSTUVXYZ](?:[ABCDEFGHKLMNPSTUVXYZ0-9])?|RM)$"
+  }
+}

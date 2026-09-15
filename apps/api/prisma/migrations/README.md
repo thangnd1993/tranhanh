@@ -28,3 +28,15 @@ Reviewed additions: alias arrays NOT NULL; key-format checks on both locality mo
 interval and distinct migration-endpoint checks. Cross-row locality/status consistency is importer-validated. Prior
 Phase 5/6 SQL files are byte-for-byte unchanged. There are no drops, truncations, cascade deletes or data resets.
 Runtime execution and the new 18 PostgreSQL cases remain pending; schema validation is not runtime migration proof.
+
+## Vehicle-plate migration (Phase 10)
+
+`20260915030000_add_vehicle_plate_lookup` adds VehiclePlateTarget, VehiclePlateAllocation and
+VehiclePlateAllocationHistory plus two enums. It is additive and contains no drops, resets, cascades, or business rows.
+All seven foreign keys use RESTRICT. Calendar allocation/history boundaries use DATE; source and import clocks remain
+timestamptz. The allocation-scope expression index treats null series as the numeric-wide scope while allowing future
+source-backed series rows. CHECKs enforce two-digit numeric prefixes, reviewed series syntax, and ordered date intervals.
+Importer validation covers cross-row current/history/source consistency that SQL cannot express locally.
+
+Five guarded PostgreSQL cases were added, bringing the pending suite to 52 cases. Runtime migration and constraint
+execution remain pending until a local Docker/PostgreSQL service is available; Prisma validation alone is not proof.

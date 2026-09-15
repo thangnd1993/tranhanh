@@ -2,10 +2,10 @@
 
 ## Current Status
 
-Current completed phase: Phase 9 — Area Code Frontend + SEO
-Next phase: Phase 10 — Vehicle Plate Backend
+Current completed phase: Phase 10 — Vehicle Plate Backend
+Next phase: Phase 11 — Vehicle Plate Frontend + SEO
 Status: Complete locally with live migration/import/database verification pending
-Last updated: 2026-09-14 (Asia/Ho_Chi_Minh)
+Last updated: 2026-09-15 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
 
@@ -531,6 +531,49 @@ Commit: feat: add area code lookup frontend (this checkpoint).
 Push destination: origin/main; resolve the synchronized hash after push.
 Next phase: Phase 10 — Vehicle Plate Backend
 
+### Phase 10 — Vehicle Plate Backend
+
+Status: Complete locally; PostgreSQL migration/import/constraint verification pending.
+
+- Reviewed the current Bộ Công an allocation under Thông tư 51/2025/TT-BCA, the preceding Thông tư 79/2024
+  allocation table, and the official 2025 series explanation. Provenance and reuse limits are in `docs/data-sources.md`.
+- Dataset: 81 active numeric prefixes for 34 current localities plus Cục CSGT; 64 total retained allocation targets;
+  29 source-backed former-target transitions ending 2025-07-01. Existing issued plates are not marked invalid.
+- Added VehiclePlateTarget, VehiclePlateAllocation, and VehiclePlateAllocationHistory with separate prior/transition
+  evidence, source-era names, target type, calendar dates, immutable references, and explicit import clocks.
+- Added additive migration `20260915030000_add_vehicle_plate_lookup` with two enums, three tables, scope uniqueness,
+  query indexes, seven RESTRICT foreign keys, and format/date CHECKs. Prior migration files remain unchanged.
+- Added list/search/lookup/exact/related endpoints under `/api/v1/vehicle-plates`, shared contracts, validation DTOs,
+  nested history/source results, deterministic pagination, safe errors, and Swagger coverage.
+- Normalization supports 51, 51K/51k, 30K, 51K-123.45 and 51K 12345. Full serials are discarded before Prisma.
+  Series is parsed but not used to infer narrower locality without evidence; current responses report it unverified.
+- Numeric/series ambiguity returns every sourced match with `ambiguous=true`; no arbitrary target is selected.
+- No full plate, registration serial, vehicle, owner, search history, query audit, cache, or external lookup was added.
+  Responses explicitly state numeric-prefix allocation and no vehicle/owner verification.
+- Versioned validator and transactional/idempotent import commands preserve omitted history, immutable evidence and
+  unchanged timestamps, while refusing silent target renames, allocation reassignment, or identity overwrite.
+
+Validation:
+
+- Dataset command validated 64 targets, 81 current prefixes, and 29 historical target mappings.
+- API unit tests: 142 passed across 12 files. API E2E: 29 passed across 5 files.
+- Full workspace gate passed: Prettier, ESLint, 142 API unit tests, 36 Angular tests, 29 API E2E tests,
+  shared/API/browser/SSR production builds, and Prisma validation. Dataset validation passed separately.
+- Five new guarded PostgreSQL cases are prepared, bringing the pending total from 47 to 52. They are not claimed run.
+- Backend-only phase: no browser, frontend route, sitemap, screenshot, UI source, or Phase 11 work was added.
+
+Runtime and limits:
+
+- Docker daemon remains unavailable. Migration execution, reviewed data import, 52 PostgreSQL cases, Redis readiness,
+  and live DB-backed API verification remain pending. No unknown database was modified.
+- The dataset was reviewed 2026-09-15 and is not continuously synchronized. Future legal changes require a new review.
+- Current allocation sources are numeric-prefix based. The API does not infer district, vehicle category, registration
+  status, present vehicle location, owner identity, or validity from a submitted plate.
+
+Commit: `feat: add vehicle plate lookup backend` (this checkpoint).
+Push destination: origin/main; resolve the synchronized hash after push.
+Next phase: Phase 11 — Vehicle Plate Frontend + SEO
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -540,14 +583,14 @@ Next phase: Phase 10 — Vehicle Plate Backend
 
 ## Active Data Providers
 
-Phone-prefix and area-code reviewed-file importers implemented; official evidence registries reviewed. No live database import or
+Phone-prefix, area-code, and vehicle-plate reviewed-file importers implemented; official evidence registries reviewed. No live database import or
 external runtime provider is active yet. See `docs/data-sources.md` for sources and limitations.
 
 ## Environment Notes
 
-- macOS workspace: `/Users/nhuphan/Documents/ChatGPT/tranhanh`.
+- macOS workspace: `/Users/thangnguyen/Documents/ChatGPT/tranhanh`.
 - Required Node: 24.15.x; pnpm: 12.3.x.
-- Docker CLI: 29.7.2; daemon unavailable at `/Users/nhuphan/.docker/run/docker.sock`.
+- Docker CLI is installed; daemon unavailable at `/Users/thangnguyen/.docker/run/docker.sock`.
 - Git identity is configured. Branch: `main`; GitHub SSH remote is configured (see GitHub Connection).
 - No credentials, provider accounts, or deployment destination were supplied.
 
@@ -555,7 +598,7 @@ external runtime provider is active yet. See `docs/data-sources.md` for sources 
 
 ### Next Phase
 
-Next phase: Phase 10 — Vehicle Plate Backend
+Next phase: Phase 11 — Vehicle Plate Frontend + SEO
 
 The master specification defines this order:
 
@@ -566,7 +609,8 @@ The master specification defines this order:
 5. Phase 7 — Phone Prefix Frontend + SEO (complete locally; live DB-backed verification pending)
 6. Phase 8 — Area Code Backend (complete locally; live DB-backed verification pending)
 7. Phase 9 — Area Code Frontend + SEO (complete locally; live DB-backed verification pending)
-8. Phase 10 — Vehicle Plate Backend
+8. Phase 10 — Vehicle Plate Backend (complete locally; live DB-backed verification pending)
+9. Phase 11 — Vehicle Plate Frontend + SEO
 
 Do not rename or reorder phases without both a documented architectural reason and explicit user instruction.
 
