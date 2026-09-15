@@ -1,6 +1,7 @@
+import { readVehicleCatalogue } from './app/vehicle-plates/vehicle-data';
 import { readAreaCatalogue } from './app/area-codes/area-data';
 import { readCatalogue } from './app/phone-prefixes/phone-data';
-import { areaPath, phonePath, supportedLocales } from './app/i18n/routes';
+import { areaPath, phonePath, vehiclePath, supportedLocales } from './app/i18n/routes';
 import { readSiteConfig, redirectPath } from './app/seo/site-config';
 import { robotsTxt, sitemapIndexXml, sitemapUrls, sitemapXml } from './app/seo/sitemap';
 import {
@@ -55,6 +56,10 @@ app.get(
   ['/api/v1/area-codes', '/api/v1/area-codes/{*path}'],
   apiGateway(/^\/api\/v1\/area-codes(?:\/(?:lookup|search|0[1-9]\d{0,2}(?:\/related)?))?$/),
 );
+app.get(
+  ['/api/v1/vehicle-plates', '/api/v1/vehicle-plates/{*path}'],
+  apiGateway(/^\/api\/v1\/vehicle-plates(?:\/(?:lookup|search|[1-9]\d(?:[A-Z][A-Z0-9]?)?(?:\/related)?))?$/),
+);
 app.use((req, res, next) => {
   if (req.method !== 'GET' && req.method !== 'HEAD') return next();
   const queryStart = req.originalUrl.indexOf('?');
@@ -70,7 +75,13 @@ app.get('/robots.txt', (_req, res) => {
   res.type('text/plain').send(robotsTxt(siteConfig));
 });
 app.get(
-  ['/sitemap.xml', '/sitemap-static.xml', '/sitemap-phone-prefix.xml', '/sitemap-area-code.xml'],
+  [
+    '/sitemap.xml',
+    '/sitemap-static.xml',
+    '/sitemap-phone-prefix.xml',
+    '/sitemap-area-code.xml',
+    '/sitemap-vehicle-plate.xml',
+  ],
   async (req, res) => {
     if (!siteConfig.origin || !siteConfig.allowIndexing) {
       res
@@ -102,8 +113,25 @@ app.get(
         }
       }
     }
+    let vehicleRows: Awaited<ReturnType<typeof readVehicleCatalogue>> = [];
+    if (req.path === '/sitemap.xml' || req.path === '/sitemap-vehicle-plate.xml') {
+      try {
+        vehicleRows = await readVehicleCatalogue(apiOrigin);
+        if (!vehicleRows.length) throw new Error('Empty catalogue');
+      } catch {
+        if (req.path === '/sitemap-vehicle-plate.xml') {
+          res.status(503).set('X-Robots-Tag', 'noindex').send('Vehicle plate sitemap temporarily unavailable.');
+          return;
+        }
+      }
+    }
+    const vehicleUrls = supportedLocales.flatMap((locale) => [
+      vehiclePath(locale),
+      ...new Set(vehicleRows.map((row) => vehiclePath(locale, row.numericPrefix + (row.seriesPrefix ?? '')))),
+    ]);
     const segments = [
       '/sitemap-static.xml',
+      ...(vehicleRows.length ? ['/sitemap-vehicle-plate.xml'] : []),
       ...(phoneRows.length ? ['/sitemap-phone-prefix.xml'] : []),
       ...(areaRows.length ? ['/sitemap-area-code.xml'] : []),
     ];
@@ -115,9 +143,13 @@ app.get(
       areaPath(locale),
       ...areaRows.map((row) => areaPath(locale, row.code)),
     ]);
-    const urls = (req.path === '/sitemap-phone-prefix.xml' ? phoneUrls : areaUrls).map(
-      (path) => siteConfig.origin + path,
-    );
+    const urls = (
+      req.path === '/sitemap-vehicle-plate.xml'
+        ? vehicleUrls
+        : req.path === '/sitemap-phone-prefix.xml'
+          ? phoneUrls
+          : areaUrls
+    ).map((path) => siteConfig.origin + path);
     const xml =
       req.path === '/sitemap.xml'
         ? sitemapIndexXml(siteConfig.origin, segments)

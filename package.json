@@ -30,7 +30,8 @@
     "db:seed": "pnpm --filter @tranhanh/api db:seed",
     "test:database": "pnpm --filter @tranhanh/api test:database",
     "test:phone": "node apps/web/test/phone-smoke.mjs",
-    "test:area": "node apps/web/test/area-smoke.mjs"
+    "test:area": "node apps/web/test/area-smoke.mjs",
+    "test:vehicle": "node apps/web/test/vehicle-smoke.mjs"
   },
   "devDependencies": {
     "@angular-eslint/eslint-plugin": "^22.0.0",

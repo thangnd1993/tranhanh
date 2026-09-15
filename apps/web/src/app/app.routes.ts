@@ -1,3 +1,4 @@
+import { vehicleResolver } from './vehicle-plates/vehicle.resolver';
 import { phoneResolver } from './phone-prefixes/phone.resolver';
 import { areaResolver } from './area-codes/area.resolver';
 import { pageSeo } from './seo/seo.resolver';
@@ -20,6 +21,12 @@ export const routes: Routes = [
       },
     ],
     children: [
+      ...['', '/:prefix'].map((suffix) => ({
+        path: (locale === 'vi' ? 'tra-cuu/bien-so' : 'lookup/vehicle-plate') + suffix,
+        resolve: { vehicle: vehicleResolver },
+        runGuardsAndResolvers: 'paramsOrQueryParamsChange' as const,
+        loadComponent: () => import('./vehicle-plates/vehicle-page.component').then((m) => m.VehiclePageComponent),
+      })),
       ...['', '/:code'].map((suffix) => ({
         path: (locale === 'vi' ? 'tra-cuu/ma-vung' : 'lookup/area-code') + suffix,
         resolve: { area: areaResolver },

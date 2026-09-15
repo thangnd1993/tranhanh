@@ -1,3 +1,4 @@
+import { vehiclePath } from '../i18n/routes';
 import { LocaleService } from '../i18n/locale.service';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -21,7 +22,9 @@ import { RouterLink } from '@angular/router';
         <div class="footer-groups">
           <div class="stack">
             <h2>{{ i18n.t('common.explore') }}</h2>
-            <span>{{ i18n.t('footer.lookup') }}</span>
+            <a [routerLink]="vehiclePath(i18n.locale())">{{
+              i18n.locale() === 'vi' ? 'Tra cứu biển số xe' : 'Vehicle plate lookup'
+            }}</a>
             <span>{{ i18n.t('footer.tools') }}</span>
             <span>{{ i18n.t('footer.today') }}</span>
           </div>
@@ -95,5 +98,6 @@ import { RouterLink } from '@angular/router';
   `,
 })
 export class FooterComponent {
+  protected readonly vehiclePath = vehiclePath;
   protected readonly i18n = inject(LocaleService);
 }

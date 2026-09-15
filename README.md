@@ -53,8 +53,8 @@ No external provider is queried at runtime. The phone-prefix backend reads expli
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 10 — Vehicle Plate Backend (live database verification pending).
-Next phase: Phase 11 — Vehicle Plate Frontend + SEO.
+Current completed phase: Phase 11 — Vehicle Plate Frontend + SEO (live database verification pending).
+Next phase: Phase 12 — Postal Code Backend.
 Follow the [master specification](docs/MASTER_EXECUTION_PROMPT.md) and preserve completed phase history.
 Roadmap changes require a documented architectural reason and explicit user instruction.
 
@@ -177,3 +177,11 @@ The API is under `/api/v1/vehicle-plates`. Validation is database-free; import r
 and an explicitly configured DATABASE_URL. Lookup accepts public prefix/series input and selected full-plate formats,
 but discards the registration serial before querying. It returns allocation facts only and does not identify a vehicle
 or owner. See [vehicle-plate sources](docs/data-sources.md#vehicle-plate-allocation-dataset--phase-10).
+
+## Vehicle-plate frontend (Phase 11)
+
+Public routes: `/vi/tra-cuu/bien-so` and `/en/lookup/vehicle-plate`, with `/:prefix` details.
+Build both apps then run `pnpm test:vehicle` for the isolated API-adapter SSR/SEO/sitemap checks.
+Optional PLAYWRIGHT_MODULE, CHROME_EXECUTABLE and VEHICLE_SCREENSHOTS enable sequential headless responsive and theme
+checks. Test adapters never supply production fallback data. Real answers require the pending migrations and import.
+Numeric allocation pages enter the sitemap; generic series variants use a numeric canonical and noindex.

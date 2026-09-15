@@ -11,6 +11,13 @@ export function isLocale(value: string): value is Locale {
 }
 export function equivalentPath(path: string, locale: Locale): string {
   for (const source of supportedLocales) {
+    const base = vehiclePath(source);
+    const clean = path.replace(/\/$/, '');
+    if (clean === base) return vehiclePath(locale);
+    if (clean.startsWith(base + '/') && /^[1-9]\d(?:[A-Z][A-Z0-9]?)?$/.test(clean.slice(base.length + 1)))
+      return vehiclePath(locale, clean.slice(base.length + 1));
+  }
+  for (const source of supportedLocales) {
     const base = areaPath(source);
     const clean = path.replace(/\/$/, '');
     if (clean === base) return areaPath(locale);
@@ -36,4 +43,9 @@ export function phonePath(locale: Locale, prefix?: string): string {
 export function areaPath(locale: Locale, code?: string): string {
   const base = locale === 'vi' ? '/vi/tra-cuu/ma-vung' : '/en/lookup/area-code';
   return code ? `${base}/${code}` : base;
+}
+
+export function vehiclePath(locale: Locale, prefix?: string): string {
+  const base = locale === 'vi' ? '/vi/tra-cuu/bien-so' : '/en/lookup/vehicle-plate';
+  return prefix ? `${base}/${prefix}` : base;
 }

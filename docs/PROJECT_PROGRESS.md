@@ -2,8 +2,8 @@
 
 ## Current Status
 
-Current completed phase: Phase 10 — Vehicle Plate Backend
-Next phase: Phase 11 — Vehicle Plate Frontend + SEO
+Current completed phase: Phase 11 — Vehicle Plate Frontend + SEO
+Next phase: Phase 12 — Postal Code Backend
 Status: Complete locally with live migration/import/database verification pending
 Last updated: 2026-09-15 (Asia/Ho_Chi_Minh)
 Branch: main
@@ -574,6 +574,35 @@ Commit: `feat: add vehicle plate lookup backend` (this checkpoint).
 Push destination: origin/main; resolve the synchronized hash after push.
 Next phase: Phase 11 — Vehicle Plate Frontend + SEO
 
+### Phase 11 — Vehicle Plate Frontend + SEO
+
+Status: Complete locally; live database verification remains pending.
+
+- Added bilingual catalogue/detail routes `/vi/tra-cuu/bien-so[/:prefix]` and
+  `/en/lookup/vehicle-plate[/:prefix]` with API-backed SSR and single-use hydration transfer state.
+- Source-backed answers distinguish public allocation from vehicle/owner identity. Seri such as 51K displays its
+  context while explaining that the sourced allocation is numeric 51. Ambiguous results display all allocations.
+- Current target groups, source references, distinct dates, previous allocation targets and regional related links
+  use the Phase 10 API. Historical transition dates do not invalidate issued plates.
+- Search clears submitted input and navigates only to normalized public prefix/series URLs. No registration serial
+  enters page content, navigation, metadata or browser storage. Malformed full-plate paths never query the API.
+- Localized title/description, OG, WebPage/BreadcrumbList, canonicals and equivalent locale routes implemented.
+  Numeric pages are indexable when deployment enables indexing. Unsourced series variants are noindex with a numeric
+  canonical; they are excluded from sitemap and hreflang output. Errors are real 404/503 without canonical/alternates.
+- Added `/sitemap-vehicle-plate.xml`: 164 URLs for the current 81-code dataset; empty/unavailable catalogues return 503
+  and are omitted from the sitemap index. Added a footer discovery link and a scoped same-origin API gateway.
+- Validation passed: formatting, ESLint, Prisma validation, shared/API/browser/SSR production builds; 44 Angular,
+  142 API unit and 29 API E2E tests. SSR i18n/SEO, phone (116 URLs), area (246 URLs) and vehicle (164 URLs) passed.
+- One headless browser checked six routes at 320/375/390/430/768/1024/1280/1440, hydration request reuse, search
+  privacy and light/dark themes. Representative mobile/desktop screenshots were inspected and temporary images removed.
+- Docker socket remains absent; the earlier 52 PostgreSQL cases, migrations/imports, Redis/readiness and live DB-backed
+  verification remain pending. Test-only adapters do not remove this limitation.
+- No new dependency, migration, backend data change, or Phase 12 implementation.
+
+Commit: `feat: add vehicle plate lookup frontend` (this checkpoint).
+Push destination: origin/main; verify synchronized HEAD after push.
+Next phase: Phase 12 — Postal Code Backend
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -598,7 +627,7 @@ external runtime provider is active yet. See `docs/data-sources.md` for sources 
 
 ### Next Phase
 
-Next phase: Phase 11 — Vehicle Plate Frontend + SEO
+Next phase: Phase 12 — Postal Code Backend
 
 The master specification defines this order:
 
@@ -610,7 +639,8 @@ The master specification defines this order:
 6. Phase 8 — Area Code Backend (complete locally; live DB-backed verification pending)
 7. Phase 9 — Area Code Frontend + SEO (complete locally; live DB-backed verification pending)
 8. Phase 10 — Vehicle Plate Backend (complete locally; live DB-backed verification pending)
-9. Phase 11 — Vehicle Plate Frontend + SEO
+9. Phase 11 — Vehicle Plate Frontend + SEO (complete locally; live DB-backed verification pending)
+10. Phase 12 — Postal Code Backend
 
 Do not rename or reorder phases without both a documented architectural reason and explicit user instruction.
 

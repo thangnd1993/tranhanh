@@ -488,3 +488,21 @@ Full-plate parsing exists only to extract numeric prefix and optional public ser
 before Prisma and never appear in DTOs, errors, audit records, caches, or external requests. No vehicle/owner existence,
 registration status, plate validity, location, or category is inferred. The reviewed JSON importer follows the existing
 transactional source/audit pattern, with immutable references and refusal of silent target/identity changes.
+
+## Vehicle-plate frontend and SEO — Phase 11
+
+The API boundary validates nested target/history/source records and coherent ambiguity, prefix and series flags.
+The route resolver awaits catalogue/detail evidence before rendering and transfers successful public results once for
+hydration. Related failures omit that supplemental section. Empty/malformed/unavailable data returns 503; invalid or
+unknown prefix paths return 404. Neither error state publishes canonical/hreflang metadata.
+
+Index pages group all current allocations by target. Detail pages render every allocation for ambiguous input, dated
+previous targets and source/transition references, without implying issued plate invalidity. Full-input lookup clears the
+form immediately and navigates only to validated prefix/series; it never adds submitted serials to metadata or storage.
+The shared deployment requirement to omit GET lookup values from proxy/APM logs also applies to vehicle lookup.
+
+Numeric allocation URLs are the SEO identity for the current dataset. A generic series such as 51K remains useful as a
+contextual page but uses noindex and a numeric /51 canonical; the existing SEO service omits hreflang on noindex pages.
+Source-backed series allocations can have distinct pages. The vehicle sitemap lists only allocation-derived URLs and
+fails closed for empty/unavailable data. It is independent of existing phone/area segments. No series permutations or
+full-plate pages are generated. All pages use the existing design system, locale routing, and same-origin API gateway.
