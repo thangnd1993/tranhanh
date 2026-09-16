@@ -26,3 +26,5 @@ export type {
 
 export * from './area-codes.js';
 export * from './vehicle-plates.js';
+
+export * from './postal-codes.js';

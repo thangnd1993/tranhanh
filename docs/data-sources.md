@@ -250,3 +250,51 @@ reassigns allocation identities. Such changes need new reviewed evidence/history
 The guarded PostgreSQL suite adds five Phase 10 cases for real idempotency/joins, scope uniqueness, foreign keys, CHECKs,
 and RESTRICT history retention. They remain pending with the earlier 47 cases while Docker is unavailable. In-memory
 fixtures and HTTP tests prove application decisions only, not database migration execution.
+
+## National postal-code dataset — Phase 12
+
+Reviewed 2026-09-15/16. The production snapshot is `apps/api/data/postal-codes.json`. It contains only factual names,
+assignments, hierarchy, dates, anomaly notes and attribution; downloaded PDFs and editorial text are not committed.
+
+### Current amendment and assignment table
+
+- Publisher: Bộ Khoa học và Công nghệ, the competent national authority.
+- System/document: [Decision 2334/QĐ-BKHCN and its official annex](https://mst.gov.vn/van-ban-phap-luat/25175.htm),
+  “Danh mục Mã bưu chính quốc gia cho đối tượng là phường, xã và đơn vị hành chính tương đương”.
+- Issued/effective: 2025-08-24; the official registry reports the decision remains effective.
+- Extracted: 34 current province/city groupings and 3,321 listed ward, commune or equivalent targets after adoption of
+  the two-tier local administration. Of these, 3,320 source values pass the official five-character format.
+- Retrieval: downloaded the official annex PDF from the registry, extracted its tabular text, checked row sequences and
+  target totals, manually reviewed anomalies, then converted only reviewed facts into versioned JSON.
+- Reuse: ministry pages request attribution to mst.gov.vn. No general open-data license was identified, so the repository
+  retains facts and source attribution only, without reproducing the PDF or editorial content.
+
+### National five-character structure
+
+- Publisher: Ministry authority and official national postal-code system.
+- Sources: [Ministry explanation of Circular 07/2017/TT-BTTTT](https://mst.gov.vn/viet-nam-nhat-ban-trao-doi-kinh-nghiem-ve-ma-buu-chinh-197136691.htm),
+  [Decision 2475/QĐ-BTTTT registry](https://mst.gov.vn/van-ban-phap-luat/14085.htm), and the
+  [official lookup system](https://mabuuchinh.vn/).
+- Effective baseline: Decision 2475 took effect 2018-01-01; Decision 2334 amends locality assignments from 2025-08-24.
+- Extracted: national postal codes use five characters. The current official assignment annex uses decimal digits.
+  Six-digit conventions and province-level shorthand seen on unrelated sites are not accepted as exact assignments.
+- Retrieval: official registry/system review; last reviewed 2026-09-16.
+
+### Official Hải Phòng anomaly resolution
+
+- Publisher: Cổng thông tin điện tử Thành phố Hải Phòng.
+- Document: [Danh mục mã bưu chính của các xã, phường, đặc khu](https://cdn.haiphong.gov.vn/gov-hpg/6807/tintuc/2025/9/ma-buu-chinh-cac-xa-phuong-tren-dia-ban-thanh-pho638938022577286985.pdf).
+- Extracted: the central annex's `#VALUE!` cell for code 05127 is Xã Nghi Dương.
+- Retrieval: official city PDF cross-check; last reviewed 2026-09-15. No general reuse license identified.
+
+### Coverage, anomaly and maintenance policy
+
+The snapshot has 3,355 targets: 34 province/city parents, 2,621 communes, 687 wards and 13 special zones. It has 3,320
+active assignments. The central annex prints `152213` for Xã Tam Dương Bắc, which conflicts with the binding five-character
+structure. No official correction was located during review. The target is retained with a structured anomaly and no code
+assignment; the importer refuses silent omission or truncation. This limitation must remain visible until official evidence
+supports a correction.
+
+Update workflow: review an official change → update/new evidence UUID → edit structured JSON → validate → apply additive
+migration if needed → import/upsert → tests → documentation → commit. Imports do not delete omitted rows. Run
+`pnpm postal-codes:validate`; after migrations and an explicit `DATABASE_URL`, run `pnpm postal-codes:import`.

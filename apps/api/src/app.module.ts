@@ -9,6 +9,7 @@ import { DatabaseModule } from './database/database.module.js';
 import { HealthController } from './health/health.controller.js';
 import { HealthService } from './health/health.service.js';
 import { PhonePrefixesModule } from './phone-prefixes/phone-prefixes.module.js';
+import { PostalCodesModule } from './postal-codes/postal-codes.module.js';
 import { RedisModule } from './redis/redis.module.js';
 import { VehiclePlatesModule } from './vehicle-plates/vehicle-plates.module.js';
 
@@ -33,6 +34,7 @@ import { VehiclePlatesModule } from './vehicle-plates/vehicle-plates.module.js';
     }),
     DatabaseModule,
     PhonePrefixesModule,
+    PostalCodesModule,
     VehiclePlatesModule,
     AreaCodesModule,
     RedisModule,

@@ -40,3 +40,14 @@ Importer validation covers cross-row current/history/source consistency that SQL
 
 Five guarded PostgreSQL cases were added, bringing the pending suite to 52 cases. Runtime migration and constraint
 execution remain pending until a local Docker/PostgreSQL service is available; Prisma validation alone is not proof.
+
+## Postal-code migration (Phase 12)
+
+`20260916000000_add_postal_code_lookup` adds the two-level `PostalCodeTarget` hierarchy, `PostalCodeAssignment` and
+two enums after all earlier migrations. The migration is additive: it has no DROP, TRUNCATE, data rewrite or cascading
+delete. RESTRICT foreign keys preserve parents and evidence. CHECKs enforce stable keys, five decimal digits, hierarchy
+shape and ordered effective intervals. Unique constraints retain code/target multiplicity while preventing duplicate
+mappings; indexes cover exact code, status, target hierarchy, normalized search text and evidence joins.
+
+Five guarded PostgreSQL cases bring the pending suite to 57. Docker was unavailable, so migration execution, import,
+constraints, Redis and readiness remain pending; Prisma format/validate/generate and manual SQL review passed.

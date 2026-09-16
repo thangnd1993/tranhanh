@@ -53,8 +53,8 @@ No external provider is queried at runtime. The phone-prefix backend reads expli
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 11 — Vehicle Plate Frontend + SEO (live database verification pending).
-Next phase: Phase 12 — Postal Code Backend.
+Current completed phase: Phase 12 — Postal Code Backend (live database verification pending).
+Next phase: Phase 13 — Postal Code Frontend + SEO.
 Follow the [master specification](docs/MASTER_EXECUTION_PROMPT.md) and preserve completed phase history.
 Roadmap changes require a documented architectural reason and explicit user instruction.
 
@@ -185,3 +185,14 @@ Build both apps then run `pnpm test:vehicle` for the isolated API-adapter SSR/SE
 Optional PLAYWRIGHT_MODULE, CHROME_EXECUTABLE and VEHICLE_SCREENSHOTS enable sequential headless responsive and theme
 checks. Test adapters never supply production fallback data. Real answers require the pending migrations and import.
 Numeric allocation pages enter the sitemap; generic series variants use a numeric canonical and noindex.
+
+## Postal-code data commands
+
+    pnpm postal-codes:validate
+    pnpm db:migrate:deploy
+    pnpm postal-codes:import
+
+The API is under `/api/v1/postal-codes`. The reviewed Phase 12 snapshot follows the current five-character national
+standard and the 2025 two-tier locality amendment. Validation needs no database; import requires the additive migration
+and an explicit `DATABASE_URL`. One invalid value in the official annex remains a documented unassigned target rather than
+being silently truncated. See [postal-code sources](docs/data-sources.md#national-postal-code-dataset--phase-12).

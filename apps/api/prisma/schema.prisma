@@ -122,6 +122,8 @@ model SourceReference {
   vehiclePlateAllocations       VehiclePlateAllocation[]
   vehiclePlateHistorySources    VehiclePlateAllocationHistory[] @relation("VehiclePlateHistorySource")
   vehiclePlateTransitionSources VehiclePlateAllocationHistory[] @relation("VehiclePlateTransitionSource")
+  postalTargets                 PostalCodeTarget[]
+  postalAssignments             PostalCodeAssignment[]
   source                        DataSource                      @relation(fields: [sourceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
   @@index([sourceId, retrievedAt(sort: Desc)])
@@ -367,4 +369,60 @@ model VehiclePlateAllocationHistory {
   @@index([previousTargetId, effectiveTo])
   @@index([sourceReferenceId])
   @@index([transitionReferenceId])
+}
+
+enum PostalCodeTargetType {
+  PROVINCE_CITY
+  WARD
+  COMMUNE
+  SPECIAL_ZONE
+}
+
+enum PostalCodeStatus {
+  ACTIVE
+  INACTIVE
+}
+
+/// Minimal source-backed postal hierarchy; it is not the canonical administrative domain.
+model PostalCodeTarget {
+  id                String                 @id @default(uuid()) @db.Uuid
+  key               String                 @unique @db.VarChar(100)
+  name              String                 @db.VarChar(250)
+  aliases           String[]
+  searchName        String                 @db.VarChar(1000)
+  type              PostalCodeTargetType
+  parentId          String?                @db.Uuid
+  parent            PostalCodeTarget?      @relation("PostalTargetHierarchy", fields: [parentId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  children          PostalCodeTarget[]     @relation("PostalTargetHierarchy")
+  isActive          Boolean                @default(true)
+  sourceReferenceId String                 @db.Uuid
+  sourceReference   SourceReference        @relation(fields: [sourceReferenceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  assignments       PostalCodeAssignment[]
+  createdAt         DateTime               @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime               @updatedAt @db.Timestamptz(3)
+
+  @@index([parentId, type, isActive, name])
+  @@index([searchName])
+  @@index([sourceReferenceId])
+}
+
+model PostalCodeAssignment {
+  id                String           @id @default(uuid()) @db.Uuid
+  key               String           @unique @db.VarChar(100)
+  code              String           @db.VarChar(5)
+  targetId          String           @db.Uuid
+  target            PostalCodeTarget @relation(fields: [targetId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  status            PostalCodeStatus
+  effectiveFrom     DateTime?        @db.Date
+  effectiveTo       DateTime?        @db.Date
+  sourceReferenceId String           @db.Uuid
+  sourceReference   SourceReference  @relation(fields: [sourceReferenceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  importedAt        DateTime         @db.Timestamptz(3)
+  createdAt         DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime         @updatedAt @db.Timestamptz(3)
+
+  @@unique([code, targetId])
+  @@index([code, status])
+  @@index([targetId, status, code])
+  @@index([sourceReferenceId])
 }

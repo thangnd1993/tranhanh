@@ -2,10 +2,10 @@
 
 ## Current Status
 
-Current completed phase: Phase 11 — Vehicle Plate Frontend + SEO
-Next phase: Phase 12 — Postal Code Backend
+Current completed phase: Phase 12 — Postal Code Backend
+Next phase: Phase 13 — Postal Code Frontend + SEO
 Status: Complete locally with live migration/import/database verification pending
-Last updated: 2026-09-15 (Asia/Ho_Chi_Minh)
+Last updated: 2026-09-16 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
 
@@ -603,6 +603,35 @@ Commit: `feat: add vehicle plate lookup frontend` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
 Next phase: Phase 12 — Postal Code Backend
 
+### Phase 12 — Postal Code Backend
+
+Status: Complete locally; live PostgreSQL/Redis verification remains pending.
+
+- Verified the current national standard from official Ministry sources: five-character codes under the 2017 national
+  structure, amended for the two-tier administration by Decision 2334/QĐ-BKHCN, effective 2025-08-24.
+- Added a reviewed production snapshot with 34 province/city parent targets and 3,321 ward/commune/special-zone targets.
+  It contains 3,320 valid five-digit assignments: 2,621 communes, 687 wards and 13 special zones.
+- The central annex publishes `#VALUE!` for 05127; the official Hải Phòng publication resolves it as Xã Nghi Dương.
+  The annex also publishes six-digit `152213` for Xã Tam Dương Bắc. That target is retained as an explicit source anomaly
+  without an assignment; no silent truncation to 15221 is performed pending an official correction.
+- Added stable postal-target keys, an explicit two-level hierarchy, canonical Vietnamese names, aliases, normalized
+  accent-insensitive search fields, active intervals and immutable source evidence. This remains separate from the future
+  canonical administrative domain.
+- Added additive migration `20260916000000_add_postal_code_lookup`, Prisma models, CHECK/unique/FK constraints and indexes.
+- Added transactional, advisory-locked, idempotent validate/import flow. Omitted rows are retained; identity, hierarchy,
+  reassignment and evidence changes require reviewed reconciliation.
+- Added shared contracts and documented API routes under `/api/v1/postal-codes`: list, search, lookup, exact and related.
+  Malformed input returns 400, unknown well-formed code/locality returns 404, and ambiguous locality results remain lists.
+- Added normalization, official coverage checks, source-anomaly checks, import tests, service tests, HTTP E2E and five
+  guarded PostgreSQL cases. No query persistence, address collection, external runtime search, Redis cache or frontend.
+- Docker socket remained absent at phase start. Migration/import execution, 57 PostgreSQL cases, Redis readiness and live
+  DB-backed API verification remain pending; static Compose validation and all non-runtime gates are recorded separately.
+- Backend-only phase: no Angular postal page, Phase 13 SEO metadata, browser session, screenshot or homepage redesign.
+
+Commit: `feat: add postal code lookup backend` (this checkpoint).
+Push destination: origin/main; verify synchronized HEAD after push.
+Next phase: Phase 13 — Postal Code Frontend + SEO
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -612,7 +641,7 @@ Next phase: Phase 12 — Postal Code Backend
 
 ## Active Data Providers
 
-Phone-prefix, area-code, and vehicle-plate reviewed-file importers implemented; official evidence registries reviewed. No live database import or
+Phone-prefix, area-code, vehicle-plate, and postal-code reviewed-file importers implemented; official evidence registries reviewed. No live database import or
 external runtime provider is active yet. See `docs/data-sources.md` for sources and limitations.
 
 ## Environment Notes
@@ -627,7 +656,7 @@ external runtime provider is active yet. See `docs/data-sources.md` for sources 
 
 ### Next Phase
 
-Next phase: Phase 12 — Postal Code Backend
+Next phase: Phase 13 — Postal Code Frontend + SEO
 
 The master specification defines this order:
 
@@ -640,7 +669,8 @@ The master specification defines this order:
 7. Phase 9 — Area Code Frontend + SEO (complete locally; live DB-backed verification pending)
 8. Phase 10 — Vehicle Plate Backend (complete locally; live DB-backed verification pending)
 9. Phase 11 — Vehicle Plate Frontend + SEO (complete locally; live DB-backed verification pending)
-10. Phase 12 — Postal Code Backend
+10. Phase 12 — Postal Code Backend (complete locally; live DB-backed verification pending)
+11. Phase 13 — Postal Code Frontend + SEO
 
 Do not rename or reorder phases without both a documented architectural reason and explicit user instruction.
 

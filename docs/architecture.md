@@ -506,3 +506,27 @@ contextual page but uses noindex and a numeric /51 canonical; the existing SEO s
 Source-backed series allocations can have distinct pages. The vehicle sitemap lists only allocation-derived URLs and
 fails closed for empty/unavailable data. It is independent of existing phone/area segments. No series permutations or
 full-plate pages are generated. All pages use the existing design system, locale routing, and same-origin API gateway.
+
+## Postal-code backend — Phase 12
+
+Vietnamese postal codes are stored as five-character digit strings, so leading zeroes survive every API, dataset and
+persistence boundary. `PostalCodeTarget` is a source-era postal assignment target with a stable internal key, canonical
+Vietnamese name, aliases, normalized search text, explicit type and optional parent. The current hierarchy has only the
+levels exposed by Decision 2334/QĐ-BKHCN: 34 province/city parents and ward, commune or special-zone children. It does not
+claim to be the future canonical administrative model; stable keys and explicit parents allow a later reviewed link.
+
+`PostalCodeAssignment` keeps code-to-target multiplicity possible while enforcing one mapping per code/target pair.
+The current reviewed snapshot happens to contain unique codes. Exact lookup returns every official match and locality
+lookup never chooses one code from an ambiguous result. Related results are bounded siblings under the same sourced
+province/city parent. Search uses indexed code fields and normalized target/parent text; no external search or cache is
+needed for this dataset size.
+
+Publication, effective, retrieval, import and database update timestamps retain distinct meanings. The 2025 amendment is
+modeled as the current snapshot, not fabricated historical continuity. Omitted assignments are never deleted by import.
+Identity, hierarchy or assignment changes require reviewed evidence and an explicit reconciliation/history decision.
+The source's invalid six-digit Tam Dương Bắc value is a structured anomaly with no assignment, rather than silently
+truncated. The separate Hải Phòng government publication resolves the central PDF's `#VALUE!` cell for Xã Nghi Dương.
+
+The importer validates all hierarchy, evidence, code, date and uniqueness rules before a transactional upsert under an
+advisory lock. API contracts under `/api/v1/postal-codes` are framework-neutral and do not expose Prisma rows. Requests
+accept codes or public locality names only; the service neither accepts/stores full addresses nor stores lookup queries.
