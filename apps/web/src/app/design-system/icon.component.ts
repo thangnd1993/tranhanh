@@ -13,6 +13,9 @@ const paths = {
   clock: 'M12 6v6l4 2M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0',
   chevron: 'm9 5 7 7-7 7',
   globe: 'M2 12h20M12 2a18 18 0 0 0 0 20 18 18 0 0 0 0-20M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0',
+  car: 'M5 17h14M6 17v2m12-2v2M4 13l2-5h12l2 5v4H4zM7 13h.01M17 13h.01',
+  shield: 'M12 3 4 6v5c0 5 3 8 8 10 5-2 8-5 8-10V6zM9 12l2 2 4-5',
+  bell: 'M6 16h12l-2-3V9a4 4 0 0 0-8 0v4zM10 19h4',
 } as const;
 
 export type IconName = keyof typeof paths;

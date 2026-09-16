@@ -530,3 +530,53 @@ truncated. The separate Hải Phòng government publication resolves the central
 The importer validates all hierarchy, evidence, code, date and uniqueness rules before a transactional upsert under an
 advisory lock. API contracts under `/api/v1/postal-codes` are framework-neutral and do not expose Prisma rows. Requests
 accept codes or public locality names only; the service neither accepts/stores full addresses nor stores lookup queries.
+
+## Automotive product architecture — Phase 12P
+
+### Product and information architecture
+
+TraNhanh is a working label for a web-first assistant for Vietnamese drivers, vehicle owners, families managing one or
+more vehicles, and people researching vehicle and traffic information. Public acquisition starts with source-backed,
+SSR-rendered automotive tools that work without an account. Vehicle Plate Lookup is the current first-class feature.
+Phone Prefix and Area Code remain functional secondary utilities to preserve useful routes and search equity. The Postal
+Code backend remains intact but dormant, with no frontend, navigation entry, SEO landing page, or sitemap segment.
+
+Primary public navigation exposes only implemented destinations: Home and Vehicle Plate Lookup. Future areas such as
+Traffic Fine Lookup, Fuel Prices, Traffic Rules, and Vehicle Tools appear only as clearly unavailable product direction
+until their phases ship. Future authenticated navigation may add My Garage, Dashboard, Fuel Log, Maintenance, Expenses,
+Reminders, and Notifications. Authentication must never become a prerequisite for public lookup.
+
+### Public and private boundaries
+
+Public domains contain vehicle-plate allocation references, one-time traffic-fine results, fuel prices, traffic-rule
+references, and public calculators/tools. They may participate in SSR, canonical/hreflang output, structured data, and
+sitemaps when the source and page satisfy the existing indexing policy. DataSource, DataProvider, SyncRun, and
+SourceReference remain the provenance boundary for sourced automotive facts and expose source, provider, retrieval or
+update time, and effective dates where useful.
+
+Private domains contain saved vehicles, monitoring subscriptions, fuel logs, maintenance histories, expenses, reminders,
+document dates, and notification histories. Every private entity must be owner-scoped and authorization-checked. Private
+identifiers and facts must not enter public routes, canonicals, hreflang, structured data, sitemaps, analytics, or routine
+server logs. Complete license plates should be accepted, retained, and logged only when a feature has a documented need;
+public prefix lookup continues discarding registration serials before persistence or queries.
+
+### Future domain boundaries and dependencies
+
+The future domain sequence is User and Session/Auth, then Vehicle and VehicleMonitoring, followed by TrafficFine,
+VehicleDocument, Reminder, FuelPrice, FuelLog, Maintenance, VehicleExpense, and Notification. User/Auth supplies identity
+and sessions. Vehicle owns private owner-to-vehicle membership. Monitoring references an authorized vehicle and a public
+provider adapter; it does not make public reference data depend on a user. Documents, reminders, logs, maintenance, and
+expenses depend on an authorized vehicle identity. Notification consumes explicit domain events and user preferences;
+it does not own business truth. Public source adapters remain independent of private account records.
+
+These boundaries are documentation only in Phase 12P. Phase 13 begins identity and session work; no account model, login,
+JWT/session, My Garage, monitoring, traffic-fine provider, or new automotive persistence is introduced here. REST contracts
+remain framework-neutral and suitable for a future native client, while responsive Angular SSR stays the only client now.
+
+### SEO, privacy, and route preservation
+
+The homepage metadata and WebSite description now identify the driver and vehicle assistant direction without claiming
+unreleased features. WebSite remains the only homepage schema; no site search exists, so there is no SearchAction. The
+existing Vehicle Plate, Phone Prefix, and Area Code paths, detail pages, canonicals, alternates, structured data, robots
+policy, and sitemap segments remain unchanged. Product prominence and indexing are separate decisions: de-emphasized valid
+pages can continue serving users and attracting search traffic. No Postal sitemap or public route is introduced.

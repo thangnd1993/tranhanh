@@ -1,10 +1,11 @@
 # TraNhanh
 
-Cần biết gì, tra ngay.
+Trợ lý cho tài xế và phương tiện.
 
-TraNhanh is a Vietnamese-first, bilingual lookup and daily utility platform. This repository contains the
-Phase 1 foundation: Angular SSR, a NestJS API, PostgreSQL through Prisma, Redis and BullMQ infrastructure,
-shared TypeScript contracts, and local service definitions.
+TraNhanh is the working label for a Vietnamese-first, bilingual automotive information platform for drivers,
+vehicle owners, and families managing vehicles. Public source-backed tools remain available without an account;
+future private features will support saved vehicles, monitoring, reminders, maintenance, fuel, and expenses.
+The repository combines Angular SSR, NestJS, Prisma/PostgreSQL, Redis/BullMQ, and shared TypeScript contracts.
 
 ## Requirements
 
@@ -48,15 +49,16 @@ with OpenAPI UI at http://localhost:3000/api/docs.
 - .env.example: documented local environment.
 - compose.yaml: development PostgreSQL and Redis services.
 - docs/PROJECT_PROGRESS.md: source of truth for phase status and continuation.
+- docs/product-direction.md: automotive product vision, feature disposition, boundaries, and roadmap.
 
-No external provider is queried at runtime. The phone-prefix backend reads explicitly imported reviewed data.
+No external provider is queried at runtime. Public lookup answers come from explicitly imported, reviewed data.
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 12 — Postal Code Backend (live database verification pending).
-Next phase: Phase 13 — Postal Code Frontend + SEO.
-Follow the [master specification](docs/MASTER_EXECUTION_PROMPT.md) and preserve completed phase history.
-Roadmap changes require a documented architectural reason and explicit user instruction.
+Current completed phase: Phase 12P — Product Pivot & Automotive Information Architecture.
+Next phase: Phase 13 — Authentication & User Foundation.
+The user-authorized automotive pivot supersedes the old post-Phase 12 general-utility roadmap while preserving all
+completed history. See [product direction](docs/product-direction.md) and [project progress](docs/PROJECT_PROGRESS.md).
 
 Every session must follow the permanent [low-resource testing strategy](docs/testing-strategy.md).
 Keep required quality gates, using headless browser reuse, sequential viewport checks, selective screenshots,

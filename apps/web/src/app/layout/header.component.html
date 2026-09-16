@@ -5,7 +5,7 @@
       [attr.aria-label]="i18n.t('navigation.brand')"
       [routerLink]="i18n.path('home')"
     >
-      <span class="brand-mark"><tn-icon name="search" /></span>
+      <span class="brand-mark"><tn-icon name="car" /></span>
       <span>Tra<span class="brand-accent">Nhanh</span></span>
     </a>
     <nav
@@ -14,12 +14,15 @@
     >
       <a
         routerLinkActive="active"
-        [routerLink]="i18n.path('showcase')"
-        >{{ i18n.t('navigation.showcase') }}</a
+        [routerLinkActiveOptions]="{ exact: true }"
+        [routerLink]="i18n.path('home')"
+        >{{ i18n.t('navigation.home') }}</a
       >
-      <span aria-disabled="true">{{ i18n.t('navigation.lookup') }}</span>
-      <span aria-disabled="true">{{ i18n.t('navigation.tools') }}</span>
-      <span aria-disabled="true">{{ i18n.t('navigation.today') }}</span>
+      <a
+        routerLinkActive="active"
+        [routerLink]="vehiclePath(i18n.locale())"
+        >{{ i18n.t('navigation.vehiclePlate') }}</a
+      >
     </nav>
     <div class="header-actions">
       <tn-language-switcher
@@ -70,18 +73,9 @@
       >{{ i18n.t('navigation.home') }}</a
     >
     <a
-      [routerLink]="i18n.path('showcase')"
+      [routerLink]="vehiclePath(i18n.locale())"
       (click)="closeMenu()"
-      >{{ i18n.t('navigation.showcase') }}</a
-    >
-    <span
-      >{{ i18n.t('navigation.lookup') }} <small>{{ i18n.t('common.soon') }}</small></span
-    >
-    <span
-      >{{ i18n.t('navigation.tools') }} <small>{{ i18n.t('common.soon') }}</small></span
-    >
-    <span
-      >{{ i18n.t('navigation.today') }} <small>{{ i18n.t('common.soon') }}</small></span
+      >{{ i18n.t('navigation.vehiclePlate') }}</a
     >
     <tn-language-switcher controlId="language-mobile" />
   </nav>

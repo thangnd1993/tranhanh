@@ -1,4 +1,5 @@
 import { LocaleService } from '../i18n/locale.service';
+import { vehiclePath } from '../i18n/routes';
 import { LanguageSwitcherComponent } from '../i18n/language-switcher.component';
 import {
   ChangeDetectionStrategy,
@@ -24,6 +25,7 @@ import { parseTheme, ThemeService } from '../design-system/theme.service';
   host: { '(keydown.escape)': 'closeMenu(true)' },
 })
 export class HeaderComponent {
+  protected readonly vehiclePath = vehiclePath;
   protected readonly i18n = inject(LocaleService);
   protected readonly theme = inject(ThemeService);
   readonly menuOpen = signal(false);

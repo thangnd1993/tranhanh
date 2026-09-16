@@ -2,9 +2,9 @@
 
 ## Current Status
 
-Current completed phase: Phase 12 — Postal Code Backend
-Next phase: Phase 13 — Postal Code Frontend + SEO
-Status: Complete locally with live migration/import/database verification pending
+Current completed phase: Phase 12P — Product Pivot & Automotive Information Architecture
+Next phase: Phase 13 — Authentication & User Foundation
+Status: Complete locally; live PostgreSQL/Redis verification remains pending
 Last updated: 2026-09-16 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
@@ -630,7 +630,41 @@ Status: Complete locally; live PostgreSQL/Redis verification remains pending.
 
 Commit: `feat: add postal code lookup backend` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
-Next phase: Phase 13 — Postal Code Frontend + SEO
+Next phase at the time: Phase 13 — Postal Code Frontend + SEO (cancelled by the authorized automotive pivot).
+
+### Phase 12P — Product Pivot & Automotive Information Architecture
+
+Status: Complete locally; live PostgreSQL/Redis verification remains pending.
+
+- Repositioned TraNhanh from a general utility catalogue to a Vietnamese-first automotive assistant for drivers,
+  vehicle owners, families managing vehicles, and people researching vehicle and traffic information.
+- Classified the existing product without deleting working functionality: Vehicle Plate is first-class; platform,
+  source, design, i18n and SEO infrastructure stay foundational; Phone Prefix and Area Code are de-emphasized;
+  the completed Postal Code backend remains dormant, tested and backend-only.
+- Rebuilt the bilingual homepage around vehicle information with a working Vehicle Plate CTA, source and privacy
+  principles, clearly labelled future product value, and a low-emphasis path to existing utility routes.
+- Simplified the primary header to Home and Vehicle Plate while preserving language, theme, mobile-menu and keyboard
+  behavior. Reworked the footer around vehicle lookup, driver tools, source transparency, and privacy without fake URLs.
+- Updated localized homepage metadata and WebSite structured-data description. No SearchAction, fake automotive schema,
+  fake statistics, login, Traffic Fine implementation, Postal frontend, or unavailable functional link was introduced.
+- Preserved all Vehicle Plate, Phone Prefix, and Area Code routes, SEO pages, sitemaps and indexing policy. Vehicle Plate
+  is now the primary acquisition feature; existing secondary utilities remain valid and discoverable.
+- Documented future automotive domains and strict public/private boundaries. Private owner-scoped records never enter
+  public SEO URLs, schema, sitemaps, or routine logs. Public lookup remains SSR, mobile-first and account-free.
+- Replaced the cancelled Postal frontend roadmap with Phases 13–30, beginning with Authentication & User Foundation.
+
+Validation:
+
+- Formatting, ESLint, 44 Angular tests, API unit/E2E regressions, Prisma validation, production API/browser/SSR builds,
+  SSR/SEO and Phone/Area/Vehicle smoke suites, and reviewed dataset validators passed.
+- One reusable headless browser checked 320/375/390/430/768/1024/1280/1440 widths. Representative 390 and 1440
+  screenshots were reviewed and removed. Raw SSR includes the new Vietnamese/English positioning and Vehicle Plate pages.
+- Docker remains unavailable, so the accumulated PostgreSQL migration/import/constraint suite, Redis readiness, and
+  live database-backed API verification remain pending. The completed Postal backend was retained unchanged.
+
+Commit: `feat: pivot product to automotive assistant` (this checkpoint).
+Push destination: origin/main; verify synchronized HEAD after push.
+Next phase: Phase 13 — Authentication & User Foundation
 
 ## Current Architecture Decisions
 
@@ -638,11 +672,14 @@ Next phase: Phase 13 — Postal Code Frontend + SEO
 - Use Angular server output with prerendering for static routes and SSR for future dynamic routes.
 - Keep infrastructure clients lazy so liveness works when dependencies are unavailable.
 - Require sourced facts, versioned data, safe money arithmetic, bilingual UI, and SEO from inception.
+- Keep public automotive acquisition tools separate from future private, owner-scoped vehicle records.
+- Keep public tools account-free; authentication adds recurring personal value rather than gating lookup.
 
 ## Active Data Providers
 
-Phone-prefix, area-code, vehicle-plate, and postal-code reviewed-file importers implemented; official evidence registries reviewed. No live database import or
-external runtime provider is active yet. See `docs/data-sources.md` for sources and limitations.
+Phone-prefix, area-code, vehicle-plate, and postal-code reviewed-file importers are implemented; official evidence registries
+are reviewed. Vehicle Plate is first-class, Phone Prefix and Area Code are de-emphasized, and Postal Code is dormant. No
+live database import or external runtime provider is active yet. See `docs/data-sources.md` for sources and limitations.
 
 ## Environment Notes
 
@@ -656,23 +693,30 @@ external runtime provider is active yet. See `docs/data-sources.md` for sources 
 
 ### Next Phase
 
-Next phase: Phase 13 — Postal Code Frontend + SEO
+Next phase: Phase 13 — Authentication & User Foundation
 
-The master specification defines this order:
+The authorized automotive roadmap preserves Phases 0–12 and inserts Phase 12P as the transition:
 
-1. Phase 3 — I18N Foundation (complete)
-2. Phase 4 — SEO Foundation (complete)
-3. Phase 5 — Database Core (complete locally; runtime migration verification pending)
-4. Phase 6 — Phone Prefix Lookup Backend (complete locally; runtime migration/import verification pending)
-5. Phase 7 — Phone Prefix Frontend + SEO (complete locally; live DB-backed verification pending)
-6. Phase 8 — Area Code Backend (complete locally; live DB-backed verification pending)
-7. Phase 9 — Area Code Frontend + SEO (complete locally; live DB-backed verification pending)
-8. Phase 10 — Vehicle Plate Backend (complete locally; live DB-backed verification pending)
-9. Phase 11 — Vehicle Plate Frontend + SEO (complete locally; live DB-backed verification pending)
-10. Phase 12 — Postal Code Backend (complete locally; live DB-backed verification pending)
-11. Phase 13 — Postal Code Frontend + SEO
+1. Phase 13 — Authentication & User Foundation
+2. Phase 14 — My Garage
+3. Phase 15 — Traffic Fine Lookup Backend
+4. Phase 16 — Traffic Fine Lookup Frontend + SEO
+5. Phase 17 — Vehicle Monitoring
+6. Phase 18 — Registration, Insurance & Vehicle Documents
+7. Phase 19 — Fuel Prices
+8. Phase 20 — Fuel Log
+9. Phase 21 — Maintenance
+10. Phase 22 — Vehicle Expenses
+11. Phase 23 — Driver Dashboard
+12. Phase 24 — Notification Center
+13. Phase 25 — Vehicle Tools
+14. Phase 26 — Traffic Rules & Fine Reference
+15. Phase 27 — PWA & Web Push
+16. Phase 28 — Reliability, Privacy & Security Hardening
+17. Phase 29 — SEO & Acquisition Expansion
+18. Phase 30 — Native Mobile Readiness
 
-Do not rename or reorder phases without both a documented architectural reason and explicit user instruction.
+The old Phase 13 Postal Code Frontend + SEO is cancelled. The Postal backend remains preserved and dormant.
 
 ## Permanent Execution Policy
 

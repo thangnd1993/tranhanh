@@ -76,6 +76,10 @@ describe('centralized route SEO', () => {
     const canonical = () => document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.href;
     expect(document.title).toBe(vi['seo.home.title']);
     expect(canonical()).toBe(site.origin + '/vi');
+    const homeSchema = JSON.parse(document.querySelector('script[type="application/ld+json"]')?.textContent ?? '{}');
+    expect(homeSchema['@type']).toBe('WebSite');
+    expect(homeSchema.description).toBe(vi['seo.home.description']);
+    expect(homeSchema.potentialAction).toBeUndefined();
     expect(document.querySelectorAll('link[hreflang]').length).toBe(2);
     await harness.navigateByUrl('/en?utm_source=test');
     expect(document.title).toBe(en['seo.home.title']);

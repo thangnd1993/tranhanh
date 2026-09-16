@@ -1,7 +1,7 @@
-import { vehiclePath } from '../i18n/routes';
-import { LocaleService } from '../i18n/locale.service';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { LocaleService } from '../i18n/locale.service';
+import { areaPath, phonePath, vehiclePath } from '../i18n/routes';
 
 @Component({
   selector: 'tn-footer',
@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
   template: `
     <footer class="container">
       <div class="footer-main">
-        <div class="stack">
+        <div class="stack footer-intro">
           <a
             class="footer-brand"
             [routerLink]="i18n.path('home')"
@@ -21,17 +21,20 @@ import { RouterLink } from '@angular/router';
         </div>
         <div class="footer-groups">
           <div class="stack">
-            <h2>{{ i18n.t('common.explore') }}</h2>
-            <a [routerLink]="vehiclePath(i18n.locale())">{{
-              i18n.locale() === 'vi' ? 'Tra cứu biển số xe' : 'Vehicle plate lookup'
-            }}</a>
-            <span>{{ i18n.t('footer.tools') }}</span>
-            <span>{{ i18n.t('footer.today') }}</span>
+            <h2>{{ i18n.t('footer.vehicleGroup') }}</h2>
+            <a [routerLink]="vehiclePath(i18n.locale())">{{ i18n.t('footer.vehicleLookup') }}</a>
+            <span>{{ i18n.t('footer.trafficFine') }}</span>
           </div>
           <div class="stack">
-            <h2>{{ i18n.t('footer.about') }}</h2>
-            <span>{{ i18n.t('footer.introduction') }}</span>
+            <h2>{{ i18n.t('footer.driverGroup') }}</h2>
+            <span>{{ i18n.t('footer.fuelPrices') }}</span>
+            <a [routerLink]="phonePath(i18n.locale())">{{ i18n.t('footer.phoneLookup') }}</a>
+            <a [routerLink]="areaPath(i18n.locale())">{{ i18n.t('footer.areaLookup') }}</a>
+          </div>
+          <div class="stack">
+            <h2>{{ i18n.t('footer.informationGroup') }}</h2>
             <span>{{ i18n.t('footer.sources') }}</span>
+            <span>{{ i18n.t('footer.privacy') }}</span>
             <a [routerLink]="i18n.path('showcase')">{{ i18n.t('navigation.showcase') }}</a>
           </div>
         </div>
@@ -53,6 +56,9 @@ import { RouterLink } from '@angular/router';
       gap: var(--space-10);
       padding-block: var(--space-10);
     }
+    .footer-intro {
+      max-width: 27rem;
+    }
     .footer-brand {
       font-size: 1.5rem;
       font-weight: 750;
@@ -67,37 +73,43 @@ import { RouterLink } from '@angular/router';
     }
     .footer-groups {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--space-6);
+      gap: var(--space-8);
+    }
+    .footer-groups span,
+    .footer-groups a {
+      font-size: var(--text-caption);
     }
     .footer-groups span {
-      font-size: var(--text-caption);
       color: var(--text-muted);
     }
     .footer-groups a {
-      font-size: var(--text-caption);
       min-height: 44px;
       display: inline-flex;
       align-items: center;
-    }
-    .footer-bottom {
-      border-top: 1px solid var(--border);
-      padding-block: var(--space-6);
     }
     .footer-bottom {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       gap: var(--space-3);
+      border-top: 1px solid var(--border);
+      padding-block: var(--space-6);
     }
-    @media (min-width: 48rem) {
+    @media (min-width: 40rem) {
+      .footer-groups {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (min-width: 64rem) {
       .footer-main {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: minmax(18rem, 0.75fr) minmax(0, 1.25fr);
       }
     }
   `,
 })
 export class FooterComponent {
   protected readonly vehiclePath = vehiclePath;
+  protected readonly phonePath = phonePath;
+  protected readonly areaPath = areaPath;
   protected readonly i18n = inject(LocaleService);
 }

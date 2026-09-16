@@ -19,7 +19,13 @@ export interface SeoOpenGraphConfig {
   image?: { url: string; alt: string };
 }
 export type StructuredDataDefinition =
-  | { '@type': 'WebSite' | 'Organization' | 'WebPage'; name: string; url: string; inLanguage?: Locale }
+  | {
+      '@type': 'WebSite' | 'Organization' | 'WebPage';
+      name: string;
+      url: string;
+      inLanguage?: Locale;
+      description?: string;
+    }
   | {
       '@type': 'BreadcrumbList';
       itemListElement: { '@type': 'ListItem'; position: number; name: string; item?: string }[];

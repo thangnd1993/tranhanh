@@ -48,6 +48,7 @@ export function pageSeo(page: PageId | 'notFound'): ResolveFn<SeoPageConfig> {
           name: 'TraNhanh',
           url: absoluteUrl(seo.site.origin, path),
           inLanguage: locale,
+          description: i18n.t(definition.descriptionKey),
         },
       ];
     }

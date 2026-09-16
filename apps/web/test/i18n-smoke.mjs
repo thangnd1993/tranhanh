@@ -48,7 +48,11 @@ try {
       assert.equal(response.status, 200);
       const html = await response.text();
       assert.match(html, new RegExp(`<html[^>]*lang="${locale}"`));
-      assert.ok(html.includes(locale === 'vi' ? 'Cần biết gì, tra ngay.' : 'Find what you need, instantly.'));
+      assert.ok(
+        html.includes(
+          locale === 'vi' ? 'Trợ lý cho tài xế &amp; phương tiện' : 'An assistant for drivers &amp; vehicles',
+        ),
+      );
       assert.ok(html.includes(locale === 'vi' ? 'Chuyển ngôn ngữ' : 'Switch language'));
       if (suffix) {
         assert.equal(response.headers.get('x-robots-tag'), 'noindex, nofollow');
