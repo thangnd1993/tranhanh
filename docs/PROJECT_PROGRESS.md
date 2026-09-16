@@ -2,8 +2,8 @@
 
 ## Current Status
 
-Current completed phase: Phase 14 — My Garage
-Next phase: Phase 15 — Traffic Fine Lookup Backend
+Current completed phase: Phase 15 — Traffic Fine Lookup Backend
+Next phase: Phase 16 — Traffic Fine Lookup Frontend + SEO
 Status: Complete locally; live PostgreSQL/Redis verification remains pending
 Last updated: 2026-09-16 (Asia/Ho_Chi_Minh)
 Branch: main
@@ -737,6 +737,33 @@ Commit: `feat: add my garage` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
 Next phase: Phase 15 — Traffic Fine Lookup Backend
 
+### Phase 15 — Traffic Fine Lookup Backend
+
+Status: Complete locally; official lookup is manual-only and live PostgreSQL/Redis verification remains pending.
+
+- Reviewed the official CSGT lookup, National Public Service payment flow, Vietnam Register lookup, HCMC traffic-police
+  lookup and secondary-source category. All official candidates require CAPTCHA, additional private/case fields, or have
+  local/indirect coverage; no documented official public automation API or explicit unattended-access permission was found.
+- Added a provider interface and capability metadata plus a controlled CSGT manual provider. It makes no external request,
+  bypasses no protection, and returns the official link with an explicit MANUAL_VERIFICATION_REQUIRED outcome.
+- Added public POST /api/v1/traffic-fines/lookup with strict full-plate and vehicle-type validation, HTTP 200 completed
+  outcomes, structured 502/503 provider failures, anonymous per-process IP rate limiting and private response headers.
+- Added shared result/provider/error contracts, source-faithful nullable fields, timezone-safe date handling, normalized
+  status boundaries, plate-independent SHA-256 fingerprints and deterministic deduplication for future monitoring.
+- Full query plates remain in request memory only. Responses mask them; URLs, logs, persistence, caches, queues, fingerprints,
+  raw payloads and source requests contain no submitted plate. No database model or migration was justified.
+
+Validation: Prettier, ESLint, 181 API unit tests, 47 Angular tests, 42 API E2E tests, shared/API/browser/SSR builds,
+Prisma format/generate/validate, Compose configuration, all four dataset validators, and SSR/SEO/Phone/Area/Vehicle/Auth
+CLI regressions passed. Provider, contract, error, deduplication, privacy, public-access, Garage IDOR and rate-limit tests
+are included. This backend-only phase used no browser automation, visible Chrome window or screenshot. Docker remains
+unavailable, so the existing 67 PostgreSQL cases and live Redis/readiness checks remain pending; Phase 15 adds no
+dependency-backed schema or behavior.
+
+Commit: `feat: add traffic fine lookup backend` (this checkpoint).
+Push destination: origin/main; verify synchronized HEAD after push.
+Next phase: Phase 16 — Traffic Fine Lookup Frontend + SEO
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -749,8 +776,9 @@ Next phase: Phase 15 — Traffic Fine Lookup Backend
 ## Active Data Providers
 
 Phone-prefix, area-code, vehicle-plate, and postal-code reviewed-file importers are implemented; official evidence registries
-are reviewed. Vehicle Plate is first-class, Phone Prefix and Area Code are de-emphasized, and Postal Code is dormant. No
-live database import or external runtime provider is active yet. See `docs/data-sources.md` for sources and limitations.
+are reviewed. Vehicle Plate is first-class, Phone Prefix and Area Code are de-emphasized, and Postal Code is dormant. The
+Traffic Fine provider is intentionally manual-only because no lawful documented automation API was verified. No live
+database import or external runtime provider is active yet. See `docs/data-sources.md` for sources and limitations.
 
 ## Environment Notes
 
@@ -764,13 +792,13 @@ live database import or external runtime provider is active yet. See `docs/data-
 
 ### Next Phase
 
-Next phase: Phase 15 — Traffic Fine Lookup Backend
+Next phase: Phase 16 — Traffic Fine Lookup Frontend + SEO
 
 The authorized automotive roadmap preserves Phases 0–12 and inserts Phase 12P as the transition:
 
 1. Phase 13 — Authentication & User Foundation (complete locally; live database verification pending)
 2. Phase 14 — My Garage (complete locally; live database verification pending)
-3. Phase 15 — Traffic Fine Lookup Backend
+3. Phase 15 — Traffic Fine Lookup Backend (complete)
 4. Phase 16 — Traffic Fine Lookup Frontend + SEO
 5. Phase 17 — Vehicle Monitoring
 6. Phase 18 — Registration, Insurance & Vehicle Documents

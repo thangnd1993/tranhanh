@@ -32,3 +32,5 @@ export * from './postal-codes.js';
 export * from './auth.js';
 
 export * from './vehicles.js';
+
+export * from './traffic-fines.js';

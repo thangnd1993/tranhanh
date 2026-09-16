@@ -12,6 +12,7 @@ import { HealthService } from './health/health.service.js';
 import { PhonePrefixesModule } from './phone-prefixes/phone-prefixes.module.js';
 import { PostalCodesModule } from './postal-codes/postal-codes.module.js';
 import { RedisModule } from './redis/redis.module.js';
+import { TrafficFinesModule } from './traffic-fines/traffic-fines.module.js';
 import { VehiclePlatesModule } from './vehicle-plates/vehicle-plates.module.js';
 import { VehiclesModule } from './vehicles/vehicles.module.js';
 
@@ -42,6 +43,7 @@ import { VehiclesModule } from './vehicles/vehicles.module.js';
     VehiclesModule,
     AreaCodesModule,
     RedisModule,
+    TrafficFinesModule,
   ],
   providers: [HealthService],
 })

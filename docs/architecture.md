@@ -656,3 +656,31 @@ and trusted Origin. Responses use private no-store, no-referrer and noindex head
 without caching or logging content. Angular renders only a neutral private loading shell on the server and loads vehicle data
 in the browser after auth initialization. Garage routes use opaque UUIDs, private robots metadata, no structured data, and
 are excluded from sitemap generation. No vehicle data uses TransferState or browser storage.
+
+## Traffic-fine lookup backend — Phase 15
+
+The public boundary is POST /api/v1/traffic-fines/lookup. A full plate appears only in the validated request body; the
+response contains a masked display value. The route is public, returns no-store/no-referrer/noindex headers, and applies
+a bounded in-process IP limit of 10 attempts per 10 minutes. The limiter retains only an IP bucket and timestamps, not
+plates. A multi-instance deployment must move anonymous counters to a shared store before relying on a global limit.
+
+TrafficFinesService depends on the TrafficFineProvider interface rather than a website. Providers publish identity,
+official status, vehicle coverage, automation mode, CAPTCHA/auth requirements, freshness semantics and operating status.
+The production adapter is deliberately MANUAL_ONLY and DISABLED for automation: it returns the official CSGT link and
+MANUAL_VERIFICATION_REQUIRED without an external request. Provider throttling, retry, timeout and circuit logic are not
+instantiated because no automated provider is active. Any future automated adapter must add those controls at the
+provider boundary without changing the public controller contract.
+
+Provider records are validated and normalized into nullable source-faithful fields. Dates remain calendar dates when that
+is all the source supplies; timestamps require an explicit offset. Location, behavior and status wording are preserved,
+and UNKNOWN is used when a justified universal status mapping is absent. A SHA-256 fingerprint covers provider identity,
+time, location, behavior, authorities, normalized status, provider wording, source update time and safe public reference.
+It excludes the submitted plate and all raw/private provider fields. Equal fingerprints are deduplicated deterministically;
+records differing in any meaningful normalized field remain separate.
+
+RESULTS_AVAILABLE, NO_MATCHING_RECORDS, MANUAL_VERIFICATION_REQUIRED, SOURCE_UNAVAILABLE and UNSUPPORTED are distinct.
+No-match means only that the selected provider returned no matching records within its coverage. Provider errors become
+bounded 502/503 responses without upstream HTML, exception text or query data. Full raw payloads, plates, queries and
+results are neither logged nor persisted. No database model, migration, audit hash, cache, Redis queue or BullMQ job is
+needed for one-time anonymous lookup. Phase 17 can reuse provider records and plate-independent fingerprints for saved-
+vehicle monitoring after adding owner-scoped persistence and a reviewed automated source.

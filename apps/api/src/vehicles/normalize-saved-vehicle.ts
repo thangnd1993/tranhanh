@@ -1,5 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 import type { VehicleInput, VehicleType } from '@tranhanh/shared';
+import { normalizeFullVehiclePlate } from '../common/normalize-full-vehicle-plate.js';
+export { normalizeFullVehiclePlate as normalizeFullPlate } from '../common/normalize-full-vehicle-plate.js';
 
 export interface NormalizedVehicleInput {
   displayName: string;
@@ -22,21 +24,8 @@ const cleanOptional = (value: string | null | undefined, max: number): string | 
   return cleaned;
 };
 
-export function normalizeFullPlate(value: string): { display: string; normalized: string } {
-  const normalized = value
-    .normalize('NFKC')
-    .toUpperCase()
-    .replace(/[\s.-]+/gu, '');
-  const match =
-    normalized.match(/^([1-9]\d)([A-Z][A-Z0-9]?)(\d{5,6})$/) ?? normalized.match(/^([1-9]\d)([A-Z][A-Z0-9]?)(\d{4})$/);
-  if (!match) throw new BadRequestException('Invalid Vietnamese vehicle plate.');
-  const [, area, series, serial] = match;
-  const displaySerial = serial.length === 5 ? `${serial.slice(0, 3)}.${serial.slice(3)}` : serial;
-  return { display: `${area}${series}-${displaySerial}`, normalized };
-}
-
 export function normalizeVehicleInput(input: VehicleInput): NormalizedVehicleInput {
-  const plate = normalizeFullPlate(input.licensePlate);
+  const plate = normalizeFullVehiclePlate(input.licensePlate);
   const make = cleanOptional(input.make, 100);
   const model = cleanOptional(input.model, 100);
   const explicitName = cleanOptional(input.displayName, 100);

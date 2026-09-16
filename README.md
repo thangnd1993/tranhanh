@@ -51,12 +51,12 @@ with OpenAPI UI at http://localhost:3000/api/docs.
 - docs/PROJECT_PROGRESS.md: source of truth for phase status and continuation.
 - docs/product-direction.md: automotive product vision, feature disposition, boundaries, and roadmap.
 
-No external provider is queried at runtime. Public lookup answers come from explicitly imported, reviewed data.
+No external provider is queried at runtime. Dataset-backed public lookups use explicitly imported, reviewed data. Traffic Fine Lookup currently returns a transparent manual-verification outcome because no documented official automation API was verified and the official lookup requires CAPTCHA.
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 14 — My Garage.
-Next phase: Phase 15 — Traffic Fine Lookup Backend.
+Current completed phase: Phase 15 — Traffic Fine Lookup Backend.
+Next phase: Phase 16 — Traffic Fine Lookup Frontend + SEO.
 The user-authorized automotive pivot supersedes the old post-Phase 12 general-utility roadmap while preserving all
 completed history. See [product direction](docs/product-direction.md) and [project progress](docs/PROJECT_PROGRESS.md).
 
