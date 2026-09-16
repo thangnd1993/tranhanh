@@ -145,7 +145,12 @@ for (const allowIndexing of [true, false]) {
           locs,
           path === '/sitemap.xml'
             ? [publicOrigin + '/sitemap-static.xml']
-            : [publicOrigin + '/en', publicOrigin + '/vi'],
+            : [
+                publicOrigin + '/en',
+                publicOrigin + '/en/lookup/traffic-fines',
+                publicOrigin + '/vi',
+                publicOrigin + '/vi/tra-cuu/phat-nguoi',
+              ],
         );
       }
     }

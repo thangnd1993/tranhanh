@@ -22,6 +22,12 @@ export const routes: Routes = [
       },
     ],
     children: [
+      {
+        path: locale === 'vi' ? 'tra-cuu/phat-nguoi' : 'lookup/traffic-fines',
+        resolve: { seo: pageSeo('trafficFine') },
+        loadComponent: () =>
+          import('./traffic-fines/traffic-fine-page.component').then((m) => m.TrafficFinePageComponent),
+      },
       ...['', '/:prefix'].map((suffix) => ({
         path: (locale === 'vi' ? 'tra-cuu/bien-so' : 'lookup/vehicle-plate') + suffix,
         resolve: { vehicle: vehicleResolver },

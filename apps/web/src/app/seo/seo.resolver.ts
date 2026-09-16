@@ -39,8 +39,27 @@ export function pageSeo(page: PageId | 'notFound'): ResolveFn<SeoPageConfig> {
               { label: i18n.t('navigation.showcase') },
             ],
           }
-        : {}),
+        : page === 'trafficFine'
+          ? {
+              breadcrumbs: [
+                { label: i18n.t('navigation.home'), url: i18n.path('home') },
+                { label: i18n.t('navigation.lookup') },
+                { label: i18n.t('navigation.trafficFine') },
+              ],
+            }
+          : {}),
     };
+    if (page === 'trafficFine' && seo.site.origin) {
+      config.structuredData = [
+        {
+          '@type': 'WebPage',
+          name: i18n.t(definition.titleKey),
+          url: absoluteUrl(seo.site.origin, path),
+          inLanguage: locale,
+          description: i18n.t(definition.descriptionKey),
+        },
+      ];
+    }
     if (page === 'home' && seo.site.origin) {
       config.structuredData = [
         {

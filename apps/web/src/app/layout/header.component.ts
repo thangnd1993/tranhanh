@@ -1,6 +1,6 @@
 import { AuthService } from '../auth/auth.service';
 import { LocaleService } from '../i18n/locale.service';
-import { garagePath, vehiclePath } from '../i18n/routes';
+import { garagePath, trafficFinePath, vehiclePath } from '../i18n/routes';
 import { LanguageSwitcherComponent } from '../i18n/language-switcher.component';
 import {
   ChangeDetectionStrategy,
@@ -26,6 +26,7 @@ import { parseTheme, ThemeService } from '../design-system/theme.service';
   host: { '(keydown.escape)': 'closeMenu(true)' },
 })
 export class HeaderComponent {
+  protected readonly trafficFinePath = trafficFinePath;
   protected readonly vehiclePath = vehiclePath;
   protected readonly garagePath = garagePath;
   protected readonly auth = inject(AuthService);

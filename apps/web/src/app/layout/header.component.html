@@ -20,6 +20,11 @@
       >
       <a
         routerLinkActive="active"
+        [routerLink]="trafficFinePath(i18n.locale())"
+        >{{ i18n.t('navigation.trafficFine') }}</a
+      >
+      <a
+        routerLinkActive="active"
         [routerLink]="vehiclePath(i18n.locale())"
         >{{ i18n.t('navigation.vehiclePlate') }}</a
       >
@@ -95,6 +100,11 @@
       [routerLink]="i18n.path('home')"
       (click)="closeMenu()"
       >{{ i18n.t('navigation.home') }}</a
+    >
+    <a
+      [routerLink]="trafficFinePath(i18n.locale())"
+      (click)="closeMenu()"
+      >{{ i18n.t('navigation.trafficFine') }}</a
     >
     <a
       [routerLink]="vehiclePath(i18n.locale())"

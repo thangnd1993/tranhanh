@@ -2,7 +2,10 @@ import { Translations } from './vi';
 export const en = {
   'seo.home.title': 'Driver & vehicle assistant | TraNhanh',
   'seo.home.description':
-    'Look up source-backed vehicle plate information on a platform being built to support drivers and vehicle management in Vietnam.',
+    'Use the official traffic-fine verification workflow and look up sourced vehicle plate allocations in Vietnam.',
+  'seo.trafficFine.title': 'Vietnam Traffic Fine Lookup | TraNhanh',
+  'seo.trafficFine.description':
+    'Enter a plate safely, review source limitations, and continue traffic-fine verification on the official CAPTCHA-protected traffic police page.',
   'seo.login.title': 'Log in | TraNhanh',
   'seo.login.description': 'Log in to your private TraNhanh account.',
   'seo.register.title': 'Create an account | TraNhanh',
@@ -20,6 +23,7 @@ export const en = {
   'notFound.home': 'Back to home',
 
   'navigation.home': 'Home',
+  'navigation.trafficFine': 'Traffic fine lookup',
   'navigation.vehiclePlate': 'Vehicle plate lookup',
   'navigation.showcase': 'Design system',
   'navigation.lookup': 'Lookup',
@@ -56,16 +60,19 @@ export const en = {
   'home.eyebrow': 'VEHICLE INFORMATION · CONFIDENCE ON EVERY DRIVE',
   'home.intro':
     'Look up vehicle information and, over time, manage the important tasks that keep your vehicles on track.',
-  'home.primaryCta': 'Look up a vehicle plate',
+  'home.primaryCta': 'Check traffic fines',
   'home.heroNote': 'No account required · Source-backed data',
-  'home.vehicleCardLabel': 'Vehicle plate allocation lookup',
-  'home.vehicleCardValue': 'Clear information by plate prefix',
-  'home.vehicleCardSource': 'With sources and applicable dates',
+  'home.vehicleCardLabel': 'Traffic fine lookup',
+  'home.vehicleCardValue': 'Continue on the official source',
+  'home.vehicleCardSource': 'CAPTCHA steps and source limits explained',
   'home.publicToolsEyebrow': 'PUBLIC TOOLS',
   'home.publicToolsTitle': 'Start with vehicle information',
   'home.publicToolsIntro':
     'Use it without an account. Results include their source and explain the limits of the lookup.',
   'home.availableNow': 'Available now',
+  'home.trafficFineTitle': 'Traffic fine lookup',
+  'home.trafficFineDescription':
+    'Enter a plate privately, understand current limits, and continue CAPTCHA verification on the official traffic police source.',
   'home.vehicleLookupTitle': 'Vehicle plate lookup',
   'home.vehicleLookupDescription':
     'See the locality or authority allocated to a plate prefix, including verified transition context.',
@@ -102,7 +109,7 @@ export const en = {
   'footer.driverGroup': 'Driver tools',
   'footer.informationGroup': 'Information',
   'footer.vehicleLookup': 'Vehicle plate lookup',
-  'footer.trafficFine': 'Traffic fine lookup · Coming soon',
+  'footer.trafficFine': 'Traffic fine lookup',
   'footer.fuelPrices': 'Fuel prices · Coming soon',
   'footer.phoneLookup': 'Phone prefix lookup',
   'footer.areaLookup': 'Area code lookup',

@@ -44,7 +44,12 @@ describe('public site configuration and URL policy', () => {
   });
   it('generates parseable XML from the indexable registry only', () => {
     const urls = sitemapUrls(site);
-    expect(urls).toEqual([site.origin + '/en', site.origin + '/vi']);
+    expect(urls).toEqual([
+      site.origin + '/en',
+      site.origin + '/en/lookup/traffic-fines',
+      site.origin + '/vi',
+      site.origin + '/vi/tra-cuu/phat-nguoi',
+    ]);
     for (const xml of [sitemapXml(urls), sitemapIndexXml(site.origin)]) {
       const doc = new DOMParser().parseFromString(xml, 'application/xml');
       expect(doc.querySelector('parsererror')).toBeNull();

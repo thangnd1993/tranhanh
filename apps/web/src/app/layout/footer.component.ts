@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LocaleService } from '../i18n/locale.service';
-import { areaPath, phonePath, vehiclePath } from '../i18n/routes';
+import { areaPath, phonePath, trafficFinePath, vehiclePath } from '../i18n/routes';
 
 @Component({
   selector: 'tn-footer',
@@ -23,7 +23,7 @@ import { areaPath, phonePath, vehiclePath } from '../i18n/routes';
           <div class="stack">
             <h2>{{ i18n.t('footer.vehicleGroup') }}</h2>
             <a [routerLink]="vehiclePath(i18n.locale())">{{ i18n.t('footer.vehicleLookup') }}</a>
-            <span>{{ i18n.t('footer.trafficFine') }}</span>
+            <a [routerLink]="trafficFinePath(i18n.locale())">{{ i18n.t('footer.trafficFine') }}</a>
           </div>
           <div class="stack">
             <h2>{{ i18n.t('footer.driverGroup') }}</h2>
@@ -108,6 +108,7 @@ import { areaPath, phonePath, vehiclePath } from '../i18n/routes';
   `,
 })
 export class FooterComponent {
+  protected readonly trafficFinePath = trafficFinePath;
   protected readonly vehiclePath = vehiclePath;
   protected readonly phonePath = phonePath;
   protected readonly areaPath = areaPath;

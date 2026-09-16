@@ -2,9 +2,18 @@ export const supportedLocales = ['vi', 'en'] as const;
 export type Locale = (typeof supportedLocales)[number];
 export const defaultLocale: Locale = 'vi';
 export type PageId =
-  'home' | 'showcase' | 'login' | 'register' | 'account' | 'garage' | 'forgotPassword' | 'resetPassword';
+  | 'home'
+  | 'trafficFine'
+  | 'showcase'
+  | 'login'
+  | 'register'
+  | 'account'
+  | 'garage'
+  | 'forgotPassword'
+  | 'resetPassword';
 export const pagePaths: Record<PageId, Record<Locale, string>> = {
   home: { vi: '/vi', en: '/en' },
+  trafficFine: { vi: '/vi/tra-cuu/phat-nguoi', en: '/en/lookup/traffic-fines' },
   showcase: { vi: '/vi/design-system', en: '/en/design-system' },
   login: { vi: '/vi/dang-nhap', en: '/en/login' },
   register: { vi: '/vi/dang-ky', en: '/en/register' },
@@ -60,6 +69,10 @@ export function phonePath(locale: Locale, prefix?: string): string {
 export function areaPath(locale: Locale, code?: string): string {
   const base = locale === 'vi' ? '/vi/tra-cuu/ma-vung' : '/en/lookup/area-code';
   return code ? `${base}/${code}` : base;
+}
+
+export function trafficFinePath(locale: Locale): string {
+  return pagePaths.trafficFine[locale];
 }
 
 export function vehiclePath(locale: Locale, prefix?: string): string {

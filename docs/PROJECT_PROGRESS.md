@@ -2,8 +2,8 @@
 
 ## Current Status
 
-Current completed phase: Phase 15 — Traffic Fine Lookup Backend
-Next phase: Phase 16 — Traffic Fine Lookup Frontend + SEO
+Current completed phase: Phase 16 — Traffic Fine Lookup Frontend + SEO
+Next phase: Phase 17 — Vehicle Monitoring
 Status: Complete locally; live PostgreSQL/Redis verification remains pending
 Last updated: 2026-09-16 (Asia/Ho_Chi_Minh)
 Branch: main
@@ -764,6 +764,33 @@ Commit: `feat: add traffic fine lookup backend` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
 Next phase: Phase 16 — Traffic Fine Lookup Frontend + SEO
 
+### Phase 16 — Traffic Fine Lookup Frontend + SEO
+
+Status: Complete locally; official verification remains manual-only and live PostgreSQL/Redis verification remains pending.
+
+- Added public Vietnamese /vi/tra-cuu/phat-nguoi and English /en/lookup/traffic-fines routes with a mobile-first form,
+  supported vehicle types, concise privacy notice, source/coverage details, manual CAPTCHA steps, and useful static guidance.
+- Added a typed POST client, runtime response validation, stale-request cancellation, duplicate-submit protection, focused
+  status announcements, safe localized HTTP errors, and reusable rendering for manual, unavailable, unsupported,
+  provider-scoped no-record and future normalized-result states. No fine amount or automatic verification is invented.
+- Added a narrow same-origin POST gateway. Full plates remain only in request memory/body, are cleared from the input after
+  submit, and never enter URLs, SSR, TransferState, metadata, JSON-LD, sitemaps, storage, analytics, logs, or external links.
+- Added truthful localized title/description, canonical and hreflang pairs, WebPage/BreadcrumbList schemas, and only two
+  static sitemap URLs. Added Traffic Fine Lookup beside Vehicle Plate Lookup on the homepage, primary navigation and footer.
+
+Validation: Prettier, ESLint, TypeScript, full API/shared/web unit and E2E suites, production browser/SSR builds, dedicated
+Traffic Fine component/privacy/contract and SSR/SEO tests, static sitemap, homepage/nav, Auth, Garage IDOR, Vehicle Plate,
+Phone Prefix, Area Code and Postal regressions passed. One reused headless Chrome verified 320/375/390/430/768/1024/1280/
+1440 widths, keyboard focus, every outcome, URL/head/DOM/storage privacy and light/dark. Representative 390 and 1440 images
+were reviewed and removed. Final test counts are 181 API unit, 59 Angular and 42 API E2E.
+
+No Prisma model or migration was added. Docker remains unavailable, so the existing 67 PostgreSQL cases and live Redis,
+readiness, auth and Garage dependency-backed checks remain pending.
+
+Commit: `feat: add traffic fine lookup frontend` (this checkpoint).
+Push destination: origin/main; verify synchronized HEAD after push.
+Next phase: Phase 17 — Vehicle Monitoring
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -792,14 +819,14 @@ database import or external runtime provider is active yet. See `docs/data-sourc
 
 ### Next Phase
 
-Next phase: Phase 16 — Traffic Fine Lookup Frontend + SEO
+Next phase: Phase 17 — Vehicle Monitoring
 
 The authorized automotive roadmap preserves Phases 0–12 and inserts Phase 12P as the transition:
 
 1. Phase 13 — Authentication & User Foundation (complete locally; live database verification pending)
 2. Phase 14 — My Garage (complete locally; live database verification pending)
 3. Phase 15 — Traffic Fine Lookup Backend (complete)
-4. Phase 16 — Traffic Fine Lookup Frontend + SEO
+4. Phase 16 — Traffic Fine Lookup Frontend + SEO (complete)
 5. Phase 17 — Vehicle Monitoring
 6. Phase 18 — Registration, Insurance & Vehicle Documents
 7. Phase 19 — Fuel Prices

@@ -4,7 +4,7 @@ import { ButtonDirective } from '../design-system/button.directive';
 import { IconComponent } from '../design-system/icon.component';
 import type { IconName } from '../design-system/icon.component';
 import { LocaleService } from '../i18n/locale.service';
-import { areaPath, phonePath, vehiclePath } from '../i18n/routes';
+import { areaPath, phonePath, trafficFinePath, vehiclePath } from '../i18n/routes';
 import type { TranslationKey } from '../i18n/vi';
 
 @Component({
@@ -21,7 +21,7 @@ import type { TranslationKey } from '../i18n/vi';
           <div class="hero-actions">
             <a
               tnButton
-              [routerLink]="vehiclePath(i18n.locale())"
+              [routerLink]="trafficFinePath(i18n.locale())"
               size="large"
             >
               {{ i18n.t('home.primaryCta') }} <tn-icon name="arrow" />
@@ -54,18 +54,32 @@ import type { TranslationKey } from '../i18n/vi';
         </div>
         <p class="muted">{{ i18n.t('home.publicToolsIntro') }}</p>
       </div>
-      <a
-        class="feature-card"
-        [routerLink]="vehiclePath(i18n.locale())"
-      >
-        <span class="feature-icon"><tn-icon name="car" /></span>
-        <span class="feature-copy">
-          <span class="feature-label">{{ i18n.t('home.availableNow') }}</span>
-          <strong>{{ i18n.t('home.vehicleLookupTitle') }}</strong>
-          <span>{{ i18n.t('home.vehicleLookupDescription') }}</span>
-        </span>
-        <tn-icon name="arrow" />
-      </a>
+      <div class="stack">
+        <a
+          class="feature-card"
+          [routerLink]="trafficFinePath(i18n.locale())"
+        >
+          <span class="feature-icon"><tn-icon name="shield" /></span>
+          <span class="feature-copy">
+            <span class="feature-label">{{ i18n.t('home.availableNow') }}</span>
+            <strong>{{ i18n.t('home.trafficFineTitle') }}</strong>
+            <span>{{ i18n.t('home.trafficFineDescription') }}</span>
+          </span>
+          <tn-icon name="arrow" />
+        </a>
+        <a
+          class="feature-card"
+          [routerLink]="vehiclePath(i18n.locale())"
+        >
+          <span class="feature-icon"><tn-icon name="car" /></span>
+          <span class="feature-copy">
+            <span class="feature-label">{{ i18n.t('home.availableNow') }}</span>
+            <strong>{{ i18n.t('home.vehicleLookupTitle') }}</strong>
+            <span>{{ i18n.t('home.vehicleLookupDescription') }}</span>
+          </span>
+          <tn-icon name="arrow" />
+        </a>
+      </div>
     </section>
 
     <section class="future-section">
@@ -399,12 +413,12 @@ import type { TranslationKey } from '../i18n/vi';
 })
 export class HomeComponent {
   protected readonly i18n = inject(LocaleService);
+  protected readonly trafficFinePath = trafficFinePath;
   protected readonly vehiclePath = vehiclePath;
   protected readonly phonePath = phonePath;
   protected readonly areaPath = areaPath;
   protected get futureItems(): readonly { icon: IconName; title: TranslationKey; description: TranslationKey }[] {
     return [
-      { icon: 'shield', title: 'home.futureFineTitle', description: 'home.futureFineDescription' },
       { icon: 'car', title: 'home.futureGarageTitle', description: 'home.futureGarageDescription' },
       { icon: 'bell', title: 'home.futureReminderTitle', description: 'home.futureReminderDescription' },
       { icon: 'tool', title: 'home.futureCareTitle', description: 'home.futureCareDescription' },

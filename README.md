@@ -55,8 +55,8 @@ No external provider is queried at runtime. Dataset-backed public lookups use ex
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 15 — Traffic Fine Lookup Backend.
-Next phase: Phase 16 — Traffic Fine Lookup Frontend + SEO.
+Current completed phase: Phase 16 — Traffic Fine Lookup Frontend + SEO.
+Next phase: Phase 17 — Vehicle Monitoring.
 The user-authorized automotive pivot supersedes the old post-Phase 12 general-utility roadmap while preserving all
 completed history. See [product direction](docs/product-direction.md) and [project progress](docs/PROJECT_PROGRESS.md).
 
@@ -66,7 +66,9 @@ and cleanup of temporary test resources.
 
 ## Bilingual routes and validation
 
-Use `/vi` (default) or `/en`. The showcase is at `/vi/design-system` and `/en/design-system`.
+Use `/vi` (default) or `/en`. Traffic Fine Lookup is available at `/vi/tra-cuu/phat-nguoi` and
+`/en/lookup/traffic-fines`; it keeps submitted plates out of URLs and guides users through official manual CAPTCHA
+verification. The showcase is at `/vi/design-system` and `/en/design-system`.
 The root redirects to `/vi`; URL locale takes precedence over any stored preference.
 See [Localization architecture](docs/architecture.md#localization-phase-3) for translation and formatting conventions.
 After `pnpm build`, run `pnpm test:ssr` for production SSR localization checks.

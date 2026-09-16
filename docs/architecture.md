@@ -684,3 +684,24 @@ bounded 502/503 responses without upstream HTML, exception text or query data. F
 results are neither logged nor persisted. No database model, migration, audit hash, cache, Redis queue or BullMQ job is
 needed for one-time anonymous lookup. Phase 17 can reuse provider records and plate-independent fingerprints for saved-
 vehicle monitoring after adding owner-scoped persistence and a reviewed automated source.
+
+## Traffic-fine frontend and SEO — Phase 16
+
+The localized public pages are /vi/tra-cuu/phat-nguoi and /en/lookup/traffic-fines. Angular SSR renders only static
+explanation, source transparency, form shell, breadcrumbs and SEO metadata. It never submits a lookup on the server and
+never places a plate or response in TransferState. Browser submission uses the same-origin Express gateway and POST body;
+the gateway forwards only JSON to the exact backend route, caps the body at 4 KiB, applies an eight-second timeout, returns
+no-store/no-referrer/noindex headers, and does not forward credentials or log request content.
+
+The component clears the input immediately after creating the request, stores no recent searches, cancels an earlier
+request on resubmission, ignores stale completions, and focuses the result/status region. It maps 400, 429 and provider
+failures to localized bounded copy. Provider responses are runtime-validated, including HTTPS source URLs, masked plates,
+capabilities, result coherence and normalized record shapes. Manual verification, unavailable, unsupported, provider-
+scoped no-record and future result states remain distinct. Full plates never enter routes, query parameters, fragments,
+titles, descriptions, canonicals, alternates, JSON-LD, storage, analytics, breadcrumbs or console output.
+
+The static pages are indexable only under the existing explicit public-origin/indexing policy. Each has one canonical,
+paired vi/en alternates, WebPage and visible-derived BreadcrumbList data. Structured data contains no submitted state.
+Only the two static page URLs join the static sitemap; no result route exists. Traffic Fine Lookup and Vehicle Plate Lookup
+are the two first-class homepage tools and appear in desktop/mobile navigation and the footer. The official link never
+includes the plate and is marked as an external noopener/noreferrer destination.

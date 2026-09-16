@@ -1,0 +1,121 @@
+.fine-page {
+  max-width: 72rem;
+  padding-block: var(--space-5) var(--space-12);
+}
+.page-heading {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 48rem;
+  margin-block: var(--space-5) var(--space-8);
+}
+h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+.lookup-layout {
+  display: grid;
+  gap: var(--space-6);
+  align-items: start;
+}
+.lookup-main,
+.source-panel {
+  display: grid;
+  gap: var(--space-5);
+  min-width: 0;
+}
+.lookup-form {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-subtle);
+}
+.lookup-form button {
+  justify-self: start;
+}
+.privacy {
+  color: var(--text-secondary);
+}
+.result-status {
+  min-width: 0;
+  outline: none;
+}
+.result-status:focus-visible {
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+.loading-state {
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.error-card {
+  border-left: 0.3rem solid var(--danger);
+}
+.error-card h2 {
+  font-size: var(--text-card);
+}
+.error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+.source-panel h2 {
+  margin-block: var(--space-2) var(--space-3);
+  font-size: var(--text-card);
+}
+.source-panel p + p,
+.source-panel p + a {
+  display: inline-flex;
+  margin-top: var(--space-4);
+}
+.source-panel ol {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  padding-left: var(--space-5);
+}
+.guide-grid {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-10);
+}
+.guide-grid article {
+  padding: var(--space-5);
+  border-top: 2px solid var(--brand);
+}
+.guide-grid h2 {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-card);
+}
+.guide-grid p {
+  color: var(--text-secondary);
+}
+@media (min-width: 48rem) {
+  .lookup-layout {
+    grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.75fr);
+  }
+  .lookup-form {
+    grid-template-columns: minmax(0, 1.4fr) minmax(12rem, 0.6fr);
+    align-items: start;
+  }
+  .lookup-form button,
+  .privacy {
+    grid-column: 1 / -1;
+  }
+  .guide-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 430px) {
+  .lookup-form {
+    padding: var(--space-4);
+  }
+  .lookup-form button,
+  .error-actions button {
+    width: 100%;
+  }
+}

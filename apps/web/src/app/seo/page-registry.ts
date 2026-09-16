@@ -15,6 +15,12 @@ export const seoPages: Record<PageId, PageDefinition> = {
     robots: publicRobots,
     paths: pagePaths.home,
   },
+  trafficFine: {
+    titleKey: 'seo.trafficFine.title',
+    descriptionKey: 'seo.trafficFine.description',
+    robots: publicRobots,
+    paths: pagePaths.trafficFine,
+  },
   showcase: {
     titleKey: 'seo.showcase.title',
     descriptionKey: 'seo.showcase.description',

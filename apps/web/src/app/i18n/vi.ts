@@ -1,7 +1,10 @@
 export const vi = {
   'seo.home.title': 'Trợ lý tài xế & phương tiện | TraNhanh',
   'seo.home.description':
-    'Tra cứu biển số xe với dữ liệu có nguồn, trên nền tảng đang được phát triển để hỗ trợ tài xế và quản lý phương tiện tại Việt Nam.',
+    'Tra cứu phạt nguội qua nguồn chính thức và tra cứu phân bổ biển số xe trên nền tảng dành cho tài xế Việt.',
+  'seo.trafficFine.title': 'Tra cứu phạt nguội và nguồn kiểm tra chính thức | TraNhanh',
+  'seo.trafficFine.description':
+    'Nhập biển số an toàn, xem giới hạn nguồn và tiếp tục xác minh phạt nguội trên trang CSGT chính thức có CAPTCHA.',
   'seo.login.title': 'Đăng nhập | TraNhanh',
   'seo.login.description': 'Đăng nhập vào tài khoản riêng tư của bạn trên TraNhanh.',
   'seo.register.title': 'Tạo tài khoản | TraNhanh',
@@ -19,6 +22,7 @@ export const vi = {
   'notFound.home': 'Về trang chủ',
 
   'navigation.home': 'Trang chủ',
+  'navigation.trafficFine': 'Tra cứu phạt nguội',
   'navigation.vehiclePlate': 'Tra cứu biển số',
   'navigation.showcase': 'Bộ giao diện',
   'navigation.lookup': 'Tra cứu',
@@ -54,16 +58,19 @@ export const vi = {
   'home.tagline': 'Trợ lý cho tài xế & phương tiện',
   'home.eyebrow': 'THÔNG TIN XE · AN TÂM MỖI CHUYẾN ĐI',
   'home.intro': 'Tra cứu thông tin xe và từng bước quản lý những việc quan trọng cho phương tiện — tại một nơi.',
-  'home.primaryCta': 'Tra cứu biển số',
+  'home.primaryCta': 'Tra cứu phạt nguội',
   'home.heroNote': 'Không cần đăng nhập · Dữ liệu có nguồn',
-  'home.vehicleCardLabel': 'Tra cứu phân bổ biển số',
-  'home.vehicleCardValue': 'Thông tin rõ ràng theo mã biển',
-  'home.vehicleCardSource': 'Kèm nguồn và thời điểm áp dụng',
+  'home.vehicleCardLabel': 'Tra cứu phạt nguội',
+  'home.vehicleCardValue': 'Xác minh qua nguồn chính thức',
+  'home.vehicleCardSource': 'Có hướng dẫn CAPTCHA và giới hạn nguồn',
   'home.publicToolsEyebrow': 'CÔNG CỤ CÔNG KHAI',
   'home.publicToolsTitle': 'Bắt đầu với thông tin phương tiện',
   'home.publicToolsIntro':
     'Dùng ngay, không cần tài khoản. Kết quả được trình bày cùng nguồn dữ liệu và giới hạn tra cứu.',
   'home.availableNow': 'Đang hoạt động',
+  'home.trafficFineTitle': 'Tra cứu phạt nguội',
+  'home.trafficFineDescription':
+    'Nhập biển số riêng tư, hiểu giới hạn hiện tại và tiếp tục xác minh CAPTCHA trên nguồn CSGT chính thức.',
   'home.vehicleLookupTitle': 'Tra cứu biển số xe',
   'home.vehicleLookupDescription':
     'Xem địa phương hoặc đơn vị được phân bổ theo mã biển số, gồm cả bối cảnh thay đổi đã xác minh.',
@@ -99,7 +106,7 @@ export const vi = {
   'footer.driverGroup': 'Công cụ cho tài xế',
   'footer.informationGroup': 'Thông tin',
   'footer.vehicleLookup': 'Tra cứu biển số xe',
-  'footer.trafficFine': 'Kiểm tra phạt nguội · Sắp có',
+  'footer.trafficFine': 'Tra cứu phạt nguội',
   'footer.fuelPrices': 'Giá nhiên liệu · Sắp có',
   'footer.phoneLookup': 'Tra cứu đầu số',
   'footer.areaLookup': 'Tra cứu mã vùng',

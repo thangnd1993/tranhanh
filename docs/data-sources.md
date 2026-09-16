@@ -319,3 +319,11 @@ MANUAL_VERIFICATION_REQUIRED with the official URL and limitations; it never mak
 therefore cannot return provider records today. A future automated provider requires documented access permission, a
 stable contract, explicit timeout/throttle/retry policy, privacy review, fixtures, and source-specific status mappings.
 No official source is described as real-time, complete, or a nationwide API.
+
+### Phase 16 presentation boundary
+
+The bilingual frontend links only to the reviewed CSGT page above and does not append the submitted plate or other fields
+to that URL. Static SSR content states that the source is manual-only, CAPTCHA-protected, has no verified public automation
+API, and publishes no machine-readable completeness/freshness guarantee. The checked time shown after submission is the
+backend capability-response time, not a claim that CSGT data was queried or refreshed at that instant. Provider limitation
+codes are rendered as reviewed localized explanations rather than exposing raw upstream or adapter text.

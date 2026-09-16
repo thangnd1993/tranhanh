@@ -60,6 +60,28 @@ app.get(
   ['/api/v1/vehicle-plates', '/api/v1/vehicle-plates/{*path}'],
   apiGateway(/^\/api\/v1\/vehicle-plates(?:\/(?:lookup|search|[1-9]\d(?:[A-Z][A-Z0-9]?)?(?:\/related)?))?$/),
 );
+app.post(
+  '/api/v1/traffic-fines/lookup',
+  express.json({ limit: '4kb' }),
+  async (req: express.Request, res: express.Response) => {
+    res.set({ 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'X-Robots-Tag': 'noindex' });
+    try {
+      const response = await fetch(apiOrigin + '/api/v1/traffic-fines/lookup', {
+        method: 'POST',
+        headers: { accept: 'application/json', 'content-type': 'application/json' },
+        body: JSON.stringify(req.body ?? {}),
+        redirect: 'error',
+        signal: AbortSignal.timeout(8000),
+      });
+      res
+        .status(response.status)
+        .type('application/json')
+        .send(await response.text());
+    } catch {
+      res.status(503).json({ statusCode: 503, outcome: 'SOURCE_UNAVAILABLE' });
+    }
+  },
+);
 app.use((req, res, next) => {
   if (req.method !== 'GET' && req.method !== 'HEAD') return next();
   const queryStart = req.originalUrl.indexOf('?');

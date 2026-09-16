@@ -1,0 +1,153 @@
+<section class="container fine-page">
+  <tn-breadcrumb [items]="seo.active()?.breadcrumbs || []" />
+  <header class="page-heading">
+    <p class="eyebrow">{{ copy().eyebrow }}</p>
+    <h1>{{ copy().title }}</h1>
+    <p class="muted">{{ copy().intro }}</p>
+  </header>
+
+  <div class="lookup-layout">
+    <main class="lookup-main">
+      <form
+        class="lookup-form"
+        [attr.aria-busy]="pending()"
+        (submit)="submit($event, plateInput, typeInput)"
+      >
+        <tn-field
+          controlId="traffic-fine-plate"
+          [label]="copy().plateLabel"
+          [hint]="copy().plateHint"
+        >
+          <input
+            #plateInput
+            tnControl
+            type="text"
+            inputmode="text"
+            autocomplete="off"
+            autocapitalize="characters"
+            spellcheck="false"
+            maxlength="20"
+            required
+          />
+        </tn-field>
+        <tn-field
+          controlId="traffic-fine-vehicle-type"
+          [label]="copy().vehicleType"
+        >
+          <select
+            #typeInput
+            tnControl
+          >
+            <option value="CAR">{{ copy().vehicleTypes.CAR }}</option>
+            <option value="MOTORCYCLE">{{ copy().vehicleTypes.MOTORCYCLE }}</option>
+            <option value="ELECTRIC_BICYCLE">{{ copy().vehicleTypes.ELECTRIC_BICYCLE }}</option>
+          </select>
+        </tn-field>
+        <button
+          tnButton
+          type="submit"
+          [disabled]="pending()"
+        >
+          {{ pending() ? copy().loading : copy().submit }}
+        </button>
+        <p class="privacy caption">{{ copy().privacy }}</p>
+      </form>
+
+      <section
+        #resultStatus
+        class="result-status"
+        tabindex="-1"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        @if (pending()) {
+          <p
+            class="loading-state"
+            role="status"
+          >
+            {{ copy().loading }}
+          </p>
+        }
+        @if (error(); as errorKey) {
+          <tn-card class="error-card">
+            <h2>
+              {{
+                errorKey === 'rateLimited'
+                  ? copy().rateLimited
+                  : errorKey === 'invalid'
+                    ? copy().invalid
+                    : copy().unavailable
+              }}
+            </h2>
+            @if (errorKey === 'unavailable') {
+              <div class="error-actions">
+                <button
+                  tnButton
+                  type="button"
+                  variant="secondary"
+                  (click)="retry()"
+                >
+                  {{ copy().retry }}
+                </button>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  [href]="officialUrl"
+                  >{{ copy().officialCta }} ↗</a
+                >
+              </div>
+            }
+          </tn-card>
+        }
+        @if (response(); as lookupResponse) {
+          <tn-traffic-fine-result
+            [response]="lookupResponse"
+            [locale]="i18n.locale()"
+          />
+        }
+      </section>
+    </main>
+
+    <aside class="source-panel">
+      <tn-card>
+        <p class="eyebrow">{{ copy().sourceTitle }}</p>
+        <h2>Cục Cảnh sát giao thông</h2>
+        <p>{{ copy().manualBody }}</p>
+        <p class="caption muted">{{ copy().sourceReviewed }}</p>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          [href]="officialUrl"
+          >{{ copy().officialCta }} ↗<span class="sr-only"> — {{ copy().external }}</span></a
+        >
+      </tn-card>
+      <tn-card>
+        <h2>{{ copy().stepsTitle }}</h2>
+        <ol>
+          @for (step of copy().steps; track step) {
+            <li>{{ step }}</li>
+          }
+        </ol>
+      </tn-card>
+    </aside>
+  </div>
+
+  <section class="guide-grid">
+    <article>
+      <h2>{{ copy().whatTitle }}</h2>
+      <p>{{ copy().whatBody }}</p>
+    </article>
+    <article>
+      <h2>{{ copy().captchaTitle }}</h2>
+      <p>{{ copy().captchaBody }}</p>
+    </article>
+    <article>
+      <h2>{{ copy().delayTitle }}</h2>
+      <p>{{ copy().delayBody }}</p>
+    </article>
+    <article>
+      <h2>{{ copy().scopeTitle }}</h2>
+      <p>{{ copy().scopeBody }}</p>
+    </article>
+  </section>
+</section>
