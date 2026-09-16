@@ -55,8 +55,8 @@ No external provider is queried at runtime. Public lookup answers come from expl
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 13 — Authentication & User Foundation.
-Next phase: Phase 14 — My Garage.
+Current completed phase: Phase 14 — My Garage.
+Next phase: Phase 15 — Traffic Fine Lookup Backend.
 The user-authorized automotive pivot supersedes the old post-Phase 12 general-utility roadmap while preserving all
 completed history. See [product direction](docs/product-direction.md) and [project progress](docs/PROJECT_PROGRESS.md).
 

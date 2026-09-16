@@ -1,0 +1,105 @@
+.garage-page,
+.garage-detail,
+.garage-form-wrap {
+  max-width: 68rem;
+}
+.garage-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+}
+.garage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: var(--space-5);
+}
+.vehicle-card,
+.garage-empty,
+.garage-form,
+.vehicle-facts,
+.confirm-box {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: var(--space-5);
+}
+.vehicle-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.vehicle-card:hover {
+  border-color: var(--brand);
+}
+.vehicle-card h2 {
+  font-size: var(--text-heading-3);
+}
+.plate {
+  font-size: 1.35rem;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.plate--large {
+  display: block;
+  margin-top: var(--space-3);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+}
+.garage-empty {
+  align-items: flex-start;
+}
+.archive-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: fit-content;
+}
+.garage-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 48rem;
+}
+.garage-form label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-weight: 600;
+}
+.garage-form .archive-toggle {
+  flex-direction: row;
+}
+.form-pair {
+  display: grid;
+  gap: var(--space-4);
+}
+.vehicle-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--space-5);
+  margin: 0;
+}
+.vehicle-facts dt {
+  color: var(--text-secondary);
+  font-size: var(--text-small);
+}
+.vehicle-facts dd {
+  margin: 0.35rem 0 0;
+  font-weight: 600;
+  white-space: pre-wrap;
+}
+.confirm-box {
+  border-color: var(--danger);
+  max-width: 36rem;
+}
+.back-link {
+  width: fit-content;
+}
+@media (min-width: 42rem) {
+  .form-pair {
+    grid-template-columns: 1fr 1fr;
+  }
+}

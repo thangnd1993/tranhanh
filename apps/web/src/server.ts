@@ -157,7 +157,7 @@ app.get(
     res.type('application/xml').send(xml);
   },
 );
-app.use('/api/v1/auth', express.json({ limit: '32kb' }), async (req, res) => {
+const privateApiProxy = async (req: express.Request, res: express.Response) => {
   res.set({ 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'X-Robots-Tag': 'noindex' });
   try {
     const headers = new Headers({ accept: 'application/json' });
@@ -178,9 +178,11 @@ app.use('/api/v1/auth', express.json({ limit: '32kb' }), async (req, res) => {
       .type('application/json')
       .send(await upstream.text());
   } catch {
-    res.status(503).json({ statusCode: 503, message: 'Authentication service unavailable.' });
+    res.status(503).json({ statusCode: 503, message: 'Private service unavailable.' });
   }
-});
+};
+app.use('/api/v1/auth', express.json({ limit: '32kb' }), privateApiProxy);
+app.use(['/api/v1/vehicles', '/api/v1/vehicles/{*path}'], express.json({ limit: '32kb' }), privateApiProxy);
 app.use(express.static(browserDistFolder, { maxAge: '1y', index: false, redirect: false }));
 app.use((req, res, next) => {
   angularApp

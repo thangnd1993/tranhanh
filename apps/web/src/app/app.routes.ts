@@ -6,7 +6,7 @@ import { pageSeo } from './seo/seo.resolver';
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { LocaleService } from './i18n/locale.service';
-import { supportedLocales } from './i18n/routes';
+import { garagePath, supportedLocales } from './i18n/routes';
 import { ShellComponent } from './shell.component';
 
 export const routes: Routes = [
@@ -55,6 +55,30 @@ export const routes: Routes = [
         canActivate: [accountGuard(locale)],
         resolve: { seo: pageSeo('account') },
         loadComponent: () => import('./auth/account-page.component').then((m) => m.AccountPageComponent),
+      },
+      {
+        path: 'garage',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () => import('./garage/garage-page.component').then((m) => m.GaragePageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/them-xe' : 'garage/add',
+        canActivate: [accountGuard(locale, garagePath(locale, undefined, 'add'))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () => import('./garage/vehicle-form-page.component').then((m) => m.VehicleFormPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/chinh-sua' : 'garage/:id/edit',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () => import('./garage/vehicle-form-page.component').then((m) => m.VehicleFormPageComponent),
+      },
+      {
+        path: 'garage/:id',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () => import('./garage/vehicle-detail-page.component').then((m) => m.VehicleDetailPageComponent),
       },
       {
         path: locale === 'vi' ? 'quen-mat-khau' : 'forgot-password',

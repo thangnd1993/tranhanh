@@ -1,13 +1,15 @@
 export const supportedLocales = ['vi', 'en'] as const;
 export type Locale = (typeof supportedLocales)[number];
 export const defaultLocale: Locale = 'vi';
-export type PageId = 'home' | 'showcase' | 'login' | 'register' | 'account' | 'forgotPassword' | 'resetPassword';
+export type PageId =
+  'home' | 'showcase' | 'login' | 'register' | 'account' | 'garage' | 'forgotPassword' | 'resetPassword';
 export const pagePaths: Record<PageId, Record<Locale, string>> = {
   home: { vi: '/vi', en: '/en' },
   showcase: { vi: '/vi/design-system', en: '/en/design-system' },
   login: { vi: '/vi/dang-nhap', en: '/en/login' },
   register: { vi: '/vi/dang-ky', en: '/en/register' },
   account: { vi: '/vi/tai-khoan', en: '/en/account' },
+  garage: { vi: '/vi/garage', en: '/en/garage' },
   forgotPassword: { vi: '/vi/quen-mat-khau', en: '/en/forgot-password' },
   resetPassword: { vi: '/vi/dat-lai-mat-khau', en: '/en/reset-password' },
 };
@@ -15,6 +17,16 @@ export function isLocale(value: string): value is Locale {
   return supportedLocales.some((locale) => locale === value);
 }
 export function equivalentPath(path: string, locale: Locale): string {
+  for (const source of supportedLocales) {
+    const base = garagePath(source);
+    const clean = path.replace(/\/$/, '');
+    if (clean === base) return garagePath(locale);
+    const suffix = clean.slice(base.length + 1);
+    if (clean.startsWith(base + '/') && suffix === (source === 'vi' ? 'them-xe' : 'add'))
+      return garagePath(locale, undefined, 'add');
+    const match = suffix.match(/^([0-9a-f-]{36})(?:\/(chinh-sua|edit))?$/i);
+    if (clean.startsWith(base + '/') && match) return garagePath(locale, match[1], match[2] ? 'edit' : undefined);
+  }
   for (const source of supportedLocales) {
     const base = vehiclePath(source);
     const clean = path.replace(/\/$/, '');
@@ -53,4 +65,11 @@ export function areaPath(locale: Locale, code?: string): string {
 export function vehiclePath(locale: Locale, prefix?: string): string {
   const base = locale === 'vi' ? '/vi/tra-cuu/bien-so' : '/en/lookup/vehicle-plate';
   return prefix ? `${base}/${prefix}` : base;
+}
+
+export function garagePath(locale: Locale, id?: string, action?: 'add' | 'edit'): string {
+  const base = pagePaths.garage[locale];
+  if (action === 'add') return `${base}/${locale === 'vi' ? 'them-xe' : 'add'}`;
+  if (!id) return base;
+  return action === 'edit' ? `${base}/${id}/${locale === 'vi' ? 'chinh-sua' : 'edit'}` : `${base}/${id}`;
 }

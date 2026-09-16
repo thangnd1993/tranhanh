@@ -27,6 +27,7 @@
     <div class="header-actions">
       <div class="desktop-auth">
         @if (auth.user()) {
+          <a [routerLink]="garagePath(i18n.locale())">{{ i18n.t('garage.title') }}</a>
           <a [routerLink]="i18n.path('account')">{{ i18n.t('auth.account') }}</a>
           <button
             tnButton
@@ -101,6 +102,11 @@
       >{{ i18n.t('navigation.vehiclePlate') }}</a
     >
     @if (auth.user()) {
+      <a
+        [routerLink]="garagePath(i18n.locale())"
+        (click)="closeMenu()"
+        >{{ i18n.t('garage.title') }}</a
+      >
       <a
         [routerLink]="i18n.path('account')"
         (click)="closeMenu()"

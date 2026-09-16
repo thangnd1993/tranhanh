@@ -27,13 +27,41 @@ type Session = {
   replacedBySessionId: string | null;
 };
 type Reset = { id: string; userId: string; tokenHash: string; createdAt: Date; expiresAt: Date; usedAt: Date | null };
+type Vehicle = {
+  id: string;
+  userId: string;
+  displayName: string;
+  licensePlate: string;
+  normalizedLicensePlate: string;
+  vehicleType: 'CAR' | 'MOTORCYCLE' | 'TRUCK' | 'VAN' | 'OTHER';
+  make: string | null;
+  model: string | null;
+  modelYear: number | null;
+  currentOdometerKm: number | null;
+  notes: string | null;
+  isPrimary: boolean;
+  status: 'ACTIVE' | 'ARCHIVED';
+  archivedAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
+function vehicleMatches(row: Vehicle, where: any): boolean {
+  if (where.id && row.id !== where.id) return false;
+  if (where.userId && row.userId !== where.userId) return false;
+  if (where.normalizedLicensePlate && row.normalizedLicensePlate !== where.normalizedLicensePlate) return false;
+  if (where.status && row.status !== where.status) return false;
+  if (typeof where.isPrimary === 'boolean' && row.isPrimary !== where.isPrimary) return false;
+  return true;
+}
 export class FakeAuthPrisma {
   readonly users = new Map<string, User>();
   readonly sessions = new Map<string, Session>();
   readonly resets = new Map<string, Reset>();
+  readonly vehicles = new Map<string, Vehicle>();
   user = {} as any;
   authSession = {} as any;
   passwordResetToken = {} as any;
+  vehicle = {} as any;
   constructor() {
     this.user = {
       create: async ({ data }: any) => {
@@ -123,6 +151,74 @@ export class FakeAuthPrisma {
         return { count };
       },
       deleteMany: async () => ({ count: 0 }),
+    };
+    this.vehicle = {
+      count: async ({ where }: any) => [...this.vehicles.values()].filter((row) => vehicleMatches(row, where)).length,
+      findFirst: async ({ where }: any) => {
+        const row = [...this.vehicles.values()].find((item) => vehicleMatches(item, where));
+        return row ? structuredClone(row) : null;
+      },
+      findMany: async ({ where }: any) =>
+        [...this.vehicles.values()]
+          .filter((row) => vehicleMatches(row, where))
+          .sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary) || b.createdAt.getTime() - a.createdAt.getTime())
+          .map((row) => structuredClone(row)),
+      create: async ({ data }: any) => {
+        if (
+          [...this.vehicles.values()].some(
+            (row) => row.userId === data.userId && row.normalizedLicensePlate === data.normalizedLicensePlate,
+          )
+        )
+          throw new Prisma.PrismaClientKnownRequestError('duplicate', { code: 'P2002', clientVersion: 'test' });
+        if (
+          data.isPrimary &&
+          [...this.vehicles.values()].some(
+            (row) => row.userId === data.userId && row.status === 'ACTIVE' && row.isPrimary,
+          )
+        )
+          throw new Prisma.PrismaClientKnownRequestError('primary', { code: 'P2002', clientVersion: 'test' });
+        const now = new Date();
+        const row: Vehicle = {
+          id: randomUUID(),
+          status: 'ACTIVE',
+          archivedAt: null,
+          createdAt: now,
+          updatedAt: now,
+          make: null,
+          model: null,
+          modelYear: null,
+          currentOdometerKm: null,
+          notes: null,
+          ...data,
+        };
+        this.vehicles.set(row.id, row);
+        return structuredClone(row);
+      },
+      update: async ({ where, data }: any) => {
+        const row = this.vehicles.get(where.id);
+        if (!row) throw new Error('not found');
+        if (
+          data.normalizedLicensePlate &&
+          [...this.vehicles.values()].some(
+            (other) =>
+              other.id !== row.id &&
+              other.userId === row.userId &&
+              other.normalizedLicensePlate === data.normalizedLicensePlate,
+          )
+        )
+          throw new Prisma.PrismaClientKnownRequestError('duplicate', { code: 'P2002', clientVersion: 'test' });
+        Object.assign(row, data, { updatedAt: new Date() });
+        return structuredClone(row);
+      },
+      updateMany: async ({ where, data }: any) => {
+        let count = 0;
+        for (const row of this.vehicles.values()) {
+          if (!vehicleMatches(row, where)) continue;
+          Object.assign(row, data, { updatedAt: new Date() });
+          count++;
+        }
+        return { count };
+      },
     };
     this.passwordResetToken = {
       create: async ({ data }: any) => {

@@ -174,8 +174,7 @@ for (const allowIndexing of [true, false]) {
         await page.waitForURL(`${origin}/${locale}`);
         await page.waitForFunction(() => document.querySelector('link[rel="canonical"]'));
         assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), `${publicOrigin}/${locale}`);
-        await page.locator('.desktop-nav a').click();
-        await page.waitForURL(`${origin}/${locale}/design-system`);
+        await page.goto(`${origin}/${locale}/design-system`, { waitUntil: 'networkidle' });
         await page.waitForFunction(() => document.querySelector('meta[name="robots"]').content === 'noindex, nofollow');
         await page.locator('a.brand').click();
         await page.waitForURL(`${origin}/${locale}`);

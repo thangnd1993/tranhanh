@@ -75,6 +75,9 @@ export class AuthService {
     if (error instanceof HttpErrorResponse && typeof error.error?.message === 'string') return error.error.message;
     return 'Unable to complete the request.';
   }
+  privateRequestOptions(): { headers: HttpHeaders; withCredentials: true } {
+    return { headers: this.csrfHeaders(), withCredentials: true };
+  }
   private accept(user: AuthUser): AuthUser {
     this.currentUser.set(user);
     this.currentState.set('authenticated');

@@ -39,6 +39,12 @@ export const seoPages: Record<PageId, PageDefinition> = {
     robots: privateRobots,
     paths: pagePaths.account,
   },
+  garage: {
+    titleKey: 'seo.garage.title',
+    descriptionKey: 'seo.garage.description',
+    robots: privateRobots,
+    paths: pagePaths.garage,
+  },
   forgotPassword: {
     titleKey: 'seo.forgot.title',
     descriptionKey: 'seo.forgot.description',

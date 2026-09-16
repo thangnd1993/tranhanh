@@ -636,4 +636,23 @@ a browser guard redirects an anonymous hydrated client to localized login.
 Localized login, register, account, forgot and reset routes use semantic forms, password-manager autocomplete, labels, live
 status/errors, the existing theme/language system and mobile-first layouts. All use `noindex, nofollow` and remain outside
 sitemaps. The header shows login/register for anonymous users and account/logout after browser authentication. Public Vehicle
-Plate, Phone Prefix and Area Code routes remain anonymous. My Garage, social login, MFA, roles/admin, and vehicles are deferred.
+Plate, Phone Prefix and Area Code routes remain anonymous. Social login, MFA, roles/admin, and later vehicle workflows remain deferred.
+
+## My Garage ownership and privacy — Phase 14
+
+`Vehicle` is a private aggregate owned by one stable `User.id`. Application reads and mutations select with both vehicle ID
+and authenticated user ID; an ID alone is never an authorization boundary. A per-owner normalized plate key allows the same
+plate string in separate accounts while preventing duplicate saved records inside one account. PostgreSQL also enforces one
+active primary vehicle per owner with a partial unique index. Primary changes run in one transaction. Archive state requires
+an archive timestamp and a non-primary record; restore always returns a non-primary active record.
+
+The saved-vehicle normalizer accepts common Vietnamese separators and casing, stores one normalized key and one canonical
+private display value, and does not call or extend the public plate-allocation lookup. Model year, odometer and text bounds
+are checked at DTO/service boundaries, with durable database checks for numeric and archive invariants. Odometer rollback is
+rejected unless the update explicitly carries the correction flag.
+
+All Garage endpoints require an active server-side auth session; cookie mutations additionally require session-bound CSRF
+and trusted Origin. Responses use private no-store, no-referrer and noindex headers. The web server forwards the private API
+without caching or logging content. Angular renders only a neutral private loading shell on the server and loads vehicle data
+in the browser after auth initialization. Garage routes use opaque UUIDs, private robots metadata, no structured data, and
+are excluded from sitemap generation. No vehicle data uses TransferState or browser storage.

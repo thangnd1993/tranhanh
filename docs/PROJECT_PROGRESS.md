@@ -2,8 +2,8 @@
 
 ## Current Status
 
-Current completed phase: Phase 13 — Authentication & User Foundation
-Next phase: Phase 14 — My Garage
+Current completed phase: Phase 14 — My Garage
+Next phase: Phase 15 — Traffic Fine Lookup Backend
 Status: Complete locally; live PostgreSQL/Redis verification remains pending
 Last updated: 2026-09-16 (Asia/Ho_Chi_Minh)
 Branch: main
@@ -703,6 +703,40 @@ Commit: `feat: add authentication foundation` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
 Next phase: Phase 14 — My Garage
 
+### Phase 14 — My Garage
+
+Status: Complete locally; live PostgreSQL/Redis verification remains pending.
+
+- Added the private Vehicle model and additive `add_my_garage` migration with owner relation, normalized per-owner plate
+  uniqueness, type/status enums, archive-state checks, bounded year/odometer values, and a partial unique index that permits
+  at most one active primary vehicle per user. Full plates remain separate from the public plate-allocation domain.
+- Added shared vehicle contracts and authenticated `/api/v1/vehicles` list/create/read/update/archive, restore, and set-primary
+  actions. Every ID lookup includes the authenticated user ID; foreign IDs return the same safe 404 as missing records.
+  Cookie mutations require CSRF and trusted-origin checks. Private responses are no-store/noindex/no-referrer.
+- Normalized common Vietnamese full-plate input, derives a display name when omitted, rejects decreasing odometer values by
+  default, and accepts a lower value only with an explicit correction flag. The first active vehicle becomes primary;
+  primary switching is transactional, archive clears primary, and restore never silently makes a vehicle primary.
+- Added localized authenticated Garage list, empty, add, detail, edit, archive confirmation, restore and primary actions at
+  `/vi/garage` and `/en/garage` route families. Header navigation exposes Garage only after browser authentication.
+- Private pages render a neutral loading shell on SSR, fetch only in the browser, use opaque vehicle IDs in URLs, and are
+  `noindex, nofollow`. Full plates, notes, user identity and credentials are absent from SSR HTML, TransferState, storage,
+  canonical metadata, structured data and all sitemaps. The same-origin private gateway forwards only required headers.
+
+Validation:
+
+- Prisma format/generate/validate, Prettier, ESLint, shared/API/web builds, 171 API unit tests, 47 Angular tests, and 38 API
+  E2E tests passed. Two-user security tests cover owner-only list/read/update/primary/archive/restore, anonymous rejection,
+  CSRF, safe 404 behavior, plate uniqueness scope, first/single primary, archive/restore and odometer correction.
+- One headless browser covered anonymous redirect, login, list → add → detail → edit, localized private SSR, no sitemap entry,
+  secret-free HTML/DOM/storage, and sequential 320/375/390/430/768/1024/1280/1440 widths without horizontal overflow.
+  Representative 390 and 1440 screenshots were captured and reviewed; one browser/context/page was reused and closed.
+- Docker remains unavailable. The five new guarded Garage database cases bring the pending PostgreSQL total to 67; migration,
+  constraints, Redis/readiness and live database-backed API verification are not claimed.
+
+Commit: `feat: add my garage` (this checkpoint).
+Push destination: origin/main; verify synchronized HEAD after push.
+Next phase: Phase 15 — Traffic Fine Lookup Backend
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -730,12 +764,12 @@ live database import or external runtime provider is active yet. See `docs/data-
 
 ### Next Phase
 
-Next phase: Phase 14 — My Garage
+Next phase: Phase 15 — Traffic Fine Lookup Backend
 
 The authorized automotive roadmap preserves Phases 0–12 and inserts Phase 12P as the transition:
 
 1. Phase 13 — Authentication & User Foundation (complete locally; live database verification pending)
-2. Phase 14 — My Garage
+2. Phase 14 — My Garage (complete locally; live database verification pending)
 3. Phase 15 — Traffic Fine Lookup Backend
 4. Phase 16 — Traffic Fine Lookup Frontend + SEO
 5. Phase 17 — Vehicle Monitoring

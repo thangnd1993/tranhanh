@@ -433,6 +433,19 @@ enum AccountStatus {
   PENDING_DELETION
 }
 
+enum VehicleType {
+  CAR
+  MOTORCYCLE
+  TRUCK
+  VAN
+  OTHER
+}
+
+enum VehicleStatus {
+  ACTIVE
+  ARCHIVED
+}
+
 /// Private account identity. Password hashes and account data never enter public lookup/SEO models.
 model User {
   id                  String               @id @default(uuid()) @db.Uuid
@@ -447,8 +460,33 @@ model User {
   updatedAt           DateTime             @updatedAt @db.Timestamptz(3)
   sessions            AuthSession[]
   passwordResetTokens PasswordResetToken[]
+  vehicles            Vehicle[]
 
   @@index([status, createdAt])
+}
+
+/// Private vehicle record. Every application query must include userId ownership.
+model Vehicle {
+  id                     String        @id @default(uuid()) @db.Uuid
+  userId                 String        @db.Uuid
+  displayName            String        @db.VarChar(100)
+  licensePlate           String        @db.VarChar(20)
+  normalizedLicensePlate String        @db.VarChar(20)
+  vehicleType            VehicleType
+  make                   String?       @db.VarChar(100)
+  model                  String?       @db.VarChar(100)
+  modelYear              Int?          @db.SmallInt
+  currentOdometerKm      Int?
+  notes                  String?       @db.VarChar(1000)
+  isPrimary              Boolean       @default(false)
+  status                 VehicleStatus @default(ACTIVE)
+  archivedAt             DateTime?     @db.Timestamptz(3)
+  createdAt              DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt              DateTime      @updatedAt @db.Timestamptz(3)
+  user                   User          @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@unique([userId, normalizedLicensePlate])
+  @@index([userId, status, isPrimary, createdAt(sort: Desc)])
 }
 
 /// Server-side refresh session. Only keyed hashes are stored; raw refresh/CSRF values live in secure client state.

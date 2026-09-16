@@ -30,3 +30,5 @@ export * from './vehicle-plates.js';
 export * from './postal-codes.js';
 
 export * from './auth.js';
+
+export * from './vehicles.js';

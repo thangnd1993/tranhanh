@@ -9,7 +9,7 @@ import { AccessAuthGuard, CsrfGuard, TrustedOriginGuard } from './auth.guards.js
 
 @Module({
   controllers: [AuthController],
-  exports: [AccessAuthGuard, AuthService],
+  exports: [AccessAuthGuard, CsrfGuard, TrustedOriginGuard, AuthService, AuthTokenService, TokenHashService],
   providers: [
     AuthService,
     AuthTokenService,

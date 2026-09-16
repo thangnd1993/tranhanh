@@ -13,6 +13,7 @@ import { PhonePrefixesModule } from './phone-prefixes/phone-prefixes.module.js';
 import { PostalCodesModule } from './postal-codes/postal-codes.module.js';
 import { RedisModule } from './redis/redis.module.js';
 import { VehiclePlatesModule } from './vehicle-plates/vehicle-plates.module.js';
+import { VehiclesModule } from './vehicles/vehicles.module.js';
 
 @Module({
   controllers: [AppController, HealthController],
@@ -38,6 +39,7 @@ import { VehiclePlatesModule } from './vehicle-plates/vehicle-plates.module.js';
     PhonePrefixesModule,
     PostalCodesModule,
     VehiclePlatesModule,
+    VehiclesModule,
     AreaCodesModule,
     RedisModule,
   ],

@@ -33,6 +33,7 @@
     "test:area": "node apps/web/test/area-smoke.mjs",
     "test:vehicle": "node apps/web/test/vehicle-smoke.mjs",
     "test:auth": "node apps/web/test/auth-smoke.mjs",
+    "test:garage": "node apps/web/test/garage-smoke.mjs",
     "postal-codes:validate": "pnpm --filter @tranhanh/api postal-codes:validate",
     "postal-codes:import": "pnpm --filter @tranhanh/api postal-codes:import"
   },

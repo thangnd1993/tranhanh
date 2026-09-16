@@ -56,7 +56,6 @@ let mode = 'healthy',
   requests = 0;
 const fold = (v) => v.normalize('NFD').replace(/\p{M}/gu, '').replace(/[đĐ]/g, 'd').toLowerCase();
 const fixture = createServer((req, res) => {
-  requests++;
   res.setHeader('Content-Type', 'application/json');
   if (mode === 'unavailable') {
     res.writeHead(503).end('{}');
@@ -71,6 +70,7 @@ const fixture = createServer((req, res) => {
     res.writeHead(404).end('{}');
     return;
   }
+  requests++;
   const path = u.pathname.slice('/api/v1/vehicle-plates'.length);
   if (path === '' || path === '/search') {
     const q = fold(u.searchParams.get('q') ?? '');
