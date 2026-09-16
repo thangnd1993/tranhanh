@@ -42,7 +42,7 @@ owner records remain distinct even when a private workflow consumes a public fac
 
 Completed history remains Phases 0–12. Phase 12P records this pivot. The active sequence is:
 
-1. Phase 13 — Authentication & User Foundation
+1. Phase 13 — Authentication & User Foundation (complete locally; runtime database verification pending)
 2. Phase 14 — My Garage
 3. Phase 15 — Traffic Fine Lookup Backend
 4. Phase 16 — Traffic Fine Lookup Frontend + SEO
@@ -61,4 +61,4 @@ Completed history remains Phases 0–12. Phase 12P records this pivot. The activ
 17. Phase 29 — SEO & Acquisition Expansion
 18. Phase 30 — Native Mobile Readiness
 
-The old Postal Code Frontend + SEO phase is cancelled. Phase 13 starts authentication and does not gate public lookup.
+The old Postal Code Frontend + SEO phase is cancelled. Phase 13 added optional authentication without gating public lookup. Phase 14 adds My Garage with owner-scoped vehicles.

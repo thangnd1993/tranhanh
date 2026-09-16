@@ -1,3 +1,4 @@
+import { AuthService } from '../auth/auth.service';
 import { LocaleService } from '../i18n/locale.service';
 import { vehiclePath } from '../i18n/routes';
 import { LanguageSwitcherComponent } from '../i18n/language-switcher.component';
@@ -26,6 +27,7 @@ import { parseTheme, ThemeService } from '../design-system/theme.service';
 })
 export class HeaderComponent {
   protected readonly vehiclePath = vehiclePath;
+  protected readonly auth = inject(AuthService);
   protected readonly i18n = inject(LocaleService);
   protected readonly theme = inject(ThemeService);
   readonly menuOpen = signal(false);
@@ -49,6 +51,11 @@ export class HeaderComponent {
     this.menuOpen.set(false);
     this.changeDetector.detectChanges();
     if (restoreFocus) this.toggle()?.nativeElement.focus();
+  }
+
+  protected async logout(): Promise<void> {
+    await this.auth.logout();
+    await this.router.navigateByUrl(this.i18n.path('home'));
   }
 
   protected changeTheme(event: Event): void {

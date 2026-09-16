@@ -25,6 +25,29 @@
       >
     </nav>
     <div class="header-actions">
+      <div class="desktop-auth">
+        @if (auth.user()) {
+          <a [routerLink]="i18n.path('account')">{{ i18n.t('auth.account') }}</a>
+          <button
+            tnButton
+            size="small"
+            type="button"
+            variant="ghost"
+            (click)="logout()"
+          >
+            {{ i18n.t('auth.logout') }}
+          </button>
+        } @else {
+          <a [routerLink]="i18n.path('login')">{{ i18n.t('auth.login') }}</a>
+          <a
+            tnButton
+            size="small"
+            variant="secondary"
+            [routerLink]="i18n.path('register')"
+            >{{ i18n.t('auth.register') }}</a
+          >
+        }
+      </div>
       <tn-language-switcher
         class="desktop-language"
         controlId="language-desktop"
@@ -77,6 +100,32 @@
       (click)="closeMenu()"
       >{{ i18n.t('navigation.vehiclePlate') }}</a
     >
+    @if (auth.user()) {
+      <a
+        [routerLink]="i18n.path('account')"
+        (click)="closeMenu()"
+        >{{ i18n.t('auth.account') }}</a
+      >
+      <button
+        tnButton
+        type="button"
+        variant="ghost"
+        (click)="logout()"
+      >
+        {{ i18n.t('auth.logout') }}
+      </button>
+    } @else {
+      <a
+        [routerLink]="i18n.path('login')"
+        (click)="closeMenu()"
+        >{{ i18n.t('auth.login') }}</a
+      >
+      <a
+        [routerLink]="i18n.path('register')"
+        (click)="closeMenu()"
+        >{{ i18n.t('auth.register') }}</a
+      >
+    }
     <tn-language-switcher controlId="language-mobile" />
   </nav>
 </header>

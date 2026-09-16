@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AreaCodesModule } from './area-codes/area-codes.module.js';
 import { AppController } from './app.controller.js';
+import { AuthModule } from './auth/auth.module.js';
 import { validateEnvironment } from './config/environment.js';
 import { DatabaseModule } from './database/database.module.js';
 import { HealthController } from './health/health.controller.js';
@@ -33,6 +34,7 @@ import { VehiclePlatesModule } from './vehicle-plates/vehicle-plates.module.js';
       }),
     }),
     DatabaseModule,
+    AuthModule,
     PhonePrefixesModule,
     PostalCodesModule,
     VehiclePlatesModule,

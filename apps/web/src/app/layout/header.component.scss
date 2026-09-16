@@ -158,3 +158,25 @@
 .mobile-nav tn-language-switcher {
   margin: var(--space-3);
 }
+
+.desktop-auth {
+  display: none;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-small);
+}
+.desktop-auth a:not(.button) {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.mobile-nav button {
+  width: 100%;
+  justify-content: flex-start;
+}
+@media (min-width: 64rem) {
+  .desktop-auth {
+    display: flex;
+  }
+}

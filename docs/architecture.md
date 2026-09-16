@@ -580,3 +580,60 @@ unreleased features. WebSite remains the only homepage schema; no site search ex
 existing Vehicle Plate, Phone Prefix, and Area Code paths, detail pages, canonicals, alternates, structured data, robots
 policy, and sitemap segments remain unchanged. Product prominence and indexing are separate decisions: de-emphasized valid
 pages can continue serving users and attracting search traffic. No Postal sitemap or public route is introduced.
+
+## Authentication — Phase 13
+
+### Identity and persistence
+
+`User` is the private account identity: normalized lowercase email, Argon2id password hash, optional display name, explicit
+ACTIVE/DISABLED/PENDING_DELETION status, login/password/deletion timestamps, and durable audit timestamps. The database
+requires normalized unique email and consistent pending-deletion state. Hard deletion is not an API operation; requesting
+deletion marks the account, revokes sessions, and preserves restrictive security/history relationships for a later reviewed
+retention workflow. No email verification timestamp exists because email verification is not implemented.
+
+`AuthSession` represents one refresh capability in a rotation family. It stores keyed SHA-256 hashes of refresh and CSRF
+secrets, absolute expiry, use/revocation time, and an optional unique replacement relationship. Raw capabilities exist only
+in secure client state and reset delivery. Rotation creates a successor inside one transaction, revokes the predecessor,
+and preserves the original family expiry so activity cannot extend a refresh family indefinitely. Reuse of an already
+revoked/replaced capability revokes its remaining family. `PasswordResetToken` is similarly hashed, expiring and one-time.
+Expired/revoked rows are eligible for opportunistic deletion after a 30-day audit window; no scheduler was introduced.
+
+### Browser session, CSRF, CORS, and native readiness
+
+The access credential is an HS256 JWT with issuer/audience, random JTI, user ID, session ID, issued time and a 15-minute
+expiry. It contains no email, profile, password, role, or vehicle data. Every protected request verifies the JWT and the
+current server-side session/user state, enabling immediate revocation. Browser access and refresh cookies are HttpOnly and
+SameSite=Strict. CSRF uses a non-HttpOnly random cookie, matching request header, and session-bound keyed hash; a supplied
+Origin must exactly equal `WEB_ORIGIN`. Production validation requires HTTPS, Secure cookies, and independent strong secrets.
+Credentialed CORS is restricted to the configured origin and never uses a wildcard.
+
+The web contract does not expose refresh/access tokens in JSON. A future native client can add an explicitly reviewed token
+transport while reusing users, session rotation and bearer-capable guards. Long-lived credentials never use localStorage.
+Auth rate limits apply only to register/login/reset/refresh/security endpoints and currently use bounded per-process memory;
+a horizontally scaled deployment should use shared Redis counters. Public lookup controllers have no global auth guard.
+
+### Password, reset, logging, and authorization
+
+Argon2id uses 19 MiB memory, two iterations and one lane. Passwords accept 12–128 characters including spaces/symbols and
+have no arbitrary composition rule. Missing users perform a dummy Argon verification; login failures are generic. Forgot
+password responses are identical for present/missing accounts. Reset delivery is an injectable provider: development/test
+keeps a token only in process memory for tests, while production silently requires a future reviewed email adapter and never
+logs a secret. Successful reset or password change updates passwordChangedAt and revokes all sessions.
+
+Nest has no request-body/header logger. The security redaction helper covers password variants, Authorization, Cookie,
+Set-Cookie, access/refresh/reset tokens and password hashes for any future structured logging. API DTOs whitelist inputs;
+responses map to `AuthUser` and never serialize Prisma rows. `AccessAuthGuard`, `CsrfGuard`, and `CurrentUser` provide the
+Phase 14 ownership foundation; future resources must compare their owner user ID with the authenticated stable user ID.
+
+### Angular SSR, routes, and SEO
+
+Angular initializes auth only in the browser by calling `/auth/me`; server rendering remains anonymous and request-isolated.
+No user or token enters TransferState, HTML, local/session storage, canonical metadata, structured data, sitemap output, or
+public page caches. The same-origin Express gateway forwards only the necessary auth headers/body/cookies, copies Set-Cookie,
+uses no-store/no-referrer/noindex, limits JSON to 32 KiB, and never logs payloads. Account SSR renders a neutral loading state;
+a browser guard redirects an anonymous hydrated client to localized login.
+
+Localized login, register, account, forgot and reset routes use semantic forms, password-manager autocomplete, labels, live
+status/errors, the existing theme/language system and mobile-first layouts. All use `noindex, nofollow` and remain outside
+sitemaps. The header shows login/register for anonymous users and account/logout after browser authentication. Public Vehicle
+Plate, Phone Prefix and Area Code routes remain anonymous. My Garage, social login, MFA, roles/admin, and vehicles are deferred.

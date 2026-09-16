@@ -157,6 +157,30 @@ app.get(
     res.type('application/xml').send(xml);
   },
 );
+app.use('/api/v1/auth', express.json({ limit: '32kb' }), async (req, res) => {
+  res.set({ 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'X-Robots-Tag': 'noindex' });
+  try {
+    const headers = new Headers({ accept: 'application/json' });
+    for (const name of ['authorization', 'content-type', 'cookie', 'origin', 'x-csrf-token']) {
+      const value = req.headers[name];
+      if (typeof value === 'string') headers.set(name, value);
+    }
+    const upstream = await fetch(apiOrigin + req.originalUrl, {
+      body: ['GET', 'HEAD'].includes(req.method) ? undefined : JSON.stringify(req.body ?? {}),
+      headers,
+      method: req.method,
+      redirect: 'error',
+      signal: AbortSignal.timeout(8000),
+    });
+    for (const cookie of upstream.headers.getSetCookie()) res.append('Set-Cookie', cookie);
+    res
+      .status(upstream.status)
+      .type('application/json')
+      .send(await upstream.text());
+  } catch {
+    res.status(503).json({ statusCode: 503, message: 'Authentication service unavailable.' });
+  }
+});
 app.use(express.static(browserDistFolder, { maxAge: '1y', index: false, redirect: false }));
 app.use((req, res, next) => {
   angularApp

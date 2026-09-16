@@ -1,3 +1,4 @@
+import { accountGuard } from './auth/auth.guard';
 import { vehicleResolver } from './vehicle-plates/vehicle.resolver';
 import { phoneResolver } from './phone-prefixes/phone.resolver';
 import { areaResolver } from './area-codes/area.resolver';
@@ -39,6 +40,32 @@ export const routes: Routes = [
         runGuardsAndResolvers: 'paramsOrQueryParamsChange' as const,
         loadComponent: () => import('./phone-prefixes/phone-page.component').then((m) => m.PhonePageComponent),
       })),
+      {
+        path: locale === 'vi' ? 'dang-nhap' : 'login',
+        resolve: { seo: pageSeo('login') },
+        loadComponent: () => import('./auth/login-page.component').then((m) => m.LoginPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'dang-ky' : 'register',
+        resolve: { seo: pageSeo('register') },
+        loadComponent: () => import('./auth/register-page.component').then((m) => m.RegisterPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'tai-khoan' : 'account',
+        canActivate: [accountGuard(locale)],
+        resolve: { seo: pageSeo('account') },
+        loadComponent: () => import('./auth/account-page.component').then((m) => m.AccountPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'quen-mat-khau' : 'forgot-password',
+        resolve: { seo: pageSeo('forgotPassword') },
+        loadComponent: () => import('./auth/forgot-password-page.component').then((m) => m.ForgotPasswordPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'dat-lai-mat-khau' : 'reset-password',
+        resolve: { seo: pageSeo('resetPassword') },
+        loadComponent: () => import('./auth/reset-password-page.component').then((m) => m.ResetPasswordPageComponent),
+      },
       {
         path: '',
         pathMatch: 'full' as const,

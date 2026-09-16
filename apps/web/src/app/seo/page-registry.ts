@@ -21,4 +21,34 @@ export const seoPages: Record<PageId, PageDefinition> = {
     robots: privateRobots,
     paths: pagePaths.showcase,
   },
+  login: {
+    titleKey: 'seo.login.title',
+    descriptionKey: 'seo.login.description',
+    robots: privateRobots,
+    paths: pagePaths.login,
+  },
+  register: {
+    titleKey: 'seo.register.title',
+    descriptionKey: 'seo.register.description',
+    robots: privateRobots,
+    paths: pagePaths.register,
+  },
+  account: {
+    titleKey: 'seo.account.title',
+    descriptionKey: 'seo.account.description',
+    robots: privateRobots,
+    paths: pagePaths.account,
+  },
+  forgotPassword: {
+    titleKey: 'seo.forgot.title',
+    descriptionKey: 'seo.forgot.description',
+    robots: privateRobots,
+    paths: pagePaths.forgotPassword,
+  },
+  resetPassword: {
+    titleKey: 'seo.reset.title',
+    descriptionKey: 'seo.reset.description',
+    robots: privateRobots,
+    paths: pagePaths.resetPassword,
+  },
 };

@@ -1,0 +1,85 @@
+:host {
+  display: block;
+}
+.auth-page {
+  min-height: min(46rem, calc(100vh - 10rem));
+  display: grid;
+  align-items: center;
+  padding-block: var(--space-10);
+}
+.auth-layout {
+  display: grid;
+  gap: var(--space-8);
+  align-items: center;
+}
+.auth-intro {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 34rem;
+}
+.auth-card {
+  width: 100%;
+  max-width: 31rem;
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.auth-card form,
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+.auth-card form {
+  gap: var(--space-5);
+}
+label {
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+.form-error {
+  color: var(--danger);
+  font-size: var(--text-small);
+}
+.form-success {
+  color: var(--success);
+  font-size: var(--text-small);
+}
+.auth-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--text-small);
+}
+.auth-card button {
+  width: 100%;
+}
+.security-note {
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  background: var(--surface-subtle);
+}
+.account-grid {
+  display: grid;
+  gap: var(--space-6);
+}
+.account-card {
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+@media (min-width: 48rem) {
+  .auth-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.8fr);
+  }
+  .auth-card {
+    justify-self: end;
+    padding: var(--space-8);
+  }
+  .account-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -55,8 +55,8 @@ No external provider is queried at runtime. Public lookup answers come from expl
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 12P — Product Pivot & Automotive Information Architecture.
-Next phase: Phase 13 — Authentication & User Foundation.
+Current completed phase: Phase 13 — Authentication & User Foundation.
+Next phase: Phase 14 — My Garage.
 The user-authorized automotive pivot supersedes the old post-Phase 12 general-utility roadmap while preserving all
 completed history. See [product direction](docs/product-direction.md) and [project progress](docs/PROJECT_PROGRESS.md).
 
@@ -187,6 +187,26 @@ Build both apps then run `pnpm test:vehicle` for the isolated API-adapter SSR/SE
 Optional PLAYWRIGHT_MODULE, CHROME_EXECUTABLE and VEHICLE_SCREENSHOTS enable sequential headless responsive and theme
 checks. Test adapters never supply production fallback data. Real answers require the pending migrations and import.
 Numeric allocation pages enter the sitemap; generic series variants use a numeric canonical and noindex.
+
+## Authentication foundation (Phase 13)
+
+Authentication is optional; Vehicle Plate, Phone Prefix, and Area Code lookups remain anonymous. Localized routes are
+`/vi/dang-nhap`, `/vi/dang-ky`, `/vi/tai-khoan` and `/en/login`, `/en/register`, `/en/account`. Forgot/reset routes are
+also localized and every auth/account page is `noindex, nofollow` and excluded from sitemaps.
+
+The API exposes register, login, refresh, logout, me/profile, password change, forgot/reset, and account-deletion request
+endpoints under `/api/v1/auth`. Passwords use Argon2id. Short-lived access JWTs and rotating refresh capabilities use
+HttpOnly, SameSite=Strict cookies for web; only HMAC-SHA-256 refresh/reset/CSRF hashes are persisted. The access JWT carries
+only user/session identifiers and standard timing claims. Refresh reuse revokes its session family. Password reset tokens
+are one-time, expiring, delivered by an abstraction, and never logged. Development/test delivery stays in process memory;
+production needs a reviewed email adapter before password-reset delivery is operational.
+
+State-changing cookie-authenticated calls require a session-bound CSRF header/cookie and trusted Origin when supplied.
+Credentialed CORS accepts only `WEB_ORIGIN`. Auth endpoints have scoped in-memory rate limits; anonymous lookup endpoints
+are unaffected. Production startup requires HTTPS, Secure cookies, and independent non-default access/token secrets. See
+`.env.example` and [authentication architecture](docs/architecture.md#authentication--phase-13). Expired/revoked security
+records are cleaned opportunistically after a 30-day audit window; a multi-instance deployment should move rate counters
+to shared infrastructure.
 
 ## Postal-code data commands
 

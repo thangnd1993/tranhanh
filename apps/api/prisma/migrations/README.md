@@ -51,3 +51,10 @@ mappings; indexes cover exact code, status, target hierarchy, normalized search 
 
 Five guarded PostgreSQL cases bring the pending suite to 57. Docker was unavailable, so migration execution, import,
 constraints, Redis and readiness remain pending; Prisma format/validate/generate and manual SQL review passed.
+
+## Phase 13 auth foundation
+
+`20260916010000_add_user_auth_foundation` is additive and creates User, AuthSession, PasswordResetToken and AccountStatus.
+It enforces normalized unique email, deletion-state consistency, fixed-length hex token hashes, valid time ordering, unique
+rotation links, and RESTRICT user/security-history relations. Apply it with the full existing migration chain. Five guarded
+real-PostgreSQL auth cases are prepared in `test/auth.database-test.ts`; they remain pending while Docker is unavailable.

@@ -1,10 +1,15 @@
 export const supportedLocales = ['vi', 'en'] as const;
 export type Locale = (typeof supportedLocales)[number];
 export const defaultLocale: Locale = 'vi';
-export type PageId = 'home' | 'showcase';
+export type PageId = 'home' | 'showcase' | 'login' | 'register' | 'account' | 'forgotPassword' | 'resetPassword';
 export const pagePaths: Record<PageId, Record<Locale, string>> = {
   home: { vi: '/vi', en: '/en' },
   showcase: { vi: '/vi/design-system', en: '/en/design-system' },
+  login: { vi: '/vi/dang-nhap', en: '/en/login' },
+  register: { vi: '/vi/dang-ky', en: '/en/register' },
+  account: { vi: '/vi/tai-khoan', en: '/en/account' },
+  forgotPassword: { vi: '/vi/quen-mat-khau', en: '/en/forgot-password' },
+  resetPassword: { vi: '/vi/dat-lai-mat-khau', en: '/en/reset-password' },
 };
 export function isLocale(value: string): value is Locale {
   return supportedLocales.some((locale) => locale === value);

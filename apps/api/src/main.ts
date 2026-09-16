@@ -12,7 +12,11 @@ async function bootstrap(): Promise<void> {
 
   app.enableShutdownHooks();
   configureDatabaseHttp(app);
-  app.enableCors({ origin: config.getOrThrow<string>('WEB_ORIGIN') });
+  app.enableCors({
+    credentials: true,
+    methods: ['GET', 'HEAD', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    origin: config.getOrThrow<string>('WEB_ORIGIN'),
+  });
   app.setGlobalPrefix('api/v1');
   app.useGlobalPipes(new ValidationPipe({ forbidNonWhitelisted: true, transform: true, whitelist: true }));
 
@@ -20,6 +24,7 @@ async function bootstrap(): Promise<void> {
     .setTitle('TraNhanh API')
     .setDescription('Public and administrative APIs for TraNhanh.')
     .setVersion('1.0')
+    .addCookieAuth('tn_access', { type: 'apiKey', in: 'cookie' })
     .build();
   SwaggerModule.setup('api/docs', app, () => SwaggerModule.createDocument(app, openApiConfig));
 

@@ -2,8 +2,8 @@
 
 ## Current Status
 
-Current completed phase: Phase 12P — Product Pivot & Automotive Information Architecture
-Next phase: Phase 13 — Authentication & User Foundation
+Current completed phase: Phase 13 — Authentication & User Foundation
+Next phase: Phase 14 — My Garage
 Status: Complete locally; live PostgreSQL/Redis verification remains pending
 Last updated: 2026-09-16 (Asia/Ho_Chi_Minh)
 Branch: main
@@ -664,7 +664,44 @@ Validation:
 
 Commit: `feat: pivot product to automotive assistant` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
-Next phase: Phase 13 — Authentication & User Foundation
+Next phase at the time: Phase 13 — Authentication & User Foundation
+
+### Phase 13 — Authentication & User Foundation
+
+Status: Complete locally; live PostgreSQL/Redis verification remains pending.
+
+- Added User, AuthSession, PasswordResetToken and AccountStatus with normalized unique email, RESTRICT history, token-hash
+  constraints, bounded timestamps, account deletion request state, and a new additive migration. No Vehicle/My Garage model.
+- Passwords use reviewed Argon2id parameters. Access JWTs last 15 minutes and contain only user/session IDs plus standard
+  claims. Thirty-day refresh sessions store only keyed hashes, rotate atomically, retain an absolute family expiry, and
+  revoke the family when an already replaced token is reused. Logout revokes the server-side session.
+- Browser tokens use HttpOnly, SameSite=Strict cookies; production requires Secure cookies, HTTPS, and strong independent
+  secrets. State-changing cookie requests use a readable session-bound CSRF token plus trusted-Origin validation.
+- Added register, login, refresh, logout, me/profile, password change, generic forgot/reset, and deletion-request endpoints.
+  Credential failures resist email enumeration. Password reset capabilities are random, hashed, expiring, one-time, and
+  invalidate sessions. A dev/test in-memory delivery adapter never logs tokens; production email delivery remains external.
+- Added reusable access/CSRF guards and current-user resolution for Phase 14 ownership checks. Auth endpoint rate limits are
+  process-local and scoped, so public lookup APIs remain anonymous and unaffected. Security fields are redacted by helper,
+  and the application does not install request-body/authorization logging.
+- Added SSR-safe Angular auth state without TransferState or rendered secrets, localized login/register/account/forgot/reset
+  pages, profile/password actions, account-route protection after hydration, and anonymous/authenticated header states.
+  Auth pages are noindex/nofollow and excluded from every sitemap. No social login, MFA, admin, or My Garage was added.
+
+Validation:
+
+- Prettier, ESLint, shared/API/web TypeScript, Prisma format/generate/validate, Compose config, API/browser/SSR production
+  builds, 166 API unit tests, 47 Angular tests, and 36 API E2E tests passed.
+- Auth E2E covers register → me → refresh → logout/rejection and forgot → reset → old-password rejection → new login.
+  Security tests cover hashes-only storage, safe serialization, redaction, generic errors, rotation/reuse, expiry, revocation,
+  CSRF/trusted origin, secret-free SSR/DOM/storage and request isolation.
+- One headless browser checked login/register/account at 320/375/390/430/768/1024/1280/1440 and light/dark. Screenshots at
+  390 and 1440 were reviewed and removed. Existing SSR/SEO, 116 Phone, 246 Area, and 164 Vehicle sitemap regressions passed.
+- Docker remains unavailable. The five new guarded auth database cases bring the pending PostgreSQL total to 62; migration,
+  constraint, Redis/readiness, dataset import and live DB-backed auth/API verification are not claimed.
+
+Commit: `feat: add authentication foundation` (this checkpoint).
+Push destination: origin/main; verify synchronized HEAD after push.
+Next phase: Phase 14 — My Garage
 
 ## Current Architecture Decisions
 
@@ -693,11 +730,11 @@ live database import or external runtime provider is active yet. See `docs/data-
 
 ### Next Phase
 
-Next phase: Phase 13 — Authentication & User Foundation
+Next phase: Phase 14 — My Garage
 
 The authorized automotive roadmap preserves Phases 0–12 and inserts Phase 12P as the transition:
 
-1. Phase 13 — Authentication & User Foundation
+1. Phase 13 — Authentication & User Foundation (complete locally; live database verification pending)
 2. Phase 14 — My Garage
 3. Phase 15 — Traffic Fine Lookup Backend
 4. Phase 16 — Traffic Fine Lookup Frontend + SEO

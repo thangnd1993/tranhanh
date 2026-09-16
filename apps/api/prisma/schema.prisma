@@ -426,3 +426,62 @@ model PostalCodeAssignment {
   @@index([targetId, status, code])
   @@index([sourceReferenceId])
 }
+
+enum AccountStatus {
+  ACTIVE
+  DISABLED
+  PENDING_DELETION
+}
+
+/// Private account identity. Password hashes and account data never enter public lookup/SEO models.
+model User {
+  id                  String               @id @default(uuid()) @db.Uuid
+  email               String               @unique @db.VarChar(320)
+  passwordHash        String               @db.VarChar(255)
+  displayName         String?              @db.VarChar(100)
+  status              AccountStatus        @default(ACTIVE)
+  lastLoginAt         DateTime?            @db.Timestamptz(3)
+  passwordChangedAt   DateTime?            @db.Timestamptz(3)
+  deletionRequestedAt DateTime?            @db.Timestamptz(3)
+  createdAt           DateTime             @default(now()) @db.Timestamptz(3)
+  updatedAt           DateTime             @updatedAt @db.Timestamptz(3)
+  sessions            AuthSession[]
+  passwordResetTokens PasswordResetToken[]
+
+  @@index([status, createdAt])
+}
+
+/// Server-side refresh session. Only keyed hashes are stored; raw refresh/CSRF values live in secure client state.
+model AuthSession {
+  id                  String       @id @default(uuid()) @db.Uuid
+  userId              String       @db.Uuid
+  familyId            String       @db.Uuid
+  tokenHash           String       @unique @db.Char(64)
+  csrfTokenHash       String       @db.Char(64)
+  createdAt           DateTime     @default(now()) @db.Timestamptz(3)
+  expiresAt           DateTime     @db.Timestamptz(3)
+  lastUsedAt          DateTime?    @db.Timestamptz(3)
+  revokedAt           DateTime?    @db.Timestamptz(3)
+  replacedBySessionId String?      @unique @db.Uuid
+  user                User         @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  replacedBy          AuthSession? @relation("SessionRotation", fields: [replacedBySessionId], references: [id], onDelete: SetNull, onUpdate: Restrict)
+  replaces            AuthSession? @relation("SessionRotation")
+
+  @@index([userId, revokedAt, expiresAt])
+  @@index([familyId, revokedAt])
+  @@index([expiresAt])
+}
+
+/// One-time password reset capability. Delivery receives the raw token; persistence keeps only its keyed hash.
+model PasswordResetToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @db.Uuid
+  tokenHash String    @unique @db.Char(64)
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+  expiresAt DateTime  @db.Timestamptz(3)
+  usedAt    DateTime? @db.Timestamptz(3)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([userId, usedAt, expiresAt])
+  @@index([expiresAt])
+}
