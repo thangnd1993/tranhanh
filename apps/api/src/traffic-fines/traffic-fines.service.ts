@@ -128,6 +128,9 @@ function publicProviderError(error: TrafficFineProviderError): never {
 @Injectable()
 export class TrafficFinesService {
   constructor(@Inject(TRAFFIC_FINE_PROVIDER) private readonly provider: TrafficFineProvider) {}
+  providerInfo(): TrafficFineProviderInfo {
+    return this.provider.describe();
+  }
   async lookup(input: TrafficFineLookupRequest): Promise<TrafficFineLookupResponse> {
     const plate = normalizeFullVehiclePlate(input.licensePlate);
     const provider = this.provider.describe();

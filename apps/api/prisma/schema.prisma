@@ -446,6 +446,32 @@ enum VehicleStatus {
   ARCHIVED
 }
 
+enum VehicleMonitoringType {
+  TRAFFIC_FINE
+}
+
+enum VehicleMonitoringStatus {
+  DISABLED
+  ENABLED_AND_ACTIVE
+  ENABLED_BUT_MANUAL
+  SUSPENDED
+  PROVIDER_UNAVAILABLE
+}
+
+enum MonitoringProviderCapability {
+  AUTOMATED
+  LIMITED
+  MANUAL_ONLY
+  UNAVAILABLE
+}
+
+enum VehicleMonitoringOutcome {
+  SUCCEEDED
+  NO_CHANGE
+  CHANGED
+  FAILED
+}
+
 /// Private account identity. Password hashes and account data never enter public lookup/SEO models.
 model User {
   id                  String               @id @default(uuid()) @db.Uuid
@@ -461,32 +487,97 @@ model User {
   sessions            AuthSession[]
   passwordResetTokens PasswordResetToken[]
   vehicles            Vehicle[]
+  vehicleMonitorings  VehicleMonitoring[]
 
   @@index([status, createdAt])
 }
 
 /// Private vehicle record. Every application query must include userId ownership.
 model Vehicle {
-  id                     String        @id @default(uuid()) @db.Uuid
-  userId                 String        @db.Uuid
-  displayName            String        @db.VarChar(100)
-  licensePlate           String        @db.VarChar(20)
-  normalizedLicensePlate String        @db.VarChar(20)
+  id                     String              @id @default(uuid()) @db.Uuid
+  userId                 String              @db.Uuid
+  displayName            String              @db.VarChar(100)
+  licensePlate           String              @db.VarChar(20)
+  normalizedLicensePlate String              @db.VarChar(20)
   vehicleType            VehicleType
-  make                   String?       @db.VarChar(100)
-  model                  String?       @db.VarChar(100)
-  modelYear              Int?          @db.SmallInt
+  make                   String?             @db.VarChar(100)
+  model                  String?             @db.VarChar(100)
+  modelYear              Int?                @db.SmallInt
   currentOdometerKm      Int?
-  notes                  String?       @db.VarChar(1000)
-  isPrimary              Boolean       @default(false)
-  status                 VehicleStatus @default(ACTIVE)
-  archivedAt             DateTime?     @db.Timestamptz(3)
-  createdAt              DateTime      @default(now()) @db.Timestamptz(3)
-  updatedAt              DateTime      @updatedAt @db.Timestamptz(3)
-  user                   User          @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  notes                  String?             @db.VarChar(1000)
+  isPrimary              Boolean             @default(false)
+  status                 VehicleStatus       @default(ACTIVE)
+  archivedAt             DateTime?           @db.Timestamptz(3)
+  createdAt              DateTime            @default(now()) @db.Timestamptz(3)
+  updatedAt              DateTime            @updatedAt @db.Timestamptz(3)
+  user                   User                @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  monitorings            VehicleMonitoring[]
 
   @@unique([userId, normalizedLicensePlate])
+  @@unique([id, userId])
   @@index([userId, status, isPrimary, createdAt(sort: Desc)])
+}
+
+/// Private monitoring preference. The vehicle relation owns the plate; this row deliberately does not duplicate it.
+model VehicleMonitoring {
+  id                    String                       @id @default(uuid()) @db.Uuid
+  userId                String                       @db.Uuid
+  vehicleId             String                       @db.Uuid
+  monitoringType        VehicleMonitoringType
+  providerKey           String                       @db.VarChar(100)
+  status                VehicleMonitoringStatus      @default(DISABLED)
+  isEnabled             Boolean                      @default(false)
+  capability            MonitoringProviderCapability
+  automationApprovedAt  DateTime?                    @db.Timestamptz(3)
+  lastAttemptAt         DateTime?                    @db.Timestamptz(3)
+  lastSuccessfulCheckAt DateTime?                    @db.Timestamptz(3)
+  nextEligibleCheckAt   DateTime?                    @db.Timestamptz(3)
+  lastOutcome           VehicleMonitoringOutcome?
+  failureCount          Int                          @default(0)
+  lastErrorCode         String?                      @db.VarChar(100)
+  createdAt             DateTime                     @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime                     @updatedAt @db.Timestamptz(3)
+  user                  User                         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  vehicle               Vehicle                      @relation(fields: [vehicleId, userId], references: [id, userId], onDelete: Cascade, onUpdate: Restrict)
+  runs                  VehicleMonitoringRun[]
+  snapshot              VehicleMonitoringSnapshot?
+
+  @@unique([vehicleId, monitoringType])
+  @@index([userId])
+  @@index([status, isEnabled, nextEligibleCheckAt])
+  @@index([providerKey])
+}
+
+/// Sanitized run audit. It contains no plate, raw provider payload, CAPTCHA, or user query.
+model VehicleMonitoringRun {
+  id                    String                   @id @default(uuid()) @db.Uuid
+  monitoringId          String                   @db.Uuid
+  providerKey           String                   @db.VarChar(100)
+  startedAt             DateTime                 @db.Timestamptz(3)
+  finishedAt            DateTime                 @db.Timestamptz(3)
+  outcome               VehicleMonitoringOutcome
+  normalizedResultCount Int
+  changeDetected        Boolean                  @default(false)
+  errorCode             String?                  @db.VarChar(100)
+  createdAt             DateTime                 @default(now()) @db.Timestamptz(3)
+  monitoring            VehicleMonitoring        @relation(fields: [monitoringId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+
+  @@index([monitoringId, startedAt(sort: Desc)])
+}
+
+/// Latest normalized identity set only; source HTML and full vehicle plates are never persisted here.
+model VehicleMonitoringSnapshot {
+  id           String            @id @default(uuid()) @db.Uuid
+  monitoringId String            @unique @db.Uuid
+  providerKey  String            @db.VarChar(100)
+  fingerprints String[]
+  resultCount  Int
+  retrievedAt  DateTime          @db.Timestamptz(3)
+  createdAt    DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime          @updatedAt @db.Timestamptz(3)
+  monitoring   VehicleMonitoring @relation(fields: [monitoringId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+
+  @@index([providerKey, retrievedAt(sort: Desc)])
 }
 
 /// Server-side refresh session. Only keyed hashes are stored; raw refresh/CSRF values live in secure client state.

@@ -7,9 +7,10 @@ import { ButtonDirective } from '../design-system/button.directive';
 import { LocaleService } from '../i18n/locale.service';
 import { garagePath, pagePaths } from '../i18n/routes';
 import { GarageService } from './garage.service';
+import { VehicleMonitoringComponent } from './vehicle-monitoring.component';
 @Component({
   selector: 'tn-vehicle-detail-page',
-  imports: [RouterLink, ButtonDirective],
+  imports: [RouterLink, ButtonDirective, VehicleMonitoringComponent],
   template: `<section class="container section stack garage-detail">
     <a
       class="back-link"
@@ -81,6 +82,10 @@ import { GarageService } from './garage.service';
           <dd>{{ v.notes || '—' }}</dd>
         </div>
       </dl>
+      <tn-vehicle-monitoring
+        [vehicleId]="v.id"
+        [vehicleStatus]="v.status"
+      />
       <div class="cluster">
         @if (v.status === 'ACTIVE' && !v.isPrimary) {
           <button

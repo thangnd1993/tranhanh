@@ -58,10 +58,13 @@ export class FakeAuthPrisma {
   readonly sessions = new Map<string, Session>();
   readonly resets = new Map<string, Reset>();
   readonly vehicles = new Map<string, Vehicle>();
+  readonly monitorings = new Map<string, any>();
   user = {} as any;
   authSession = {} as any;
   passwordResetToken = {} as any;
   vehicle = {} as any;
+  vehicleMonitoring = {} as any;
+  vehicleMonitoringRun = {} as any;
   constructor() {
     this.user = {
       create: async ({ data }: any) => {
@@ -178,6 +181,7 @@ export class FakeAuthPrisma {
         )
           throw new Prisma.PrismaClientKnownRequestError('primary', { code: 'P2002', clientVersion: 'test' });
         const now = new Date();
+        const { monitorings, ...vehicleData } = data;
         const row: Vehicle = {
           id: randomUUID(),
           status: 'ACTIVE',
@@ -189,9 +193,31 @@ export class FakeAuthPrisma {
           modelYear: null,
           currentOdometerKm: null,
           notes: null,
-          ...data,
+          ...vehicleData,
         };
         this.vehicles.set(row.id, row);
+        if (monitorings?.create) {
+          const monitoring = {
+            id: randomUUID(),
+            userId: monitorings.create.userId,
+            vehicleId: row.id,
+            monitoringType: monitorings.create.monitoringType,
+            providerKey: monitorings.create.providerKey,
+            capability: monitorings.create.capability,
+            status: 'DISABLED',
+            isEnabled: false,
+            automationApprovedAt: null,
+            lastAttemptAt: null,
+            lastSuccessfulCheckAt: null,
+            nextEligibleCheckAt: null,
+            lastOutcome: null,
+            failureCount: 0,
+            lastErrorCode: null,
+            createdAt: now,
+            updatedAt: now,
+          };
+          this.monitorings.set(monitoring.id, monitoring);
+        }
         return structuredClone(row);
       },
       update: async ({ where, data }: any) => {
@@ -220,6 +246,40 @@ export class FakeAuthPrisma {
         return { count };
       },
     };
+    this.vehicleMonitoring = {
+      findFirst: async ({ where, include }: any) => {
+        const row = [...this.monitorings.values()].find(
+          (item) =>
+            (!where.userId || item.userId === where.userId) &&
+            (!where.vehicleId || item.vehicleId === where.vehicleId) &&
+            (!where.monitoringType || item.monitoringType === where.monitoringType),
+        );
+        if (!row) return null;
+        return include?.vehicle
+          ? { ...structuredClone(row), vehicle: { status: this.vehicles.get(row.vehicleId)!.status } }
+          : structuredClone(row);
+      },
+      update: async ({ where, data, include }: any) => {
+        const row = this.monitorings.get(where.id);
+        if (!row) throw new Error('not found');
+        Object.assign(row, data, { updatedAt: new Date() });
+        return include?.vehicle
+          ? { ...structuredClone(row), vehicle: { status: this.vehicles.get(row.vehicleId)!.status } }
+          : structuredClone(row);
+      },
+      updateMany: async ({ where, data }: any) => {
+        let count = 0;
+        for (const row of this.monitorings.values()) {
+          if (where.vehicleId && row.vehicleId !== where.vehicleId) continue;
+          if (where.userId && row.userId !== where.userId) continue;
+          if (typeof where.isEnabled === 'boolean' && row.isEnabled !== where.isEnabled) continue;
+          Object.assign(row, data, { updatedAt: new Date() });
+          count++;
+        }
+        return { count };
+      },
+    };
+    this.vehicleMonitoringRun = { findMany: async () => [] };
     this.passwordResetToken = {
       create: async ({ data }: any) => {
         const row: Reset = {

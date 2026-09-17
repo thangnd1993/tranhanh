@@ -1,6 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import type { UpdateVehicleInput, VehicleInput, VehicleResult, VehicleStatus } from '@tranhanh/shared';
+import type {
+  UpdateVehicleInput,
+  VehicleInput,
+  VehicleMonitoringHistoryResult,
+  VehicleMonitoringResult,
+  VehicleResult,
+  VehicleStatus,
+} from '@tranhanh/shared';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
@@ -43,6 +50,41 @@ export class GarageService {
         this.auth.privateRequestOptions(),
       ),
     );
+  }
+  monitoring(id: string): Promise<VehicleMonitoringResult> {
+    return firstValueFrom(
+      this.http.get<VehicleMonitoringResult>(`/api/v1/vehicles/${encodeURIComponent(id)}/monitoring`, {
+        withCredentials: true,
+      }),
+    );
+  }
+  monitoringHistory(id: string): Promise<VehicleMonitoringHistoryResult> {
+    return firstValueFrom(
+      this.http.get<VehicleMonitoringHistoryResult>(`/api/v1/vehicles/${encodeURIComponent(id)}/monitoring/history`, {
+        withCredentials: true,
+      }),
+    );
+  }
+  enableMonitoring(id: string): Promise<VehicleMonitoringResult> {
+    return firstValueFrom(
+      this.http.post<VehicleMonitoringResult>(
+        `/api/v1/vehicles/${encodeURIComponent(id)}/monitoring/enable`,
+        {},
+        this.auth.privateRequestOptions(),
+      ),
+    );
+  }
+  disableMonitoring(id: string): Promise<VehicleMonitoringResult> {
+    return firstValueFrom(
+      this.http.post<VehicleMonitoringResult>(
+        `/api/v1/vehicles/${encodeURIComponent(id)}/monitoring/disable`,
+        {},
+        this.auth.privateRequestOptions(),
+      ),
+    );
+  }
+  message(error: unknown): string {
+    return this.auth.message(error);
   }
   setPrimary(id: string): Promise<VehicleResult> {
     return firstValueFrom(

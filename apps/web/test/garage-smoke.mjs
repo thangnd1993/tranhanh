@@ -88,6 +88,44 @@ const api = createServer(async (req, res) => {
       res.end(JSON.stringify(row));
       return;
     }
+    const monitoringMatch = path.match(
+      /^\/api\/v1\/vehicles\/([0-9a-f-]+)\/monitoring(?:\/(history|enable|disable))?$/,
+    );
+    if (monitoringMatch) {
+      const vehicle = vehicles.find((v) => v.id === monitoringMatch[1]);
+      if (!vehicle) {
+        res.statusCode = 404;
+        res.end('{}');
+        return;
+      }
+      if (monitoringMatch[2] === 'history' && req.method === 'GET') {
+        res.end(JSON.stringify({ items: [] }));
+        return;
+      }
+      const enabled = monitoringMatch[2] === 'enable' ? true : monitoringMatch[2] === 'disable' ? false : false;
+      res.end(
+        JSON.stringify({
+          id: '44444444-4444-4444-8444-444444444444',
+          vehicleId: vehicle.id,
+          monitoringType: 'TRAFFIC_FINE',
+          providerKey: 'csgt-manual',
+          providerName: 'Cục Cảnh sát giao thông',
+          providerUrl: 'https://www.csgt.vn/tra-cuu-phuong-tien-vi-pham.html',
+          enabled,
+          effectiveStatus: enabled ? 'ENABLED_BUT_MANUAL' : 'DISABLED',
+          capability: 'MANUAL_ONLY',
+          automaticChecksAvailable: false,
+          limitationCode: enabled ? 'MANUAL_VERIFICATION_REQUIRED' : null,
+          lastAttemptAt: null,
+          lastSuccessfulCheckAt: null,
+          nextEligibleCheckAt: null,
+          lastOutcome: null,
+          failureCount: 0,
+          updatedAt: new Date().toISOString(),
+        }),
+      );
+      return;
+    }
     const match = path.match(/^\/api\/v1\/vehicles\/([0-9a-f-]+)$/);
     if (match && req.method === 'GET') {
       const row = vehicles.find((v) => v.id === match[1]);
@@ -162,6 +200,9 @@ try {
   await page.locator('button[type=submit]').click();
   await page.waitForURL('**/vi/garage');
   await page.getByText('51K-987.65').waitFor();
+  await page.getByText('51K-987.65').click();
+  await page.getByRole('heading', { name: 'Theo dõi phạt nguội' }).waitFor();
+  assert.match(await page.textContent('body'), /Theo dõi tự động chưa khả dụng|Chưa có lượt kiểm tra tự động/);
   for (const width of [320, 375, 390, 430, 768, 1024, 1280, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     assert.equal(
@@ -174,10 +215,12 @@ try {
   if (shots) {
     await mkdir(shots, { recursive: true });
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.screenshot({ path: join(shots, 'garage-mobile.png'), fullPage: true });
+    await page.screenshot({ path: join(shots, 'garage-monitoring-mobile-light.png'), fullPage: true });
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.screenshot({ path: join(shots, 'garage-desktop.png'), fullPage: true });
+    await page.evaluate(() => (document.documentElement.dataset.theme = 'dark'));
+    await page.screenshot({ path: join(shots, 'garage-monitoring-desktop-dark.png'), fullPage: true });
   }
+  await page.getByRole('link', { name: /Quay lại gara/ }).click();
   await page.getByRole('link', { name: 'Thêm xe' }).first().click();
   await page.getByLabel('Biển số xe').fill('30A-456.78');
   await page.getByLabel('Tên gợi nhớ').fill('Xe đi làm');
@@ -197,7 +240,9 @@ try {
   assert.deepEqual(storage.session, []);
   assert.doesNotMatch(await page.content(), /fake-access|fake-refresh/);
   assert.deepEqual(errors, []);
-  console.log('Garage browser: auth, list/create/detail/edit, privacy, sitemap, 8 widths and screenshots passed.');
+  console.log(
+    'Garage browser: auth, monitoring, list/create/detail/edit, privacy, sitemap, 8 widths and screenshots passed.',
+  );
 } finally {
   await context?.close();
   await browser?.close();

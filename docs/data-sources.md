@@ -327,3 +327,14 @@ to that URL. Static SSR content states that the source is manual-only, CAPTCHA-p
 API, and publishes no machine-readable completeness/freshness guarantee. The checked time shown after submission is the
 backend capability-response time, not a claim that CSGT data was queried or refreshed at that instant. Provider limitation
 codes are rendered as reviewed localized explanations rather than exposing raw upstream or adapter text.
+
+### Phase 17 monitoring boundary
+
+Vehicle Monitoring consumes the Phase 15 capability contract; it does not change the reviewed source status. The production
+provider remains `csgt-manual` with `MANUAL_ONLY`, disabled automation and required CAPTCHA. Enabling a saved-vehicle
+preference does not call CSGT, enqueue a job, fabricate a run, or set a last/next check timestamp.
+
+Automated-path tests use a deterministic in-process fake provider only. It is not registered in production, supplies no
+factual user data and exists to verify normalization, fingerprint dedupe, meaningful-change detection, retry/failure
+handling and history. Any future production provider must first satisfy the Phase 15 permission, provenance, privacy,
+throttle and stable-contract review, then require explicit activation reconciliation for existing preferences.

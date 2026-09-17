@@ -48,7 +48,16 @@ export class VehiclesService {
     try {
       const vehicle = await this.prisma.$transaction(async (tx) => {
         const activeCount = await tx.vehicle.count({ where: { userId, status: 'ACTIVE' } });
-        return tx.vehicle.create({ data: { ...data, userId, isPrimary: activeCount === 0 } });
+        return tx.vehicle.create({
+          data: {
+            ...data,
+            userId,
+            isPrimary: activeCount === 0,
+            monitorings: {
+              create: { userId, monitoringType: 'TRAFFIC_FINE', providerKey: 'csgt-manual', capability: 'MANUAL_ONLY' },
+            },
+          },
+        });
       });
       return result(vehicle);
     } catch (error) {
@@ -58,7 +67,23 @@ export class VehiclesService {
       });
       if (duplicate) throw new ConflictException('This vehicle plate is already in your garage.');
       try {
-        return result(await this.prisma.vehicle.create({ data: { ...data, userId, isPrimary: false } }));
+        return result(
+          await this.prisma.vehicle.create({
+            data: {
+              ...data,
+              userId,
+              isPrimary: false,
+              monitorings: {
+                create: {
+                  userId,
+                  monitoringType: 'TRAFFIC_FINE',
+                  providerKey: 'csgt-manual',
+                  capability: 'MANUAL_ONLY',
+                },
+              },
+            },
+          }),
+        );
       } catch (retryError) {
         if (isUniqueFailure(retryError)) throw new ConflictException('This vehicle plate is already in your garage.');
         throw retryError;
@@ -112,9 +137,16 @@ export class VehiclesService {
     const current = await this.owned(userId, id);
     if (current.status === 'ARCHIVED') return result(current);
     return result(
-      await this.prisma.vehicle.update({
-        where: { id: current.id, userId },
-        data: { status: 'ARCHIVED', archivedAt: new Date(), isPrimary: false },
+      await this.prisma.$transaction(async (tx) => {
+        const vehicle = await tx.vehicle.update({
+          where: { id: current.id, userId },
+          data: { status: 'ARCHIVED', archivedAt: new Date(), isPrimary: false },
+        });
+        await tx.vehicleMonitoring.updateMany({
+          where: { vehicleId: current.id, userId, isEnabled: true },
+          data: { status: 'SUSPENDED', nextEligibleCheckAt: null, automationApprovedAt: null },
+        });
+        return vehicle;
       }),
     );
   }

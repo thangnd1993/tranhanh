@@ -55,8 +55,8 @@ No external provider is queried at runtime. Dataset-backed public lookups use ex
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 16 — Traffic Fine Lookup Frontend + SEO.
-Next phase: Phase 17 — Vehicle Monitoring.
+Current completed phase: Phase 17 — Vehicle Monitoring.
+Next phase: Phase 18 — Registration, Insurance & Vehicle Documents.
 The user-authorized automotive pivot supersedes the old post-Phase 12 general-utility roadmap while preserving all
 completed history. See [product direction](docs/product-direction.md) and [project progress](docs/PROJECT_PROGRESS.md).
 
@@ -220,3 +220,11 @@ The API is under `/api/v1/postal-codes`. The reviewed Phase 12 snapshot follows 
 standard and the 2025 two-tier locality amendment. Validation needs no database; import requires the additive migration
 and an explicit `DATABASE_URL`. One invalid value in the official annex remains a documented unassigned target rather than
 being silently truncated. See [postal-code sources](docs/data-sources.md#national-postal-code-dataset--phase-12).
+
+## Vehicle Monitoring (Phase 17)
+
+Authenticated Garage vehicle details expose private traffic-fine monitoring preference and history. The current official
+CSGT source is manual-only and CAPTCHA-protected, so saving the preference does not start background checks. Private APIs
+are nested under `/api/v1/vehicles/:vehicleId/monitoring`; automated providers are capability-gated and would use BullMQ
+jobs containing only an opaque monitoring ID. PostgreSQL/Redis runtime verification remains pending while Docker is
+unavailable. See [Vehicle Monitoring architecture](docs/architecture.md#vehicle-monitoring--phase-17).

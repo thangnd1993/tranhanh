@@ -705,3 +705,31 @@ paired vi/en alternates, WebPage and visible-derived BreadcrumbList data. Struct
 Only the two static page URLs join the static sitemap; no result route exists. Traffic Fine Lookup and Vehicle Plate Lookup
 are the two first-class homepage tools and appear in desktop/mobile navigation and the footer. The official link never
 includes the plate and is marked as an external noopener/noreferrer destination.
+
+## Vehicle Monitoring — Phase 17
+
+VehicleMonitoring is a private preference attached to an owning User and Vehicle, unique by vehicle and typed monitor.
+VehicleMonitoringRun is a sanitized execution audit and VehicleMonitoringSnapshot keeps only the latest provider key,
+retrieval time, result count and sorted plate-independent fingerprints. Neither table duplicates the full plate or stores
+raw HTML, CAPTCHA, provider payload, notes, credentials or contact information. Vehicle deletion/account lifecycle cascades
+monitoring artifacts; normal product behavior archives vehicles and retains history while stopping future scheduling.
+
+The monitoring policy maps the traffic-fine provider contract to AUTOMATED, LIMITED, MANUAL_ONLY or UNAVAILABLE and derives
+a ready-to-render effective status. The official CSGT adapter is MANUAL_ONLY, so an enabled preference is
+ENABLED_BUT_MANUAL: no job, run, snapshot, last-success timestamp or next-eligible timestamp is created. Capability
+degradation clears future scheduling while preserving preference. An upgrade to an automated provider cannot silently
+activate a stored manual-era preference; automationApprovedAt is set only by a fresh enable action against an eligible
+provider.
+
+Eligible providers use the `vehicle-monitoring` BullMQ queue and `vehicle-monitoring-check` job. Payloads contain only
+monitoringId; the worker resolves the authorized private vehicle server-side. Stable due-time job IDs deduplicate dispatch,
+one-provider concurrency and a minimum interval limit request pressure, and delayed jobs represent the configurable
+24-hour default. Transient failures use bounded exponential retry, rate limits use controlled delay, manual/unsupported
+conditions do not retry, and five consecutive failures suspend the monitor. A success resets the failure count. Sorted
+fingerprint-set comparison ignores ordering, duplicate records and retrieval timestamps while detecting added, removed or
+materially changed normalized records. changeDetected is an internal hook for the future Notification Center; Phase 17
+sends no email, Telegram, web push or native push.
+
+The private API is nested under `/api/v1/vehicles/:vehicleId/monitoring` with get, enable, disable and history actions.
+Every query includes userId and vehicleId; mutations use the existing cookie CSRF/origin guards. Garage monitoring is
+client-fetched after hydration, no-store/noindex, absent from TransferState and all public SEO/sitemap surfaces.

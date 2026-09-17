@@ -62,3 +62,15 @@ Completed history remains Phases 0–12. Phase 12P records this pivot. The activ
 18. Phase 30 — Native Mobile Readiness
 
 The old Postal Code Frontend + SEO phase is cancelled. Phase 13 added optional authentication without gating public lookup. Phase 14 added My Garage with owner-scoped vehicles. Phase 15 added a public, privacy-aware Traffic Fine Lookup backend and truthful manual verification through the official CSGT page. Phase 16 added the bilingual public frontend, official manual-verification flow, static SEO pages, sitemap entries, and first-class homepage/navigation placement. Phase 17 adds opt-in monitoring for saved vehicles.
+
+## Vehicle monitoring — Phase 17
+
+A signed-in user can save a traffic-fine monitoring preference for any active vehicle. The product distinguishes a saved
+preference from operational automation. With the current official CSGT source, the visible state is “automatic monitoring
+unavailable” because a person must complete CAPTCHA; TraNhanh stores the preference and links to the manual lookup without
+claiming it is checking in the background.
+
+Future automated activation requires a reviewed provider contract, capability and rate limits, plus a fresh explicit user
+action. Archived vehicles stop scheduling and restore does not silently reactivate them. Monitoring history and results are
+private account data and never become public lookup, SEO, sitemap or structured-data content. Notification delivery remains
+Phase 24.

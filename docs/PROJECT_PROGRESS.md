@@ -2,10 +2,10 @@
 
 ## Current Status
 
-Current completed phase: Phase 16 — Traffic Fine Lookup Frontend + SEO
-Next phase: Phase 17 — Vehicle Monitoring
+Current completed phase: Phase 17 — Vehicle Monitoring
+Next phase: Phase 18 — Registration, Insurance & Vehicle Documents
 Status: Complete locally; live PostgreSQL/Redis verification remains pending
-Last updated: 2026-09-16 (Asia/Ho_Chi_Minh)
+Last updated: 2026-09-17 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
 
@@ -789,7 +789,48 @@ readiness, auth and Garage dependency-backed checks remain pending.
 
 Commit: `feat: add traffic fine lookup frontend` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
-Next phase: Phase 17 — Vehicle Monitoring
+Next phase: Phase 18 — Registration, Insurance & Vehicle Documents
+
+### Phase 17 — Vehicle Monitoring
+
+Status: Complete locally; production CSGT automation is intentionally unavailable and live PostgreSQL/Redis verification remains pending.
+
+- Added private, owner-scoped VehicleMonitoring, VehicleMonitoringRun and VehicleMonitoringSnapshot models. One
+  TRAFFIC_FINE preference exists per vehicle; new and migrated vehicles default to disabled. Monitoring rows never duplicate
+  a plate, snapshots store only deduplicated plate-independent fingerprints, and run history stores only normalized counts,
+  outcomes and sanitized error codes.
+- Added authenticated get/enable/disable/history APIs under each saved vehicle. Cookie mutations retain trusted-origin and
+  CSRF protection, all ownership checks use userId plus vehicleId and foreign IDs return safe 404 responses. Private
+  responses remain private/no-store/noindex/no-referrer.
+- Provider capability is resolved centrally as AUTOMATED, LIMITED, MANUAL_ONLY or UNAVAILABLE. The current CSGT adapter
+  remains MANUAL_ONLY: enabling stores an honest preference as ENABLED_BUT_MANUAL, creates no BullMQ job, last/next check,
+  run or snapshot, and points the user to the official manual CAPTCHA flow.
+- Added a privacy-safe BullMQ queue contract whose payload contains only monitoringId. Production workers use one-provider
+  concurrency and minimum-interval limiting, bounded exponential retries, delayed next checks, capability/due checks,
+  failure counts and suspension after repeated failure. Manual, archived, unavailable or unapproved capability states do
+  not schedule. A capability upgrade requires a fresh explicit enable action before automation starts.
+- Added deterministic normalized fingerprint-set comparison, duplicate/order insensitivity, sanitized history and a
+  notification-ready changeDetected outcome without adding notification persistence or delivery.
+- Integrated a bilingual accessible Monitoring section into private Garage vehicle detail. It distinguishes saved manual
+  preference from active automation, exposes real timestamps only, provides an honest empty history state, supports
+  enable/disable and links to the official manual source. Private SSR still renders a shell and serializes no vehicle,
+  monitoring or violation data. Archived vehicles stop scheduling while preference/history remain.
+
+Validation:
+
+- Prisma generate/validate and migration review passed. Shared, API, browser and SSR builds, Prettier, ESLint, 189 API unit,
+  61 Angular and 45 API E2E tests passed. Tests cover manual capability gating, default/enable/disable, archived state,
+  explicit re-consent after provider change, retry classes, queue payload privacy, deterministic fake AUTOMATED provider
+  check/no-change/change flow, CSRF, private cache headers and the complete two-user IDOR matrix.
+- Docker daemon remains unavailable. The five new database cases bring the pending PostgreSQL total to 72; applying all
+  migrations and verifying PostgreSQL constraints, live Redis/BullMQ worker lifecycle, delayed-job dedupe and readiness
+  remain pending. Compose configuration is valid.
+- Responsive 320–1440 checks and representative 390/1440 light/dark visual review passed with no horizontal overflow.
+  The existing homepage CSS budget warning remains unchanged at 876 bytes.
+
+Commit: `feat: add vehicle monitoring` (this checkpoint).
+Push destination: origin/main; verify synchronized HEAD after push.
+Next phase: Phase 18 — Registration, Insurance & Vehicle Documents
 
 ## Current Architecture Decisions
 
@@ -819,7 +860,7 @@ database import or external runtime provider is active yet. See `docs/data-sourc
 
 ### Next Phase
 
-Next phase: Phase 17 — Vehicle Monitoring
+Next phase: Phase 18 — Registration, Insurance & Vehicle Documents
 
 The authorized automotive roadmap preserves Phases 0–12 and inserts Phase 12P as the transition:
 
@@ -827,7 +868,7 @@ The authorized automotive roadmap preserves Phases 0–12 and inserts Phase 12P 
 2. Phase 14 — My Garage (complete locally; live database verification pending)
 3. Phase 15 — Traffic Fine Lookup Backend (complete)
 4. Phase 16 — Traffic Fine Lookup Frontend + SEO (complete)
-5. Phase 17 — Vehicle Monitoring
+5. Phase 17 — Vehicle Monitoring (complete locally; live PostgreSQL/Redis verification pending)
 6. Phase 18 — Registration, Insurance & Vehicle Documents
 7. Phase 19 — Fuel Prices
 8. Phase 20 — Fuel Log

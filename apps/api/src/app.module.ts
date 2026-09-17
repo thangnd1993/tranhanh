@@ -15,6 +15,7 @@ import { RedisModule } from './redis/redis.module.js';
 import { TrafficFinesModule } from './traffic-fines/traffic-fines.module.js';
 import { VehiclePlatesModule } from './vehicle-plates/vehicle-plates.module.js';
 import { VehiclesModule } from './vehicles/vehicles.module.js';
+import { VehicleMonitoringModule } from './vehicle-monitoring/vehicle-monitoring.module.js';
 
 @Module({
   controllers: [AppController, HealthController],
@@ -44,6 +45,7 @@ import { VehiclesModule } from './vehicles/vehicles.module.js';
     AreaCodesModule,
     RedisModule,
     TrafficFinesModule,
+    VehicleMonitoringModule,
   ],
   providers: [HealthService],
 })
