@@ -58,7 +58,7 @@ export class VehiclesService {
             userId,
             isPrimary: activeCount === 0,
             monitorings: {
-              create: { userId, monitoringType: 'TRAFFIC_FINE', providerKey: 'csgt-manual', capability: 'MANUAL_ONLY' },
+              create: { monitoringType: 'TRAFFIC_FINE', providerKey: 'csgt-manual', capability: 'MANUAL_ONLY' },
             },
           },
         });
@@ -79,7 +79,6 @@ export class VehiclesService {
               isPrimary: false,
               monitorings: {
                 create: {
-                  userId,
                   monitoringType: 'TRAFFIC_FINE',
                   providerKey: 'csgt-manual',
                   capability: 'MANUAL_ONLY',

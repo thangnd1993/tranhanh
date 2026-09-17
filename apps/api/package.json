@@ -17,6 +17,7 @@
     "db:migrate:deploy": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "test:database": "node test/run-database-tests.ts",
+    "test:runtime": "vitest run --config ./vitest.config.runtime.ts",
     "phone-prefixes:validate": "pnpm build && node dist/phone-prefixes/dataset-cli.js validate",
     "phone-prefixes:import": "pnpm build && node dist/phone-prefixes/dataset-cli.js import",
     "area-codes:validate": "pnpm build && node dist/area-codes/dataset-cli.js validate",

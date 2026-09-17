@@ -279,7 +279,21 @@ integration transactions and always roll back. The migration is additive and wra
 reviewed CHECK constraints maintained in SQL because Prisma schema syntax cannot express them. Generate/validate does not
 prove live constraints. The guarded integration runner requires an explicit local tranhanh_test database, applies migrations,
 then verifies real uniqueness, relations, deletion, enums, intervals, timestamps, and canonical rules. Never reset an unknown
-or production database. Runtime migration/constraint/readiness verification remains pending until Docker is available.
+or production database. Local runtime verification on 2026-09-17 applied all nine migrations from an empty isolated `tranhanh_test`, passed 81 real PostgreSQL constraint tests, and confirmed truthful database/Redis readiness.
+
+### Verified local runtime integration
+
+The guarded `pnpm test:runtime` suite requires `NODE_ENV=test` and a loopback `DATABASE_URL` whose database is exactly
+`tranhanh_test` with the public schema. It combines real PostgreSQL and Redis/BullMQ without calling CSGT: a deterministic
+fake AUTOMATED provider covers monitoring runs, snapshots, meaningful changes, and retry recovery, while the production
+CSGT adapter remains `MANUAL_ONLY` and creates no automated run or schedule. Document reminder jobs validate delayed
+scheduling, deterministic IDs, dedupe, stale-expiry rejection, archive suppression, and restore reconciliation. Queue
+payloads remain opaque IDs.
+
+Normal API startup depends on emitted JavaScript from `@tranhanh/shared`; development commands build that package first.
+Vehicle creation uses Prisma's nested relation ownership and does not repeat the composite child `userId`. Monitoring
+jobs whose previous outcome failed may execute their BullMQ retry even while the persisted next-eligible timestamp is in
+the future; ordinary early or stale jobs remain gated.
 
 Compose mounts PostgreSQL 18 at /var/lib/postgresql per the
 [official image guidance](https://docs.docker.com/guides/postgresql/). No existing volume was removed or migrated in Phase 5.

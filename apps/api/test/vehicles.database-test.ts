@@ -45,10 +45,10 @@ describe('PostgreSQL My Garage invariants', () => {
       const a = await tx.user.create({ data: userData() }),
         b = await tx.user.create({ data: userData() });
       await tx.vehicle.create({ data: vehicleData(a.id, '51K-123.45') });
+      await expect(tx.vehicle.create({ data: vehicleData(b.id, '51K-123.45') })).resolves.toBeDefined();
       await expect(tx.vehicle.create({ data: vehicleData(a.id, '51K-123.45') })).rejects.toMatchObject({
         code: 'P2002',
       });
-      await expect(tx.vehicle.create({ data: vehicleData(b.id, '51K-123.45') })).resolves.toBeDefined();
     }));
   it('permits only one active primary per owner', () =>
     isolated(async (tx) => {
@@ -58,28 +58,36 @@ describe('PostgreSQL My Garage invariants', () => {
         tx.vehicle.create({ data: { ...vehicleData(user.id, '30B-222.22'), isPrimary: true } }),
       ).rejects.toMatchObject({ code: 'P2002' });
     }));
-  it('requires archived vehicles to be non-primary with an archive timestamp', () =>
-    isolated(async (tx) => {
+  it('requires archived vehicles to be non-primary with an archive timestamp', async () => {
+    await isolated(async (tx) => {
       const user = await tx.user.create({ data: userData() });
       await expect(
         tx.vehicle.create({ data: { ...vehicleData(user.id, '29A-111.11'), status: 'ARCHIVED' } }),
       ).rejects.toThrow();
+    });
+    await isolated(async (tx) => {
+      const user = await tx.user.create({ data: userData() });
       await expect(
         tx.vehicle.create({
           data: { ...vehicleData(user.id, '29A-222.22'), status: 'ARCHIVED', archivedAt: new Date(), isPrimary: true },
         }),
       ).rejects.toThrow();
-    }));
-  it('rejects invalid model years and odometer values at the database boundary', () =>
-    isolated(async (tx) => {
+    });
+  });
+  it('rejects invalid model years and odometer values at the database boundary', async () => {
+    await isolated(async (tx) => {
       const user = await tx.user.create({ data: userData() });
       await expect(
         tx.vehicle.create({ data: { ...vehicleData(user.id, '43A-111.11'), modelYear: 1800 } }),
       ).rejects.toThrow();
+    });
+    await isolated(async (tx) => {
+      const user = await tx.user.create({ data: userData() });
       await expect(
         tx.vehicle.create({ data: { ...vehicleData(user.id, '43A-222.22'), currentOdometerKm: -1 } }),
       ).rejects.toThrow();
-    }));
+    });
+  });
   it('restricts deleting an owner with vehicle history', () =>
     isolated(async (tx) => {
       const user = await tx.user.create({ data: userData() });

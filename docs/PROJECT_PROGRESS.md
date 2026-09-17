@@ -861,6 +861,43 @@ Commit: feat: add vehicle documents and reminders (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
 Next phase: Phase 19 — Fuel Prices
 
+### Local Runtime Verification — 2026-09-17
+
+Status: Complete. Phase 19 was not started.
+
+- Docker Desktop started normally. Compose validation passed; PostgreSQL 18.6 and Redis 8.10.1 were healthy on the
+  configured local ports. API readiness reported both database and Redis as `ok`.
+- Recreated only the isolated local `tranhanh_test` database, then applied all nine historical migrations from an empty
+  database in repository order. No historical migration or development/production data was changed.
+- Imported the reviewed Phone Prefix, Area Code, Vehicle Plate, and Postal Code datasets: 57, 122, 81, and 3,320 rows.
+  A second import created/updated zero rows and skipped all 3,580 rows, proving idempotency.
+- The strengthened real PostgreSQL suite passed 81/81 tests in 9 files with zero failures/skips. Constraint checks that
+  intentionally fail now run in independent transactions, so a PostgreSQL aborted transaction cannot mask later assertions.
+- A guarded `pnpm test:runtime` suite now exercises real PostgreSQL, Redis, and BullMQ only against local
+  `tranhanh_test`. It passed 9/9 cases: Redis connect/read/write/disconnect/reconnect; delayed, deterministic/deduplicated,
+  retried, completed, failed, and opaque queue jobs; fake AUTOMATED monitoring run/snapshot/no-change/change/retry; document
+  reminder scheduling/dedupe/stale-expiry/archive/restore; auth rotation/reset; Garage ownership; documents; public lookups;
+  and production CSGT `MANUAL_ONLY` behavior.
+- Normal development startup succeeded with the repository-supported Node 24 runtime. Angular SSR served both locales, the
+  API started cleanly, and liveness/readiness were truthful. A single reusable headless Chrome completed the full synthetic
+  register/login/Garage/two-vehicle/primary/documents/reminders/monitoring/logout/Vehicle Plate/Traffic Fine journey at
+  representative 390px and 1440px widths with no console, page, HTTP 5xx, or overflow errors.
+- Privacy checks passed: private routes emitted `noindex, nofollow`; private API responses emitted
+  `private, no-store`; private plates were absent from SSR HTML; queue payloads held only `monitoringId`,
+  `reminderId`, or an opaque test entity ID; runtime logs contained no passwords, tokens, cookies, full private plates,
+  or document reference numbers. Synthetic browser records were removed from the isolated test database.
+- Fixed three runtime defects: Node could not resolve the shared workspace package during normal API startup; Prisma rejected
+  nested monitoring creation when a vehicle was saved; and BullMQ retry attempts were incorrectly blocked by the persisted
+  next-eligible timestamp. Added regression coverage for all three execution paths.
+- Final validation passed: Prettier, ESLint, 193 API unit tests, 63 Angular tests, 46 API E2E tests, shared/API/browser/SSR
+  builds, Prisma generate/validate, critical SSR and SEO smoke tests, Compose validation, 81 PostgreSQL tests, and 9 runtime
+  integration tests. Remaining non-blocking warnings are the existing 876-byte homepage component-style budget warning and
+  the pg adapter deprecation warning about concurrent `client.query()` calls.
+
+Commit: `fix: verify local runtime integration` (this checkpoint).
+Push destination: `origin/main`; verify synchronized HEAD after push.
+Next phase: Phase 19 — Fuel Prices (authorized next, not started by this checkpoint).
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -874,14 +911,14 @@ Next phase: Phase 19 — Fuel Prices
 
 Phone-prefix, area-code, vehicle-plate, and postal-code reviewed-file importers are implemented; official evidence registries
 are reviewed. Vehicle Plate is first-class, Phone Prefix and Area Code are de-emphasized, and Postal Code is dormant. The
-Traffic Fine provider is intentionally manual-only because no lawful documented automation API was verified. No live
-database import or external runtime provider is active yet. See `docs/data-sources.md` for sources and limitations.
+Traffic Fine provider is intentionally manual-only because no lawful documented automation API was verified. Reviewed
+datasets are loaded in the isolated local verification database; no external runtime provider is active. See `docs/data-sources.md` for sources and limitations.
 
 ## Environment Notes
 
 - macOS workspace: `/Users/thangnguyen/Documents/ChatGPT/tranhanh`.
 - Required Node: 24.15.x; pnpm: 12.3.x.
-- Docker CLI is installed; daemon unavailable at `/Users/thangnguyen/.docker/run/docker.sock`.
+- Docker Desktop and Compose were verified locally on 2026-09-17; PostgreSQL 18.6 and Redis 8.10.1 were healthy.
 - Git identity is configured. Branch: `main`; GitHub SSH remote is configured (see GitHub Connection).
 - No credentials, provider accounts, or deployment destination were supplied.
 
@@ -893,12 +930,12 @@ Next phase: Phase 19 — Fuel Prices
 
 The authorized automotive roadmap preserves Phases 0–12 and inserts Phase 12P as the transition:
 
-1. Phase 13 — Authentication & User Foundation (complete locally; live database verification pending)
-2. Phase 14 — My Garage (complete locally; live database verification pending)
+1. Phase 13 — Authentication & User Foundation (complete; local runtime verified)
+2. Phase 14 — My Garage (complete; local runtime verified)
 3. Phase 15 — Traffic Fine Lookup Backend (complete)
 4. Phase 16 — Traffic Fine Lookup Frontend + SEO (complete)
-5. Phase 17 — Vehicle Monitoring (complete locally; live PostgreSQL/Redis verification pending)
-6. Phase 18 — Registration, Insurance & Vehicle Documents (complete locally; live PostgreSQL/Redis verification pending)
+5. Phase 17 — Vehicle Monitoring (complete; local runtime verified)
+6. Phase 18 — Registration, Insurance & Vehicle Documents (complete; local runtime verified)
 7. Phase 19 — Fuel Prices
 8. Phase 20 — Fuel Log
 9. Phase 21 — Maintenance
@@ -940,7 +977,7 @@ Validation: documentation formatting, diff/scope review, and Git synchronization
 ## Known Issues
 
 - No remaining GitHub synchronization blocker; SSH access is verified for `thangnd1993`.
-- Database/container verification requires a running Docker daemon or equivalent services.
+- Local runtime verification is complete; Docker services can be stopped when not in use and restarted with `pnpm services:up`.
 - ESLint 9 emits an upstream deprecation notice during installation; replacement requires compatibility review.
 
 ## Do Not Reimplement

@@ -33,7 +33,13 @@ async function fixture(tx: Prisma.TransactionClient) {
     data: { email: `${randomUUID()}@example.test`, passwordHash: '$argon2id$v=19$m=19456,t=2,p=1$fixture$fixture' },
   });
   const vehicle = await tx.vehicle.create({
-    data: { userId: user.id, licensePlate: '51K-123.45', normalizedLicensePlate: '51K12345', vehicleType: 'CAR' },
+    data: {
+      userId: user.id,
+      displayName: 'Runtime test vehicle',
+      licensePlate: '51K-123.45',
+      normalizedLicensePlate: '51K12345',
+      vehicleType: 'CAR',
+    },
   });
   return { user, vehicle };
 }
@@ -84,13 +90,20 @@ describe('PostgreSQL vehicle document invariants', () => {
       const document = await tx.vehicleDocument.create({
         data: { userId: user.id, vehicleId: vehicle.id, type: 'ROAD_USE_FEE', displayName: 'Fee' },
       });
-      await expect(
-        tx.vehicleDocumentReminder.create({ data: { documentId: document.id, daysBefore: 2 } }),
-      ).rejects.toThrow();
       await tx.vehicleDocumentReminder.create({ data: { documentId: document.id, daysBefore: 7 } });
       await expect(
         tx.vehicleDocumentReminder.create({ data: { documentId: document.id, daysBefore: 7 } }),
       ).rejects.toMatchObject({ code: 'P2002' });
+    }));
+  it('allows only reviewed reminder offsets', () =>
+    isolated(async (tx) => {
+      const { user, vehicle } = await fixture(tx);
+      const document = await tx.vehicleDocument.create({
+        data: { userId: user.id, vehicleId: vehicle.id, type: 'ROAD_USE_FEE', displayName: 'Fee' },
+      });
+      await expect(
+        tx.vehicleDocumentReminder.create({ data: { documentId: document.id, daysBefore: 2 } }),
+      ).rejects.toThrow();
     }));
   it('requires complete schedules only for enabled reminders', () =>
     isolated(async (tx) => {

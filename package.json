@@ -9,9 +9,9 @@
     "pnpm": ">=12.3.0 <13"
   },
   "scripts": {
-    "dev": "pnpm --parallel --filter @tranhanh/web --filter @tranhanh/api dev",
+    "dev": "pnpm --filter @tranhanh/shared build && pnpm --parallel --filter @tranhanh/web --filter @tranhanh/api dev",
     "dev:web": "pnpm --filter @tranhanh/web dev",
-    "dev:api": "pnpm --filter @tranhanh/api dev",
+    "dev:api": "pnpm --filter @tranhanh/shared build && pnpm --filter @tranhanh/api dev",
     "build": "pnpm -r build",
     "lint": "eslint . --max-warnings=0",
     "test": "pnpm -r test",
@@ -29,6 +29,7 @@
     "test:seo": "node apps/web/test/seo-smoke.mjs",
     "db:seed": "pnpm --filter @tranhanh/api db:seed",
     "test:database": "pnpm --filter @tranhanh/api test:database",
+    "test:runtime": "pnpm --filter @tranhanh/api test:runtime",
     "test:phone": "node apps/web/test/phone-smoke.mjs",
     "test:area": "node apps/web/test/area-smoke.mjs",
     "test:vehicle": "node apps/web/test/vehicle-smoke.mjs",

@@ -199,7 +199,7 @@ export class FakeAuthPrisma {
         if (monitorings?.create) {
           const monitoring = {
             id: randomUUID(),
-            userId: monitorings.create.userId,
+            userId: row.userId,
             vehicleId: row.id,
             monitoringType: monitorings.create.monitoringType,
             providerKey: monitorings.create.providerKey,

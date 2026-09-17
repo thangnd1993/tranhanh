@@ -64,37 +64,46 @@ describe('postal-code PostgreSQL invariants', () => {
         tx.postalCodeAssignment.create({ data: { ...row, id: randomUUID(), key: `other-${randomUUID()}` } }),
       ).rejects.toMatchObject({ code: 'P2002' });
     }));
-  it('enforces target and evidence foreign keys', () =>
-    isolated(async (tx) => {
+  it('enforces target and evidence foreign keys', async () => {
+    await isolated(async (tx) => {
       await expect(
         tx.postalCodeAssignment.update({ where: { key: 'postal-code-01234' }, data: { targetId: randomUUID() } }),
       ).rejects.toMatchObject({ code: 'P2003' });
+    });
+    await isolated(async (tx) => {
       await expect(
         tx.postalCodeAssignment.update({
           where: { key: 'postal-code-01234' },
           data: { sourceReferenceId: randomUUID() },
         }),
       ).rejects.toMatchObject({ code: 'P2003' });
-    }));
-  it('rejects malformed codes and reversed intervals', () =>
-    isolated(async (tx) => {
+    });
+  });
+  it('rejects malformed codes and reversed intervals', async () => {
+    await isolated(async (tx) => {
       await expect(
         tx.postalCodeAssignment.update({ where: { key: 'postal-code-01234' }, data: { code: '1234' } }),
       ).rejects.toThrow();
+    });
+    await isolated(async (tx) => {
       await expect(
         tx.postalCodeAssignment.update({
           where: { key: 'postal-code-01234' },
           data: { effectiveTo: new Date('2025-01-01') },
         }),
       ).rejects.toThrow();
-    }));
-  it('restricts hierarchy and evidence deletion', () =>
-    isolated(async (tx, fixture) => {
+    });
+  });
+  it('restricts hierarchy and evidence deletion', async () => {
+    await isolated(async (tx) => {
       await expect(tx.postalCodeTarget.delete({ where: { key: 'province-test' } })).rejects.toMatchObject({
         code: 'P2003',
       });
+    });
+    await isolated(async (tx, fixture) => {
       await expect(tx.sourceReference.delete({ where: { id: fixture.references[0].id } })).rejects.toMatchObject({
         code: 'P2003',
       });
-    }));
+    });
+  });
 });

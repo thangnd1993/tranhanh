@@ -107,9 +107,15 @@ reported as pending, not replaced by mocked database constraint success.
 
 After starting the API, verify `/api/v1/health` and `/api/v1/health/ready`. Readiness should report both dependencies as ok;
 503 means a real dependency remains unavailable. You can also check Redis with `docker compose exec redis redis-cli ping`.
-Current Phase 5 verification covers schema generation/validation, SQL review, non-database tests, and production builds;
-live PostgreSQL migration, constraint tests, Redis connectivity, and successful readiness remain pending (Docker unavailable).
-See [Database migration notes](apps/api/prisma/migrations/README.md) for the reviewed migration and SQL-only CHECK rules.
+Local runtime verification was completed against Docker PostgreSQL 18 and Redis 8. After creating a clean isolated
+`tranhanh_test`, run the database suite before importing lookup datasets, then run the live application/queue suite:
+
+    TEST_DATABASE_URL=postgresql://tranhanh:tranhanh@localhost:5432/tranhanh_test?schema=public pnpm test:database
+    DATABASE_URL=postgresql://tranhanh:tranhanh@localhost:5432/tranhanh_test?schema=public NODE_ENV=test pnpm test:runtime
+
+The runtime command refuses production mode, remote hosts, non-test database names, and non-public schemas. It expects the
+four reviewed lookup datasets to be imported and Redis to be reachable. It never calls CSGT automatically. See
+[Database migration notes](apps/api/prisma/migrations/README.md) for the reviewed migrations and SQL-only CHECK rules.
 
 ## Phone-prefix data commands
 

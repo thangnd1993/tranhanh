@@ -33,16 +33,20 @@ const userData = () => ({
   passwordHash: '$argon2id$v=19$m=19456,t=2,p=1$fixture$fixture',
 });
 describe('PostgreSQL auth invariants (real database, rolled-back fixtures)', () => {
-  it('enforces normalized unique email', () =>
-    isolated(async (tx) => {
+  it('enforces normalized unique email', async () => {
+    await isolated(async (tx) => {
       const user = await tx.user.create({ data: userData() });
       await expect(tx.user.create({ data: { ...userData(), email: user.email } })).rejects.toMatchObject({
         code: 'P2002',
       });
+    });
+    await isolated(async (tx) => {
+      const user = await tx.user.create({ data: userData() });
       await expect(
         tx.$executeRaw`UPDATE "User" SET "email" = 'UPPER@example.test' WHERE "id" = ${user.id}::uuid`,
       ).rejects.toThrow();
-    }));
+    });
+  });
   it('enforces account deletion status semantics', () =>
     isolated(async (tx) => {
       await expect(tx.user.create({ data: { ...userData(), status: 'PENDING_DELETION' } })).rejects.toThrow();
@@ -72,13 +76,16 @@ describe('PostgreSQL auth invariants (real database, rolled-back fixtures)', () 
           },
         }),
       ).rejects.toMatchObject({ code: 'P2002' });
+    }));
+  it('requires sessions to reference a real user', () =>
+    isolated(async (tx) => {
       await expect(
         tx.authSession.create({
           data: {
             userId: randomUUID(),
             familyId: randomUUID(),
             tokenHash: 'c'.repeat(64),
-            csrfTokenHash: csrf,
+            csrfTokenHash: 'd'.repeat(64),
             expiresAt: new Date(Date.now() + 60000),
           },
         }),

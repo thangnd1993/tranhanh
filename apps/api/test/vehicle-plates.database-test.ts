@@ -69,37 +69,48 @@ describe('vehicle-plate PostgreSQL invariants (not mocked)', () => {
         tx.vehiclePlateAllocation.create({ data: { ...row, id: randomUUID(), key: `other-${randomUUID()}` } }),
       ).rejects.toMatchObject({ code: 'P2002' });
     }));
-  it('enforces target and evidence foreign keys', () =>
-    isolated(async (tx) => {
+  it('enforces target and evidence foreign keys', async () => {
+    await isolated(async (tx) => {
       await expect(
         tx.vehiclePlateAllocation.update({ where: { key: '51-current' }, data: { targetId: randomUUID() } }),
       ).rejects.toMatchObject({ code: 'P2003' });
+    });
+    await isolated(async (tx) => {
       await expect(
         tx.vehiclePlateAllocation.update({ where: { key: '51-current' }, data: { sourceReferenceId: randomUUID() } }),
       ).rejects.toMatchObject({ code: 'P2003' });
-    }));
-  it('rejects malformed prefixes, series and reversed dates', () =>
-    isolated(async (tx) => {
+    });
+  });
+  it('rejects malformed prefixes, series and reversed dates', async () => {
+    await isolated(async (tx) => {
       await expect(
         tx.vehiclePlateAllocation.update({ where: { key: '51-current' }, data: { numericPrefix: '01' } }),
       ).rejects.toThrow();
+    });
+    await isolated(async (tx) => {
       await expect(
         tx.vehiclePlateAllocation.update({ where: { key: '51-current' }, data: { seriesPrefix: 'I' } }),
       ).rejects.toThrow();
+    });
+    await isolated(async (tx) => {
       await expect(
         tx.vehiclePlateAllocation.update({
           where: { key: '51-current' },
           data: { effectiveTo: new Date('2025-01-01') },
         }),
       ).rejects.toThrow();
-    }));
-  it('restricts deletion of targets and evidence with retained history', () =>
-    isolated(async (tx, fixture) => {
+    });
+  });
+  it('restricts deletion of targets and evidence with retained history', async () => {
+    await isolated(async (tx) => {
       await expect(tx.vehiclePlateTarget.delete({ where: { key: 'old-place' } })).rejects.toMatchObject({
         code: 'P2003',
       });
+    });
+    await isolated(async (tx, fixture) => {
       await expect(tx.sourceReference.delete({ where: { id: fixture.references[0].id } })).rejects.toMatchObject({
         code: 'P2003',
       });
-    }));
+    });
+  });
 });

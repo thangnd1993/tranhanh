@@ -44,8 +44,8 @@ async function fixture(tx: Prisma.TransactionClient) {
   return { user, vehicle };
 }
 describe('PostgreSQL vehicle monitoring invariants', () => {
-  it('enforces one monitoring type per vehicle and nonnegative failures', () =>
-    isolated(async (tx) => {
+  it('enforces one monitoring type per vehicle and nonnegative failures', async () => {
+    await isolated(async (tx) => {
       const { user, vehicle } = await fixture(tx);
       const base = {
         userId: user.id,
@@ -56,13 +56,23 @@ describe('PostgreSQL vehicle monitoring invariants', () => {
       };
       await tx.vehicleMonitoring.create({ data: base });
       await expect(tx.vehicleMonitoring.create({ data: base })).rejects.toMatchObject({ code: 'P2002' });
+    });
+    await isolated(async (tx) => {
+      const { user, vehicle } = await fixture(tx);
+      const monitor = await tx.vehicleMonitoring.create({
+        data: {
+          userId: user.id,
+          vehicleId: vehicle.id,
+          monitoringType: 'TRAFFIC_FINE',
+          providerKey: 'test-provider',
+          capability: 'AUTOMATED',
+        },
+      });
       await expect(
-        tx.vehicleMonitoring.update({
-          where: { vehicleId_monitoringType: { vehicleId: vehicle.id, monitoringType: 'TRAFFIC_FINE' } },
-          data: { failureCount: -1 },
-        }),
+        tx.vehicleMonitoring.update({ where: { id: monitor.id }, data: { failureCount: -1 } }),
       ).rejects.toThrow();
-    }));
+    });
+  });
   it('enforces that the monitoring owner matches the vehicle owner', () =>
     isolated(async (tx) => {
       const owned = await fixture(tx);
@@ -101,7 +111,7 @@ describe('PostgreSQL vehicle monitoring invariants', () => {
         }),
       ).rejects.toThrow();
     }));
-  it('enforces snapshot count and cascades private monitor data with vehicle deletion', () =>
+  it('enforces snapshot result count', () =>
     isolated(async (tx) => {
       const { user, vehicle } = await fixture(tx);
       const monitor = await tx.vehicleMonitoring.create({
@@ -124,6 +134,28 @@ describe('PostgreSQL vehicle monitoring invariants', () => {
           },
         }),
       ).rejects.toThrow();
+    }));
+  it('cascades private monitor data with vehicle deletion', () =>
+    isolated(async (tx) => {
+      const { user, vehicle } = await fixture(tx);
+      const monitor = await tx.vehicleMonitoring.create({
+        data: {
+          userId: user.id,
+          vehicleId: vehicle.id,
+          monitoringType: 'TRAFFIC_FINE',
+          providerKey: 'test-provider',
+          capability: 'AUTOMATED',
+        },
+      });
+      await tx.vehicleMonitoringSnapshot.create({
+        data: {
+          monitoringId: monitor.id,
+          providerKey: 'test-provider',
+          fingerprints: ['a'],
+          resultCount: 1,
+          retrievedAt: new Date(),
+        },
+      });
       await tx.vehicle.delete({ where: { id: vehicle.id } });
       expect(await tx.vehicleMonitoring.findUnique({ where: { id: monitor.id } })).toBeNull();
     }));

@@ -59,7 +59,11 @@ export class VehicleMonitoringWorker {
       automationApproved: Boolean(monitoring.automationApprovedAt),
     });
     const now = new Date();
-    if (!state.automaticChecksAvailable || (monitoring.nextEligibleCheckAt && monitoring.nextEligibleCheckAt > now)) {
+    const isQueueRetry = monitoring.lastOutcome === 'FAILED' && monitoring.failureCount > 0;
+    if (
+      !state.automaticChecksAvailable ||
+      (monitoring.nextEligibleCheckAt && monitoring.nextEligibleCheckAt > now && !isQueueRetry)
+    ) {
       if (monitoring.status !== state.status || monitoring.nextEligibleCheckAt) {
         await this.prisma.vehicleMonitoring.update({
           where: { id: monitoring.id },
