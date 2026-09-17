@@ -338,3 +338,19 @@ Automated-path tests use a deterministic in-process fake provider only. It is no
 factual user data and exists to verify normalization, fingerprint dedupe, meaningful-change detection, retry/failure
 handling and history. Any future production provider must first satisfy the Phase 15 permission, provenance, privacy,
 throttle and stable-contract review, then require explicit activation reconciliation for existing preferences.
+
+## Phase 18 vehicle-document legal context
+
+Phase 18 imports no registry, insurer, inspection, or government records. All values are entered by the authenticated user
+and carry USER_PROVIDED status. These official pages were reviewed on 2026-09-17 only to define honest categories and copy;
+they do not verify a user's record or provide runtime data:
+
+- Circular 47/2024/TT-BGTVT on inspection and emissions, effective 2025-01-01:
+  https://vbpl.vn/bogiaothong/Pages/ivbpq-lichsu.aspx?ItemID=173118&Keyword=
+- Decree 67/2023/NĐ-CP, including compulsory motor-vehicle civil-liability insurance:
+  https://vbpl.vn/botaichinh/Pages/vbpq-thuoctinh.aspx?ItemID=163442
+- Government portal, Decree 220/2026/NĐ-CP, effective 2026-07-01, amending parts of Decree 67:
+  https://vanban.chinhphu.vn/?docid=218555&pageid=27160
+
+TraNhanh stores no scans, raw official payloads, policy quotations, or inferred legal validity. Expiry status compares the
+date supplied by the user. Users must check the issuer or insurer for authoritative status and current requirements.

@@ -49,7 +49,7 @@ const rows = dataset.prefixes.map((r) => {
 let mode = 'healthy';
 let requests = 0;
 const fixture = createServer((req, res) => {
-  requests++;
+  if (req.url?.startsWith('/api/v1/phone-prefixes')) requests++;
   res.setHeader('Content-Type', 'application/json');
   if (mode === 'unavailable') {
     res.writeHead(503).end('{}');

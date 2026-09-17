@@ -1,0 +1,24 @@
+.documents-page {
+  max-width: 68rem;
+}
+.document-attention,
+.document-summary {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  background: var(--surface-subtle);
+}
+.document-card p {
+  margin: 0;
+}
+.reminder-fieldset {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+}
+.reminder-fieldset legend {
+  font-weight: 600;
+  padding: 0 var(--space-2);
+}

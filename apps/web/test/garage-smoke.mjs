@@ -32,6 +32,34 @@ let vehicles = [
     updatedAt: '2026-09-16T00:00:00.000Z',
   },
 ];
+let documents = [
+  {
+    id: '55555555-5555-4555-8555-555555555555',
+    vehicleId: vehicles[0].id,
+    type: 'PERIODIC_INSPECTION',
+    displayName: 'Đăng kiểm',
+    referenceNumber: 'INSPECTION-PRIVATE-001',
+    issuer: 'Trung tâm đăng kiểm',
+    issuedAt: '2026-01-01',
+    effectiveFrom: '2026-01-01',
+    expiresAt: '2026-09-10',
+    notes: 'User-provided',
+    verificationStatus: 'USER_PROVIDED',
+    status: 'ACTIVE',
+    expiryState: 'EXPIRED',
+    daysUntilExpiry: -7,
+    reminders: [30, 15, 7, 1].map((daysBefore, index) => ({
+      id: 'reminder-' + index,
+      daysBefore,
+      enabled: daysBefore === 7,
+      scheduledFor: null,
+      lastTriggeredForExpiry: null,
+    })),
+    archivedAt: null,
+    createdAt: '2026-01-01T00:00:00.000Z',
+    updatedAt: '2026-01-01T00:00:00.000Z',
+  },
+];
 async function body(req) {
   let value = '';
   for await (const part of req) value += part;
@@ -87,6 +115,84 @@ const api = createServer(async (req, res) => {
       vehicles.push(row);
       res.end(JSON.stringify(row));
       return;
+    }
+    const documentMatch = path.match(
+      /^\/api\/v1\/vehicles\/([0-9a-f-]+)\/documents(?:\/([0-9a-f-]+))?(?:\/(restore|reminders))?$/,
+    );
+    if (documentMatch) {
+      const vehicle = vehicles.find((v) => v.id === documentMatch[1]);
+      if (!vehicle) {
+        res.statusCode = 404;
+        res.end('{}');
+        return;
+      }
+      if (!documentMatch[2] && req.method === 'GET') {
+        const items = documents.filter((d) => d.vehicleId === vehicle.id && d.status === 'ACTIVE');
+        res.end(
+          JSON.stringify({
+            items,
+            attention: {
+              expired: items.filter((d) => d.expiryState === 'EXPIRED').length,
+              expiringSoon: items.filter((d) => d.expiryState === 'EXPIRING_SOON').length,
+              nextExpiry: null,
+            },
+          }),
+        );
+        return;
+      }
+      if (!documentMatch[2] && req.method === 'POST') {
+        const input = await body(req);
+        const row = {
+          ...documents[0],
+          ...input,
+          id: '66666666-6666-4666-8666-666666666666',
+          vehicleId: vehicle.id,
+          referenceNumber: input.referenceNumber || null,
+          expiryState: 'VALID',
+          daysUntilExpiry: 365,
+          reminders: [30, 15, 7, 1].map((daysBefore, index) => ({
+            id: 'new-reminder-' + index,
+            daysBefore,
+            enabled: (input.reminderDaysBefore || []).includes(daysBefore),
+            scheduledFor: null,
+            lastTriggeredForExpiry: null,
+          })),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        documents.push(row);
+        res.end(JSON.stringify(row));
+        return;
+      }
+      const row = documents.find((d) => d.id === documentMatch[2] && d.vehicleId === vehicle.id);
+      if (!row) {
+        res.statusCode = 404;
+        res.end('{}');
+        return;
+      }
+      if (req.method === 'GET') {
+        res.end(JSON.stringify(row));
+        return;
+      }
+      if (req.method === 'PATCH') {
+        Object.assign(row, await body(req), { updatedAt: new Date().toISOString() });
+        res.end(JSON.stringify(row));
+        return;
+      }
+      if (req.method === 'DELETE') {
+        Object.assign(row, { status: 'ARCHIVED', archivedAt: new Date().toISOString() });
+        res.end(JSON.stringify(row));
+        return;
+      }
+      if (documentMatch[3] === 'restore' && req.method === 'POST') {
+        Object.assign(row, { status: 'ACTIVE', archivedAt: null });
+        res.end(JSON.stringify(row));
+        return;
+      }
+      if (documentMatch[3] === 'reminders' && req.method === 'PUT') {
+        res.end(JSON.stringify(row));
+        return;
+      }
     }
     const monitoringMatch = path.match(
       /^\/api\/v1\/vehicles\/([0-9a-f-]+)\/monitoring(?:\/(history|enable|disable))?$/,
@@ -203,6 +309,40 @@ try {
   await page.getByText('51K-987.65').click();
   await page.getByRole('heading', { name: 'Theo dõi phạt nguội' }).waitFor();
   assert.match(await page.textContent('body'), /Theo dõi tự động chưa khả dụng|Chưa có lượt kiểm tra tự động/);
+  await page.getByRole('link', { name: 'Quản lý giấy tờ' }).click();
+  await page.waitForURL('**/vi/garage/22222222-2222-4222-8222-222222222222/giay-to');
+  await page.locator('.documents-page h1').waitFor();
+  assert.match(await page.textContent('body'), /Đăng kiểm|Đã hết hạn/);
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    assert.equal(
+      await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
+      false,
+      `documents ${width}`,
+    );
+  }
+  const shots = process.env.GARAGE_SCREENSHOTS;
+  if (shots) {
+    await mkdir(shots, { recursive: true });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.screenshot({ path: join(shots, 'vehicle-documents-mobile-light.png'), fullPage: true });
+  }
+  await page.getByRole('link', { name: 'Thêm giấy tờ' }).first().click();
+  await page.getByLabel('Tên hiển thị').fill('Bảo hiểm bắt buộc');
+  await page.getByLabel('Số giấy tờ').fill('PRIVATE-POLICY-001');
+  await page.getByLabel('Ngày hết hạn').fill('2027-09-17');
+  await page.getByLabel(/7 ngày/).check();
+  await page.getByRole('button', { name: 'Lưu giấy tờ' }).click();
+  await page.waitForURL(
+    '**/vi/garage/22222222-2222-4222-8222-222222222222/giay-to/66666666-6666-4666-8666-666666666666',
+  );
+  await page.getByText('Bảo hiểm bắt buộc').waitFor();
+  if (shots) {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.evaluate(() => (document.documentElement.dataset.theme = 'dark'));
+    await page.screenshot({ path: join(shots, 'vehicle-document-detail-desktop-dark.png'), fullPage: true });
+  }
+  await page.goto(origin + '/vi/garage/22222222-2222-4222-8222-222222222222', { waitUntil: 'networkidle' });
   for (const width of [320, 375, 390, 430, 768, 1024, 1280, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     assert.equal(
@@ -211,7 +351,6 @@ try {
       `garage ${width}`,
     );
   }
-  const shots = process.env.GARAGE_SCREENSHOTS;
   if (shots) {
     await mkdir(shots, { recursive: true });
     await page.setViewportSize({ width: 390, height: 844 });
@@ -241,7 +380,7 @@ try {
   assert.doesNotMatch(await page.content(), /fake-access|fake-refresh/);
   assert.deepEqual(errors, []);
   console.log(
-    'Garage browser: auth, monitoring, list/create/detail/edit, privacy, sitemap, 8 widths and screenshots passed.',
+    'Garage browser: auth, documents/reminders, monitoring, CRUD, privacy, sitemap, widths and screenshots passed.',
   );
 } finally {
   await context?.close();

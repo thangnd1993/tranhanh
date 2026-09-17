@@ -8,9 +8,10 @@ import { LocaleService } from '../i18n/locale.service';
 import { garagePath, pagePaths } from '../i18n/routes';
 import { GarageService } from './garage.service';
 import { VehicleMonitoringComponent } from './vehicle-monitoring.component';
+import { VehicleDocumentSummaryComponent } from './vehicle-document-summary.component';
 @Component({
   selector: 'tn-vehicle-detail-page',
-  imports: [RouterLink, ButtonDirective, VehicleMonitoringComponent],
+  imports: [RouterLink, ButtonDirective, VehicleMonitoringComponent, VehicleDocumentSummaryComponent],
   template: `<section class="container section stack garage-detail">
     <a
       class="back-link"
@@ -82,6 +83,7 @@ import { VehicleMonitoringComponent } from './vehicle-monitoring.component';
           <dd>{{ v.notes || '—' }}</dd>
         </div>
       </dl>
+      <tn-vehicle-document-summary [vehicleId]="v.id" />
       <tn-vehicle-monitoring
         [vehicleId]="v.id"
         [vehicleStatus]="v.status"

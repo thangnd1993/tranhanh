@@ -74,3 +74,13 @@ Future automated activation requires a reviewed provider contract, capability an
 action. Archived vehicles stop scheduling and restore does not silently reactivate them. Monitoring history and results are
 private account data and never become public lookup, SEO, sitemap or structured-data content. Notification delivery remains
 Phase 24.
+
+## Vehicle documents and reminders — Phase 18
+
+A signed-in user can keep registration, inspection, insurance, road-use-fee, and other document metadata with a saved
+vehicle. This is a private organizer and expiry reminder center. It does not present entries as verified, query a registry,
+upload scans, or infer compliance. Vietnam calendar dates distinguish expired, expiring-soon, valid, and no-expiry states.
+
+Reminder preferences support 30, 15, 7, and 1 day before expiry. Phase 18 persists internal events with stale-job and
+duplicate protection. Delivery channels remain Phase 24. Private routes stay out of acquisition pages, sitemaps, structured
+data, browser storage, and server-rendered user content.

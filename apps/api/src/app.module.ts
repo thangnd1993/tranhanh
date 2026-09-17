@@ -16,6 +16,7 @@ import { TrafficFinesModule } from './traffic-fines/traffic-fines.module.js';
 import { VehiclePlatesModule } from './vehicle-plates/vehicle-plates.module.js';
 import { VehiclesModule } from './vehicles/vehicles.module.js';
 import { VehicleMonitoringModule } from './vehicle-monitoring/vehicle-monitoring.module.js';
+import { VehicleDocumentsModule } from './vehicle-documents/vehicle-documents.module.js';
 
 @Module({
   controllers: [AppController, HealthController],
@@ -46,6 +47,7 @@ import { VehicleMonitoringModule } from './vehicle-monitoring/vehicle-monitoring
     RedisModule,
     TrafficFinesModule,
     VehicleMonitoringModule,
+    VehicleDocumentsModule,
   ],
   providers: [HealthService],
 })

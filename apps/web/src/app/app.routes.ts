@@ -75,6 +75,34 @@ export const routes: Routes = [
         loadComponent: () => import('./garage/vehicle-form-page.component').then((m) => m.VehicleFormPageComponent),
       },
       {
+        path: locale === 'vi' ? 'garage/:id/giay-to/them' : 'garage/:id/documents/add',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./garage/vehicle-document-form-page.component').then((m) => m.VehicleDocumentFormPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/giay-to/:documentId/chinh-sua' : 'garage/:id/documents/:documentId/edit',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./garage/vehicle-document-form-page.component').then((m) => m.VehicleDocumentFormPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/giay-to/:documentId' : 'garage/:id/documents/:documentId',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./garage/vehicle-document-detail-page.component').then((m) => m.VehicleDocumentDetailPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/giay-to' : 'garage/:id/documents',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./garage/vehicle-documents-page.component').then((m) => m.VehicleDocumentsPageComponent),
+      },
+      {
         path: locale === 'vi' ? 'garage/:id/chinh-sua' : 'garage/:id/edit',
         canActivate: [accountGuard(locale, garagePath(locale))],
         resolve: { seo: pageSeo('garage') },

@@ -29,6 +29,19 @@ export function equivalentPath(path: string, locale: Locale): string {
   for (const source of supportedLocales) {
     const base = garagePath(source);
     const clean = path.replace(/\/$/, '');
+    const match = clean
+      .slice(base.length + 1)
+      .match(/^([0-9a-f-]{36})\/(giay-to|documents)(?:\/(them|add|[0-9a-f-]{36})(?:\/(chinh-sua|edit))?)?$/i);
+    if (clean.startsWith(base + '/') && match) {
+      const vehicleId = match[1];
+      if (!match[3]) return documentPath(locale, vehicleId);
+      if (match[3] === 'them' || match[3] === 'add') return documentPath(locale, vehicleId, undefined, 'add');
+      return documentPath(locale, vehicleId, match[3], match[4] ? 'edit' : undefined);
+    }
+  }
+  for (const source of supportedLocales) {
+    const base = garagePath(source);
+    const clean = path.replace(/\/$/, '');
     if (clean === base) return garagePath(locale);
     const suffix = clean.slice(base.length + 1);
     if (clean.startsWith(base + '/') && suffix === (source === 'vi' ? 'them-xe' : 'add'))
@@ -85,4 +98,13 @@ export function garagePath(locale: Locale, id?: string, action?: 'add' | 'edit')
   if (action === 'add') return `${base}/${locale === 'vi' ? 'them-xe' : 'add'}`;
   if (!id) return base;
   return action === 'edit' ? `${base}/${id}/${locale === 'vi' ? 'chinh-sua' : 'edit'}` : `${base}/${id}`;
+}
+
+export function documentPath(locale: Locale, vehicleId: string, documentId?: string, action?: 'add' | 'edit'): string {
+  const base = `${garagePath(locale, vehicleId)}/${locale === 'vi' ? 'giay-to' : 'documents'}`;
+  if (action === 'add') return `${base}/${locale === 'vi' ? 'them' : 'add'}`;
+  if (!documentId) return base;
+  return action === 'edit'
+    ? `${base}/${documentId}/${locale === 'vi' ? 'chinh-sua' : 'edit'}`
+    : `${base}/${documentId}`;
 }

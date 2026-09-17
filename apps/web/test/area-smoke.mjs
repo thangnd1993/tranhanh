@@ -75,7 +75,7 @@ let mode = 'healthy';
 let requests = 0;
 const fold = (v) => v.normalize('NFD').replace(/\p{M}/gu, '').replace(/[đĐ]/g, 'd').toLowerCase();
 const fixture = createServer((req, res) => {
-  requests++;
+  if (req.url?.startsWith('/api/v1/area-codes')) requests++;
   res.setHeader('Content-Type', 'application/json');
   if (mode === 'unavailable') {
     res.writeHead(503).end('{}');

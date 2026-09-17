@@ -472,6 +472,24 @@ enum VehicleMonitoringOutcome {
   FAILED
 }
 
+enum VehicleDocumentType {
+  VEHICLE_REGISTRATION
+  PERIODIC_INSPECTION
+  COMPULSORY_CIVIL_LIABILITY_INSURANCE
+  VOLUNTARY_VEHICLE_INSURANCE
+  ROAD_USE_FEE
+  OTHER
+}
+
+enum VehicleDocumentVerificationStatus {
+  USER_PROVIDED
+}
+
+enum VehicleDocumentStatus {
+  ACTIVE
+  ARCHIVED
+}
+
 /// Private account identity. Password hashes and account data never enter public lookup/SEO models.
 model User {
   id                  String               @id @default(uuid()) @db.Uuid
@@ -488,6 +506,7 @@ model User {
   passwordResetTokens PasswordResetToken[]
   vehicles            Vehicle[]
   vehicleMonitorings  VehicleMonitoring[]
+  vehicleDocuments    VehicleDocument[]
 
   @@index([status, createdAt])
 }
@@ -512,6 +531,7 @@ model Vehicle {
   updatedAt              DateTime            @updatedAt @db.Timestamptz(3)
   user                   User                @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict)
   monitorings            VehicleMonitoring[]
+  documents              VehicleDocument[]
 
   @@unique([userId, normalizedLicensePlate])
   @@unique([id, userId])
@@ -578,6 +598,63 @@ model VehicleMonitoringSnapshot {
   monitoring   VehicleMonitoring @relation(fields: [monitoringId], references: [id], onDelete: Cascade, onUpdate: Restrict)
 
   @@index([providerKey, retrievedAt(sort: Desc)])
+}
+
+/// Private user-entered document metadata. Calendar dates use PostgreSQL DATE and are never authority verification.
+model VehicleDocument {
+  id                 String                            @id @default(uuid()) @db.Uuid
+  userId             String                            @db.Uuid
+  vehicleId          String                            @db.Uuid
+  type               VehicleDocumentType
+  displayName        String                            @db.VarChar(150)
+  referenceNumber    String?                           @db.VarChar(150)
+  issuer             String?                           @db.VarChar(200)
+  issuedAt           DateTime?                         @db.Date
+  effectiveFrom      DateTime?                         @db.Date
+  expiresAt          DateTime?                         @db.Date
+  notes              String?                           @db.VarChar(1000)
+  verificationStatus VehicleDocumentVerificationStatus @default(USER_PROVIDED)
+  status             VehicleDocumentStatus             @default(ACTIVE)
+  archivedAt         DateTime?                         @db.Timestamptz(3)
+  createdAt          DateTime                          @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime                          @updatedAt @db.Timestamptz(3)
+  user               User                              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  vehicle            Vehicle                           @relation(fields: [vehicleId, userId], references: [id, userId], onDelete: Cascade, onUpdate: Restrict)
+  reminders          VehicleDocumentReminder[]
+
+  @@unique([id, userId, vehicleId])
+  @@index([userId])
+  @@index([vehicleId, status, expiresAt])
+  @@index([status, expiresAt])
+}
+
+model VehicleDocumentReminder {
+  id                     String                       @id @default(uuid()) @db.Uuid
+  documentId             String                       @db.Uuid
+  daysBefore             Int                          @db.SmallInt
+  enabled                Boolean                      @default(false)
+  scheduledFor           DateTime?                    @db.Timestamptz(3)
+  scheduledForExpiry     DateTime?                    @db.Date
+  lastTriggeredForExpiry DateTime?                    @db.Date
+  createdAt              DateTime                     @default(now()) @db.Timestamptz(3)
+  updatedAt              DateTime                     @updatedAt @db.Timestamptz(3)
+  document               VehicleDocument              @relation(fields: [documentId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  runs                   VehicleDocumentReminderRun[]
+
+  @@unique([documentId, daysBefore])
+  @@index([enabled, scheduledFor])
+}
+
+model VehicleDocumentReminderRun {
+  id         String                  @id @default(uuid()) @db.Uuid
+  reminderId String                  @db.Uuid
+  dueOn      DateTime                @db.Date
+  expiresOn  DateTime                @db.Date
+  recordedAt DateTime                @default(now()) @db.Timestamptz(3)
+  reminder   VehicleDocumentReminder @relation(fields: [reminderId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+
+  @@unique([reminderId, expiresOn])
+  @@index([reminderId, recordedAt(sort: Desc)])
 }
 
 /// Server-side refresh session. Only keyed hashes are stored; raw refresh/CSRF values live in secure client state.

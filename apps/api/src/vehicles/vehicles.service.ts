@@ -2,6 +2,7 @@ import { BadRequestException, ConflictException, Injectable, NotFoundException }
 import type { UpdateVehicleInput, VehicleInput, VehicleResult, VehicleStatus } from '@tranhanh/shared';
 import type { Vehicle } from '../generated/prisma/client.js';
 import { PrismaService } from '../database/prisma.service.js';
+import { VehicleDocumentReminderScheduler } from '../vehicle-documents/vehicle-document-reminder.scheduler.js';
 import { normalizeVehicleInput } from './normalize-saved-vehicle.js';
 
 function result(vehicle: Vehicle): VehicleResult {
@@ -29,7 +30,10 @@ function isUniqueFailure(error: unknown): boolean {
 
 @Injectable()
 export class VehiclesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly documentReminders?: VehicleDocumentReminderScheduler,
+  ) {}
 
   async list(userId: string, status: VehicleStatus | 'ALL' = 'ACTIVE'): Promise<VehicleResult[]> {
     const vehicles = await this.prisma.vehicle.findMany({
@@ -136,30 +140,30 @@ export class VehiclesService {
   async archive(userId: string, id: string): Promise<VehicleResult> {
     const current = await this.owned(userId, id);
     if (current.status === 'ARCHIVED') return result(current);
-    return result(
-      await this.prisma.$transaction(async (tx) => {
-        const vehicle = await tx.vehicle.update({
-          where: { id: current.id, userId },
-          data: { status: 'ARCHIVED', archivedAt: new Date(), isPrimary: false },
-        });
-        await tx.vehicleMonitoring.updateMany({
-          where: { vehicleId: current.id, userId, isEnabled: true },
-          data: { status: 'SUSPENDED', nextEligibleCheckAt: null, automationApprovedAt: null },
-        });
-        return vehicle;
-      }),
-    );
+    const vehicle = await this.prisma.$transaction(async (tx) => {
+      const archived = await tx.vehicle.update({
+        where: { id: current.id, userId },
+        data: { status: 'ARCHIVED', archivedAt: new Date(), isPrimary: false },
+      });
+      await tx.vehicleMonitoring.updateMany({
+        where: { vehicleId: current.id, userId, isEnabled: true },
+        data: { status: 'SUSPENDED', nextEligibleCheckAt: null, automationApprovedAt: null },
+      });
+      return archived;
+    });
+    await this.documentReminders?.reconcileVehicle(userId, current.id);
+    return result(vehicle);
   }
 
   async restore(userId: string, id: string): Promise<VehicleResult> {
     const current = await this.owned(userId, id);
     if (current.status === 'ACTIVE') return result(current);
-    return result(
-      await this.prisma.vehicle.update({
-        where: { id: current.id, userId },
-        data: { status: 'ACTIVE', archivedAt: null, isPrimary: false },
-      }),
-    );
+    const vehicle = await this.prisma.vehicle.update({
+      where: { id: current.id, userId },
+      data: { status: 'ACTIVE', archivedAt: null, isPrimary: false },
+    });
+    await this.documentReminders?.reconcileVehicle(userId, current.id);
+    return result(vehicle);
   }
 
   private async owned(userId: string, id: string): Promise<Vehicle> {

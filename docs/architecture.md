@@ -733,3 +733,24 @@ sends no email, Telegram, web push or native push.
 The private API is nested under `/api/v1/vehicles/:vehicleId/monitoring` with get, enable, disable and history actions.
 Every query includes userId and vehicleId; mutations use the existing cookie CSRF/origin guards. Garage monitoring is
 client-fetched after hydration, no-store/noindex, absent from TransferState and all public SEO/sitemap surfaces.
+
+## Vehicle Documents and Expiry Reminders — Phase 18
+
+VehicleDocument is private data nested under a saved vehicle. Its composite vehicle and user foreign key prevents
+cross-account attachment. Six explicit types cover registration, periodic inspection, compulsory and voluntary insurance,
+road-use fees, and other documents. PostgreSQL DATE values and strict YYYY-MM-DD API values preserve Vietnam calendar dates.
+Every record is visibly USER_PROVIDED; TraNhanh does not claim government, insurer, or registry verification.
+
+Each document owns reminder preferences for 30, 15, 7, and 1 day before expiry. The vehicle-document-reminders BullMQ
+payload contains only an opaque reminder ID. The worker resolves current document and vehicle state server-side, ignores
+stale jobs, and records at most one run per reminder and expiry. Stable job IDs plus a database unique constraint make
+execution idempotent. A missed job has a seven-day grace period and never runs before its due date or after expiry. Queue
+dispatch failure does not roll back a saved document. This phase records internal events and sends no external notification.
+
+The authenticated API is nested below /api/v1/vehicles/:vehicleId/documents. Every operation filters by userId and
+vehicleId; foreign IDs return safe 404. Mutations retain origin and CSRF guards and responses remain private/no-store.
+Archived documents retain preferences but clear schedules; archived vehicles cannot receive schedules.
+
+Localized routes are /vi/garage/:id/giay-to and /en/garage/:id/documents, with add, detail, and edit children. They render
+a neutral SSR shell, fetch only in the authenticated browser, use no TransferState or browser persistence, and stay out of
+sitemaps and structured data. List cards omit reference numbers; full metadata appears only on the private detail page.

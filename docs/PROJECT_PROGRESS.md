@@ -2,8 +2,8 @@
 
 ## Current Status
 
-Current completed phase: Phase 17 — Vehicle Monitoring
-Next phase: Phase 18 — Registration, Insurance & Vehicle Documents
+Current completed phase: Phase 18 — Registration, Insurance & Vehicle Documents
+Next phase: Phase 19 — Fuel Prices
 Status: Complete locally; live PostgreSQL/Redis verification remains pending
 Last updated: 2026-09-17 (Asia/Ho_Chi_Minh)
 Branch: main
@@ -832,6 +832,35 @@ Commit: `feat: add vehicle monitoring` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
 Next phase: Phase 18 — Registration, Insurance & Vehicle Documents
 
+### Phase 18 — Registration, Insurance & Vehicle Documents
+
+Status: Complete locally; live PostgreSQL/Redis verification remains pending.
+
+- Added private VehicleDocument, VehicleDocumentReminder, and VehicleDocumentReminderRun models with composite ownership,
+  date-order, archive-state, allowed-offset, schedule, idempotency, index, and cascade constraints. Six categories are
+  supported and every record is explicitly USER_PROVIDED.
+- Added owner-scoped list/detail/create/update/archive/restore/reminder APIs. Cross-owner IDs return safe 404, mutations keep
+  trusted-origin and CSRF protection, and private responses are no-store.
+- Added strict date-only Vietnam calendar handling, four reminder offsets, deterministic delayed jobs, opaque payloads,
+  bounded retries, seven-day missed-job grace, stale/archived checks, and one event per reminder/expiry. No email, push,
+  SMS, or chat notification is sent.
+- Added bilingual private list/add/detail/edit routes and a Garage attention summary. List cards omit reference numbers;
+  private details load only after authentication and stay out of SSR, SEO, structured data, storage, and sitemaps.
+- Recorded official inspection and compulsory-insurance context without importing or claiming to verify official data.
+
+Validation:
+
+- Prisma format/generate and API/browser/SSR builds passed. All 193 API unit, 63 Angular, and 46 API E2E tests passed, including the dedicated HTTP
+  auth/CSRF/private-cache/two-user IDOR matrix.
+- Docker remains unavailable. Six new database cases bring pending PostgreSQL tests to 78; migration application,
+  constraints/cascades, and live Redis/BullMQ execution remain pending. The migration is additive.
+- The authenticated mock-backed browser smoke passed document list/create/detail, private SSR and sitemap checks, 320–1440
+  responsive widths, and mobile-light/desktop-dark screenshots. The existing homepage CSS warning remains 876 bytes.
+
+Commit: feat: add vehicle documents and reminders (this checkpoint).
+Push destination: origin/main; verify synchronized HEAD after push.
+Next phase: Phase 19 — Fuel Prices
+
 ## Current Architecture Decisions
 
 - Use the pnpm workspace and Node 24.15.x baseline created in Phase 1.
@@ -860,7 +889,7 @@ database import or external runtime provider is active yet. See `docs/data-sourc
 
 ### Next Phase
 
-Next phase: Phase 18 — Registration, Insurance & Vehicle Documents
+Next phase: Phase 19 — Fuel Prices
 
 The authorized automotive roadmap preserves Phases 0–12 and inserts Phase 12P as the transition:
 
@@ -869,7 +898,7 @@ The authorized automotive roadmap preserves Phases 0–12 and inserts Phase 12P 
 3. Phase 15 — Traffic Fine Lookup Backend (complete)
 4. Phase 16 — Traffic Fine Lookup Frontend + SEO (complete)
 5. Phase 17 — Vehicle Monitoring (complete locally; live PostgreSQL/Redis verification pending)
-6. Phase 18 — Registration, Insurance & Vehicle Documents
+6. Phase 18 — Registration, Insurance & Vehicle Documents (complete locally; live PostgreSQL/Redis verification pending)
 7. Phase 19 — Fuel Prices
 8. Phase 20 — Fuel Log
 9. Phase 21 — Maintenance
