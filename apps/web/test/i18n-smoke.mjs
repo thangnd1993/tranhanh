@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
+import { createServer } from 'node:http';
 import { once } from 'node:events';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -9,9 +10,18 @@ import { setTimeout as delay } from 'node:timers/promises';
 // Run after the production build. Browser QA is opt-in via PLAYWRIGHT_MODULE.
 const port = process.env['I18N_TEST_PORT'] ?? '4173';
 const origin = `http://127.0.0.1:${port}`;
+const api = createServer((_req, res) => {
+  res.statusCode = 404;
+  res.setHeader('content-type', 'application/json');
+  res.end(JSON.stringify({ statusCode: 404 }));
+});
+await new Promise((resolve, reject) => api.listen(0, '127.0.0.1', resolve).once('error', reject));
+const apiAddress = api.address();
+assert.ok(apiAddress && typeof apiAddress !== 'string');
+const apiOrigin = `http://127.0.0.1:${apiAddress.port}`;
 const server = spawn(process.execPath, ['dist/web/server/server.mjs'], {
   cwd: new URL('../', import.meta.url),
-  env: { ...process.env, PORT: port },
+  env: { ...process.env, API_ORIGIN: apiOrigin, PORT: port },
   stdio: ['ignore', 'pipe', 'pipe'],
 });
 let logs = '';
@@ -71,7 +81,7 @@ try {
     const errors = [];
     page.on('pageerror', (error) => errors.push(error.message));
     page.on('console', (message) => {
-      if (message.type() === 'error') errors.push(message.text());
+      if (message.type() === 'error' && !message.text().includes('404')) errors.push(message.text());
     });
     await page.goto(`${origin}/vi`);
     await page.evaluate(() => localStorage.setItem('tranhanh.locale', 'en'));
@@ -144,4 +154,5 @@ try {
     await once(server, 'exit');
   }
   if (temporary && !screenshots) await rm(temporary, { recursive: true });
+  await new Promise((resolve) => api.close(resolve));
 }

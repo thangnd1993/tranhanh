@@ -10,6 +10,7 @@ import { GarageService } from './garage.service';
 import { VehicleMonitoringComponent } from './vehicle-monitoring.component';
 import { VehicleDocumentSummaryComponent } from './vehicle-document-summary.component';
 import { FuelLogSummaryComponent } from '../fuel-log/fuel-log-summary.component';
+import { MaintenanceSummaryComponent } from '../maintenance/maintenance-summary.component';
 @Component({
   selector: 'tn-vehicle-detail-page',
   imports: [
@@ -18,6 +19,7 @@ import { FuelLogSummaryComponent } from '../fuel-log/fuel-log-summary.component'
     VehicleMonitoringComponent,
     VehicleDocumentSummaryComponent,
     FuelLogSummaryComponent,
+    MaintenanceSummaryComponent,
   ],
   template: `<section class="container section stack garage-detail">
     <a
@@ -92,6 +94,7 @@ import { FuelLogSummaryComponent } from '../fuel-log/fuel-log-summary.component'
       </dl>
       <tn-vehicle-document-summary [vehicleId]="v.id" />
       <tn-fuel-log-summary [vehicleId]="v.id" />
+      <tn-maintenance-summary [vehicleId]="v.id" />
       <tn-vehicle-monitoring
         [vehicleId]="v.id"
         [vehicleStatus]="v.status"

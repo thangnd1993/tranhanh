@@ -57,6 +57,23 @@ export function equivalentPath(path: string, locale: Locale): string {
   for (const source of supportedLocales) {
     const base = garagePath(source);
     const clean = path.replace(/\/$/, '');
+    const match = clean
+      .slice(base.length + 1)
+      .match(
+        /^([0-9a-f-]{36})\/(bao-duong|maintenance)(?:\/(lich-su|history|ke-hoach|plans)(?:\/(them|add|[0-9a-f-]{36})(?:\/(chinh-sua|edit))?)?)?$/i,
+      );
+    if (clean.startsWith(base + '/') && match) {
+      const vehicleId = match[1];
+      const section = match[3] === 'ke-hoach' || match[3] === 'plans' ? 'plans' : 'history';
+      if (!match[3]) return maintenancePath(locale, vehicleId);
+      if (match[4] === 'them' || match[4] === 'add')
+        return maintenancePath(locale, vehicleId, section, undefined, 'add');
+      return maintenancePath(locale, vehicleId, section, match[4], match[5] ? 'edit' : undefined);
+    }
+  }
+  for (const source of supportedLocales) {
+    const base = garagePath(source);
+    const clean = path.replace(/\/$/, '');
     if (clean === base) return garagePath(locale);
     const suffix = clean.slice(base.length + 1);
     if (clean.startsWith(base + '/') && suffix === (source === 'vi' ? 'them-xe' : 'add'))
@@ -133,4 +150,33 @@ export function fuelLogPath(locale: Locale, vehicleId: string, entryId?: string,
   if (action === 'add') return `${base}/${locale === 'vi' ? 'them' : 'add'}`;
   if (!entryId) return base;
   return action === 'edit' ? `${base}/${entryId}/${locale === 'vi' ? 'chinh-sua' : 'edit'}` : `${base}/${entryId}`;
+}
+
+export type MaintenanceSection = 'history' | 'plans';
+
+export function maintenancePath(
+  locale: Locale,
+  vehicleId: string,
+  section?: MaintenanceSection,
+  itemId?: string,
+  action?: 'add' | 'edit',
+): string {
+  const base = `${garagePath(locale, vehicleId)}/${locale === 'vi' ? 'bao-duong' : 'maintenance'}`;
+  if (!section) return base;
+  const segment =
+    section === 'history' ? (locale === 'vi' ? 'lich-su' : 'history') : locale === 'vi' ? 'ke-hoach' : 'plans';
+  const sectionBase = `${base}/${segment}`;
+  if (action === 'add') return `${sectionBase}/${locale === 'vi' ? 'them' : 'add'}`;
+  if (!itemId) return sectionBase;
+  return action === 'edit'
+    ? `${sectionBase}/${itemId}/${locale === 'vi' ? 'chinh-sua' : 'edit'}`
+    : `${sectionBase}/${itemId}`;
+}
+
+export function maintenanceHistoryPath(locale: Locale, vehicleId: string, historyId?: string, action?: 'add' | 'edit') {
+  return maintenancePath(locale, vehicleId, 'history', historyId, action);
+}
+
+export function maintenancePlanPath(locale: Locale, vehicleId: string, planId?: string, action?: 'add' | 'edit') {
+  return maintenancePath(locale, vehicleId, 'plans', planId, action);
 }

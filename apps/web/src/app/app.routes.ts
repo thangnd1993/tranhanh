@@ -134,6 +134,80 @@ export const routes: Routes = [
           import('./garage/vehicle-documents-page.component').then((m) => m.VehicleDocumentsPageComponent),
       },
       {
+        path: locale === 'vi' ? 'garage/:id/bao-duong/lich-su/them' : 'garage/:id/maintenance/history/add',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./maintenance/maintenance-history-form-page.component').then(
+            (m) => m.MaintenanceHistoryFormPageComponent,
+          ),
+      },
+      {
+        path:
+          locale === 'vi'
+            ? 'garage/:id/bao-duong/lich-su/:historyId/chinh-sua'
+            : 'garage/:id/maintenance/history/:historyId/edit',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./maintenance/maintenance-history-form-page.component').then(
+            (m) => m.MaintenanceHistoryFormPageComponent,
+          ),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/bao-duong/lich-su/:historyId' : 'garage/:id/maintenance/history/:historyId',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./maintenance/maintenance-history-detail-page.component').then(
+            (m) => m.MaintenanceHistoryDetailPageComponent,
+          ),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/bao-duong/ke-hoach/them' : 'garage/:id/maintenance/plans/add',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./maintenance/maintenance-plan-form-page.component').then((m) => m.MaintenancePlanFormPageComponent),
+      },
+      {
+        path:
+          locale === 'vi'
+            ? 'garage/:id/bao-duong/ke-hoach/:planId/chinh-sua'
+            : 'garage/:id/maintenance/plans/:planId/edit',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./maintenance/maintenance-plan-form-page.component').then((m) => m.MaintenancePlanFormPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/bao-duong/ke-hoach/:planId' : 'garage/:id/maintenance/plans/:planId',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./maintenance/maintenance-plan-detail-page.component').then(
+            (m) => m.MaintenancePlanDetailPageComponent,
+          ),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/bao-duong/lich-su' : 'garage/:id/maintenance/history',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () => import('./maintenance/maintenance-page.component').then((m) => m.MaintenancePageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/bao-duong/ke-hoach' : 'garage/:id/maintenance/plans',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () => import('./maintenance/maintenance-page.component').then((m) => m.MaintenancePageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/bao-duong' : 'garage/:id/maintenance',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () => import('./maintenance/maintenance-page.component').then((m) => m.MaintenancePageComponent),
+      },
+      {
         path: locale === 'vi' ? 'garage/:id/chinh-sua' : 'garage/:id/edit',
         canActivate: [accountGuard(locale, garagePath(locale))],
         resolve: { seo: pageSeo('garage') },

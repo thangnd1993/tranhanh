@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
+import { createServer } from 'node:http';
 import { once } from 'node:events';
 import { setTimeout as delay } from 'node:timers/promises';
 import { mkdtemp } from 'node:fs/promises';
@@ -28,11 +29,21 @@ function schemas(html) {
 }
 
 for (const allowIndexing of [true, false]) {
+  const api = createServer((_req, res) => {
+    res.statusCode = 404;
+    res.setHeader('content-type', 'application/json');
+    res.end(JSON.stringify({ statusCode: 404 }));
+  });
+  await new Promise((resolve, reject) => api.listen(0, '127.0.0.1', resolve).once('error', reject));
+  const address = api.address();
+  assert.ok(address && typeof address !== 'string');
+  const apiOrigin = `http://127.0.0.1:${address.port}`;
   const server = spawn(process.execPath, ['dist/web/server/server.mjs'], {
     cwd: new URL('../', import.meta.url),
     env: {
       ...process.env,
       PORT: '4174',
+      API_ORIGIN: apiOrigin,
       PUBLIC_SITE_URL: allowIndexing ? publicOrigin : '',
       PUBLIC_ALLOW_INDEXING: String(allowIndexing),
     },
@@ -147,8 +158,10 @@ for (const allowIndexing of [true, false]) {
             ? [publicOrigin + '/sitemap-static.xml']
             : [
                 publicOrigin + '/en',
+                publicOrigin + '/en/fuel-prices',
                 publicOrigin + '/en/lookup/traffic-fines',
                 publicOrigin + '/vi',
+                publicOrigin + '/vi/gia-xang',
                 publicOrigin + '/vi/tra-cuu/phat-nguoi',
               ],
         );
@@ -211,5 +224,6 @@ for (const allowIndexing of [true, false]) {
       server.kill('SIGTERM');
       await once(server, 'exit');
     }
+    await new Promise((resolve) => api.close(resolve));
   }
 }

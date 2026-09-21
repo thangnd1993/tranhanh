@@ -58,3 +58,14 @@ constraints, Redis and readiness remain pending; Prisma format/validate/generate
 It enforces normalized unique email, deletion-state consistency, fixed-length hex token hashes, valid time ordering, unique
 rotation links, and RESTRICT user/security-history relations. Apply it with the full existing migration chain. Five guarded
 real-PostgreSQL auth cases are prepared in `test/auth.database-test.ts`; they remain pending while Docker is unavailable.
+
+## Phase 21 maintenance migration
+
+`20260921030000_add_maintenance` adds private `MaintenanceHistory` and `MaintenancePlan` tables with active/completed/
+archived lifecycle enums. Both records carry composite `(vehicleId, userId)` ownership FKs and account/vehicle cascades;
+plan completion additionally uses a composite FK to its one linked history row and a unique completion-history index. The
+additive `20260921040000_align_maintenance_completion_unique` migration aligns that deployed index with the composite completion relation; DATE
+columns preserve Vietnam calendar dates, nullable BIGINT stores exact cost with null/zero distinction, and SQL CHECKs enforce
+non-negative odometer/cost, at least one plan threshold, archive timestamps and completion-link consistency. No manufacturer
+intervals, expense duplicates, public rows, queue or destructive operation is introduced. Apply and test it with the normal
+development and isolated PostgreSQL commands; schema validation is not a substitute for constraint/runtime verification.

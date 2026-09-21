@@ -2,9 +2,10 @@
 
 ## Current Status
 
-Current completed phase: Phase 20 - Fuel Log
-Next phase: Phase 21 - Maintenance
-Status: Complete; local runtime verification passed
+Current completed phase: Phase 21 - Maintenance
+Current phase: Phase 21 - Maintenance (complete)
+Next phase: Phase 22 - Vehicle Expenses
+Status: Complete; full completion gate passed on Node 24.15.0; local commit created, but push is blocked by this environment's external-egress policy
 Last updated: 2026-09-21 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
@@ -12,7 +13,7 @@ Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
 Codex workflow: project-local `tranhanh` orchestration is configured with the read-only `tranhanh-reviewer`
 (Astra Light: `gpt-6-astra`, reasoning `low`) and implementation-focused `tranhanh-developer`
 (Luna Max: `gpt-5.6-luna`, reasoning `max`). See [Codex agent workflow](codex-agent-workflow.md).
-The parent session routes small work to Luna only, medium work to Luna with an optional risk-based Astra final review, and major/high-risk work through one Astra plan, one Luna implementation/self-review/final gate, and one Astra final review. Normal limits are two Astra calls and one Luna implementation plus one optional fix continuation; only a serious blocker permits another Astra review. This workflow update is documentation/configuration-only; Phase 21 remains the next unstarted phase.
+The parent session routes small work to Luna only, medium work to Luna with an optional risk-based Astra final review, and major/high-risk work through one Astra plan, one Luna implementation/self-review/final gate, and one Astra final review. Normal limits are two Astra calls and one Luna implementation plus one optional fix continuation; only a serious blocker permits another Astra review. Phase 21 is complete and validated. Phase 22 is next and is not started here.
 
 ## GitHub Connection
 
@@ -53,6 +54,19 @@ Status: Complete
 - Commit: feat: add fuel log (resolve final hash after commit).
 
 Known limitations: station is private free text; there is no receipt OCR, GPS, station directory, automatic price assignment or trip tracking.
+
+### Phase 21 — Maintenance
+
+Status: Complete
+
+- Added private `MaintenanceHistory` and `MaintenancePlan` records with composite User/Vehicle ownership, DATE service/due values, bounded text, optional exact BIGINT VND cost, lifecycle checks and cascades.
+- Active history distinguishes unknown cost (`null`) from exact zero (`0`) and is the sole authoritative maintenance-cost source reserved for Phase 22; no duplicate expense rows exist.
+- User-defined plans require a due date and/or odometer threshold. Vietnam due calculation marks either reached threshold due, uses a documented 30-day/1,000-km due-soon window, and returns explicit unknown mileage when current odometer is missing.
+- Plan completion is transactionally locked, links exactly one history row, raises Vehicle.currentOdometerKm only upward, and returns the existing linked pair on retries. History edits, archive/restore and plan lifecycle behavior are explicit; archived vehicles remain readable but block mutations.
+- Added private guarded API under `/api/v1/vehicles/:vehicleId/maintenance`, shared contracts, localized VI/EN Garage history/plan list/detail/form routes, browser-only fetching, vehicle-detail attention summary and neutral SSR/private SEO behavior.
+- Local completion evidence under required Node 24.15.0: workspace unit tests passed (API 231, Angular 71); pristine PostgreSQL passed 93/93; maintenance PostgreSQL passed 8/8; API E2E passed 50/50 twice with clean Redis teardown; runtime public fixtures and Redis/BullMQ passed 10/10; Fuel Prices DB passed 4/4 and live SSR/sitemap regression passed; SSR/i18n/SEO and authenticated Garage Chromium checks passed across VI/EN and 320–1440px. Prisma format/validate/generate, migration status on development and isolated databases, Compose health/config, ESLint, Prettier, shared/API/browser/SSR builds, and API readiness passed.
+- The full database suite requires the designated `tranhanh_test` name and was run before restoring reviewed public fixtures; runtime was then run after the four fixture imports. Temporary 390px light and 1440px dark screenshots were generated, dimension-checked, reviewed, and removed. No Phase 22 work has started.
+- Phase 22 next: consume active maintenance history and FuelLogEntry as authoritative cost inputs without introducing duplicate rows.
 
 ### Phase 19 — Fuel Prices
 

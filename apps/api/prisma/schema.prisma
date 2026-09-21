@@ -557,6 +557,17 @@ enum FuelLogEntryStatus {
   ARCHIVED
 }
 
+enum MaintenanceHistoryStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum MaintenancePlanStatus {
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
 /// Private account identity. Password hashes and account data never enter public lookup/SEO models.
 model User {
   id                  String               @id @default(uuid()) @db.Uuid
@@ -575,32 +586,36 @@ model User {
   vehicleMonitorings  VehicleMonitoring[]
   vehicleDocuments    VehicleDocument[]
   fuelLogEntries      FuelLogEntry[]
+  maintenanceHistory  MaintenanceHistory[]
+  maintenancePlans    MaintenancePlan[]
 
   @@index([status, createdAt])
 }
 
 /// Private vehicle record. Every application query must include userId ownership.
 model Vehicle {
-  id                     String              @id @default(uuid()) @db.Uuid
-  userId                 String              @db.Uuid
-  displayName            String              @db.VarChar(100)
-  licensePlate           String              @db.VarChar(20)
-  normalizedLicensePlate String              @db.VarChar(20)
+  id                     String               @id @default(uuid()) @db.Uuid
+  userId                 String               @db.Uuid
+  displayName            String               @db.VarChar(100)
+  licensePlate           String               @db.VarChar(20)
+  normalizedLicensePlate String               @db.VarChar(20)
   vehicleType            VehicleType
-  make                   String?             @db.VarChar(100)
-  model                  String?             @db.VarChar(100)
-  modelYear              Int?                @db.SmallInt
+  make                   String?              @db.VarChar(100)
+  model                  String?              @db.VarChar(100)
+  modelYear              Int?                 @db.SmallInt
   currentOdometerKm      Int?
-  notes                  String?             @db.VarChar(1000)
-  isPrimary              Boolean             @default(false)
-  status                 VehicleStatus       @default(ACTIVE)
-  archivedAt             DateTime?           @db.Timestamptz(3)
-  createdAt              DateTime            @default(now()) @db.Timestamptz(3)
-  updatedAt              DateTime            @updatedAt @db.Timestamptz(3)
-  user                   User                @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  notes                  String?              @db.VarChar(1000)
+  isPrimary              Boolean              @default(false)
+  status                 VehicleStatus        @default(ACTIVE)
+  archivedAt             DateTime?            @db.Timestamptz(3)
+  createdAt              DateTime             @default(now()) @db.Timestamptz(3)
+  updatedAt              DateTime             @updatedAt @db.Timestamptz(3)
+  user                   User                 @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict)
   monitorings            VehicleMonitoring[]
   documents              VehicleDocument[]
   fuelLogEntries         FuelLogEntry[]
+  maintenanceHistory     MaintenanceHistory[]
+  maintenancePlans       MaintenancePlan[]
 
   @@unique([userId, normalizedLicensePlate])
   @@unique([id, userId])
@@ -723,6 +738,58 @@ model FuelLogEntry {
   @@index([userId, vehicleId])
   @@index([vehicleId, status, refueledAt(sort: Desc), id])
   @@index([vehicleId, odometerKm])
+}
+
+/// Private user-entered service history. A null cost means the owner did not record a cost; zero is exact zero.
+model MaintenanceHistory {
+  id            String                   @id @default(uuid()) @db.Uuid
+  userId        String                   @db.Uuid
+  vehicleId     String                   @db.Uuid
+  title         String                   @db.VarChar(150)
+  category      String                   @db.VarChar(100)
+  serviceDate   DateTime                 @db.Date
+  odometerKm    Int?
+  totalCostVnd  BigInt?
+  workshop      String?                  @db.VarChar(200)
+  notes         String?                  @db.VarChar(1000)
+  status        MaintenanceHistoryStatus @default(ACTIVE)
+  archivedAt    DateTime?                @db.Timestamptz(3)
+  createdAt     DateTime                 @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime                 @updatedAt @db.Timestamptz(3)
+  user          User                     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  vehicle       Vehicle                  @relation(fields: [vehicleId, userId], references: [id, userId], onDelete: Cascade, onUpdate: Restrict)
+  completedPlan MaintenancePlan?         @relation("MaintenancePlanCompletion")
+
+  @@unique([id, userId, vehicleId])
+  @@index([userId, vehicleId])
+  @@index([vehicleId, status, serviceDate(sort: Desc), id])
+  @@index([vehicleId, serviceDate])
+}
+
+/// Private user-defined upcoming service plan. No manufacturer interval is inferred or stored.
+model MaintenancePlan {
+  id                  String                @id @default(uuid()) @db.Uuid
+  userId              String                @db.Uuid
+  vehicleId           String                @db.Uuid
+  title               String                @db.VarChar(150)
+  dueDate             DateTime?             @db.Date
+  dueOdometerKm       Int?
+  notes               String?               @db.VarChar(1000)
+  status              MaintenancePlanStatus @default(ACTIVE)
+  completedAt         DateTime?             @db.Timestamptz(3)
+  completionHistoryId String?               @db.Uuid
+  archivedAt          DateTime?             @db.Timestamptz(3)
+  createdAt           DateTime              @default(now()) @db.Timestamptz(3)
+  updatedAt           DateTime              @updatedAt @db.Timestamptz(3)
+  user                User                  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  vehicle             Vehicle               @relation(fields: [vehicleId, userId], references: [id, userId], onDelete: Cascade, onUpdate: Restrict)
+  completionHistory   MaintenanceHistory?   @relation("MaintenancePlanCompletion", fields: [completionHistoryId, userId, vehicleId], references: [id, userId, vehicleId], onDelete: Cascade, onUpdate: Restrict)
+
+  @@unique([id, userId, vehicleId])
+  @@unique([completionHistoryId, userId, vehicleId])
+  @@index([userId, vehicleId])
+  @@index([vehicleId, status, dueDate])
+  @@index([vehicleId, status, dueOdometerKm])
 }
 
 model VehicleDocumentReminder {

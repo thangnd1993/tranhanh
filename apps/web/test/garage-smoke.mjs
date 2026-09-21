@@ -194,6 +194,42 @@ const api = createServer(async (req, res) => {
         return;
       }
     }
+    const maintenanceMatch = path.match(/^\/api\/v1\/vehicles\/([0-9a-f-]+)\/maintenance\/summary$/);
+    if (maintenanceMatch && req.method === 'GET') {
+      const vehicle = vehicles.find((v) => v.id === maintenanceMatch[1]);
+      if (!vehicle) {
+        res.statusCode = 404;
+        res.end('{}');
+        return;
+      }
+      res.end(
+        JSON.stringify({
+          activeHistoryCount: 0,
+          totalCostVnd: '0',
+          unknownCostHistoryCount: 0,
+          duePlanCount: 0,
+          dueSoonPlanCount: 0,
+        }),
+      );
+      return;
+    }
+    const fuelLogSummaryMatch = path.match(/^\/api\/v1\/vehicles\/([0-9a-f-]+)\/fuel-logs\/summary$/);
+    if (fuelLogSummaryMatch && req.method === 'GET') {
+      const vehicle = vehicles.find((v) => v.id === fuelLogSummaryMatch[1]);
+      if (!vehicle) {
+        res.statusCode = 404;
+        res.end('{}');
+        return;
+      }
+      res.end(
+        JSON.stringify({
+          latestRefueledAt: null,
+          totalCostVnd: '0',
+          averageLitersPer100Km: null,
+        }),
+      );
+      return;
+    }
     const monitoringMatch = path.match(
       /^\/api\/v1\/vehicles\/([0-9a-f-]+)\/monitoring(?:\/(history|enable|disable))?$/,
     );

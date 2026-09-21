@@ -802,3 +802,34 @@ Quantity is DECIMAL(10,3) liters and transaction money is BIGINT VND. The databa
 The deterministic calculation service orders active entries by refueling instant and odometer. A completed interval starts at a full-tank baseline and includes every later partial fill through the next full-tank entry. It requires positive distance. Overall consumption divides total interval liters by total interval distance, avoiding a naive average of ratios. Open, first-baseline and zero-distance sequences return explicit availability codes and no numeric economy. Archive, restore and history edits recalculate on read, so no stale aggregate rows exist.
 
 Backfill validation compares the entry with chronological neighbors inside the mutation transaction. A newer higher reading raises Vehicle.currentOdometerKm; corrections and historical edits never lower the vehicle value. Vietnam calendar month boundaries use Asia/Ho_Chi_Minh. Fuel costs stay authoritative in FuelLogEntry for future Phase 22 expense aggregation without duplicate expense rows.
+
+## Private maintenance organizer — Phase 21
+
+`MaintenanceHistory` and `MaintenancePlan` are private records attached to the owning User and Vehicle through composite
+foreign keys. Every query includes both owner and vehicle; an ID from another owner or vehicle returns the same safe 404 as
+an unknown record. History uses PostgreSQL `DATE` for the Vietnam service date, optional non-negative integer odometer,
+optional exact `BIGINT` VND cost, bounded title/category/workshop/notes, and an explicit active/archive lifecycle. A null
+cost means unknown; the string `0` is an exact recorded zero. Active history is the only maintenance-cost input reserved
+for Phase 22, with no duplicate expense rows.
+
+The additive `20260921030000_add_maintenance` migration carries the composite ownership and completion foreign keys.
+The follow-up `20260921040000_align_maintenance_completion_unique` migration aligns the deployed composite unique index
+without editing the already-applied migration; direct PostgreSQL status and constraint checks are part of the gate.
+
+intervals or generate recurring rows. Due status is calculated on read from the Vietnam calendar date and the vehicle's
+current odometer. Either reached threshold is `DUE`; date within 30 days or odometer within 1,000 km is `DUE_SOON`; an
+odometer threshold without a current vehicle odometer is explicitly `UNKNOWN_MILEAGE`. These windows are product constants
+and are covered by calculator tests.
+
+Completing an active plan takes one transaction under a vehicle advisory lock: it inserts exactly one linked history row,
+updates the plan to completed, and raises the vehicle odometer only when the service reading is greater. The unique linked
+history relation and the locked status check make retries return the existing pair without duplication. History corrections,
+archive and restore are explicit; archived history is excluded from cost totals, while a completed plan remains linked even
+if its history is later archived. Archived vehicles remain readable but block new or active mutations.
+
+The private API is under `/api/v1/vehicles/:vehicleId/maintenance` with bounded history and plan list/detail/mutation,
+lifecycle, summary and completion endpoints. Trusted-origin, access-auth, CSRF and private/no-store/noindex response
+policies match Garage. Localized `/vi/garage/:id/bao-duong` and `/en/garage/:id/maintenance` pages fetch only after browser
+auth initialization, render a neutral SSR shell, use no TransferState/storage/JSON-LD/sitemap data, and show due attention on
+vehicle detail. No notification queue, external notification, attachment/OCR, workshop directory or public maintenance route
+is introduced.

@@ -93,3 +93,14 @@ scope expansion or waive required system permissions.
 ## Phase 20 Fuel Log gates
 
 Fuel Log calculation tests cover empty, partial, full-tank, multi-partial, zero-distance, edits, archive/restore, open intervals, weighted averages, Vietnam month boundaries and historical backfill. PostgreSQL runtime tests cover DECIMAL/BIGINT persistence, transaction chronology, vehicle odometer updates, lifecycle and the complete two-user IDOR matrix. Angular tests cover localized routes plus honest empty and insufficient-data states. Full workspace regressions, SSR/browser build, private-data leakage, responsive widths, light/dark themes, migration review and Compose health remain required before the phase checkpoint.
+
+## Phase 21 Maintenance gates
+
+Maintenance calculator tests cover Vietnam date boundaries, the 30-day/1,000-km due-soon windows, either-threshold due,
+unknown mileage, exact zero versus unknown cost, and plan lifecycle semantics. Service/API tests must cover composite owner
+and vehicle scoping, archived-vehicle mutation blocking, monotonic odometer backfill, transactional completion rollback,
+unique linked history and retry idempotency. PostgreSQL checks cover DATE, nullable BIGINT, non-negative bounds, required
+plan threshold, lifecycle consistency, composite foreign keys and cascades. Angular tests cover bilingual route mapping,
+neutral SSR/browser-only fetch, empty/loading/error/retry states, due indicators, confirmation actions and 320–1440px
+overflow in light and dark themes. The full workspace, migration, SSR leakage/sitemap and relevant Fuel Log/Documents/Fuel
+Prices regression gates remain required at the phase checkpoint; no notification or new queue test is expected.

@@ -98,3 +98,17 @@ station search, forecasts and personal fuel preferences remain outside this phas
 Fuel Log is a private recurring-use vehicle feature. Owners record refueling time, integer odometer, exact liters, exact total VND, optional fuel label, full-tank flag, station and notes. Monthly spending and volume count every active fill. Economy and cost/km appear only for mathematically complete full-tank intervals; the product never renders zero as a substitute for unavailable data.
 
 Fuel entries remain the authoritative fuel-expense records for Phase 22. Phase 20 does not add general expenses, maintenance, station data, route tracking, receipt OCR or automatic transaction pricing from the public Fuel Prices feature. Account deletion will cascade private fuel history through the existing user/vehicle ownership lifecycle.
+
+## Phase 21 - Maintenance
+
+Maintenance is a bounded private organizer for owner-entered service history and upcoming plans. History records keep a
+Vietnam service date, title/category, optional odometer and exact total VND cost, distinguishing unknown cost from zero;
+workshop and notes are optional. Owners can edit, archive and restore history. Active history is the authoritative
+maintenance-cost source reserved for Phase 22, so this phase adds no general expense rows.
+
+Plans contain a title and at least one user-defined due date or odometer threshold. Either threshold reached is due; the UI
+also marks a plan due soon within 30 calendar days or 1,000 km. A missing current odometer is shown explicitly as unknown
+mileage. Plans can be completed, archived and restored. Completion atomically creates/links exactly one history record and
+never lowers the vehicle odometer; retries return the existing completion. Archived vehicles remain readable but block new or
+active maintenance operations. Manufacturer advice, recurring generation, notifications, workshop booking, attachments and
+public/SEO maintenance pages remain outside this phase.

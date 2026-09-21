@@ -1,0 +1,41 @@
+.maintenance-page {
+  max-width: 72rem;
+}
+.maintenance-section {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: var(--space-5);
+}
+.maintenance-attention {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  background: var(--surface-subtle);
+}
+.maintenance-attention span {
+  color: var(--text-secondary);
+}
+.maintenance-attention strong {
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+.attention-danger strong {
+  color: var(--danger);
+}
+.attention-warning strong {
+  color: var(--warning);
+}
+.maintenance-detail {
+  max-width: 58rem;
+}
+.maintenance-form {
+  max-width: 48rem;
+}
+.maintenance-form fieldset {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+}

@@ -55,8 +55,9 @@ No external provider is queried at runtime. Dataset-backed public lookups use ex
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 17 — Vehicle Monitoring.
-Next phase: Phase 18 — Registration, Insurance & Vehicle Documents.
+Current completed phase: Phase 21 — Maintenance.
+Current phase: Phase 21 — Maintenance (complete).
+Next phase: Phase 22 — Vehicle Expenses.
 The user-authorized automotive pivot supersedes the old post-Phase 12 general-utility roadmap while preserving all
 completed history. See [product direction](docs/product-direction.md) and [project progress](docs/PROJECT_PROGRESS.md).
 
@@ -251,3 +252,13 @@ for semantics, product coverage, current publication and maintenance policy.
 ## Fuel Log
 
 Authenticated vehicle owners can open the localized private Fuel Log at /vi/garage/:id/nhien-lieu or /en/garage/:id/fuel-log. Entries store exact liters and total VND, support historical correction and archive/restore, and calculate economy only across completed full-tank intervals. Public fuel prices are reference data only and never become an assumed transaction price.
+
+## Maintenance (Phase 21)
+
+Authenticated vehicle owners can open `/vi/garage/:id/bao-duong` or `/en/garage/:id/maintenance` to record private service
+history and user-defined upcoming plans. History stores Vietnam calendar dates, optional odometer and exact VND cost (unknown
+is distinct from zero), with edit/archive/restore. Plans require a due date and/or odometer threshold and show due, due-soon,
+not-due or unknown-mileage states. Completing a plan creates exactly one linked history record transactionally and never lowers
+the vehicle odometer. Archived vehicles remain readable but block new or active maintenance operations. The feature has no
+manufacturer intervals, public SEO pages, attachments, external notifications or new queue; active history is reserved as the
+maintenance cost source for Phase 22.

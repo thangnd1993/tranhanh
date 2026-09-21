@@ -46,11 +46,13 @@ describe('fuel-price PostgreSQL integration', () => {
     const service = new FuelPricesService(prisma);
     const history = await service.history({ product: 'e5-ron-92' });
     expect(history.items.map((item) => item.price)).toEqual(['25139', '23744']);
+    const provider = await prisma.dataProvider.findUniqueOrThrow({ where: { key: 'moit-reviewed-fuel-publications' } });
+    const failedAt = new Date((provider.lastSuccessfulSyncAt?.valueOf() ?? Date.now()) + 1000);
     await prisma.dataProvider.update({
       where: { key: 'moit-reviewed-fuel-publications' },
-      data: { lastFailedSyncAt: new Date('2026-09-21T04:00:00Z') },
+      data: { lastFailedSyncAt: failedAt },
     });
-    const current = await service.current(new Date('2026-09-21T05:00:00Z'));
+    const current = await service.current(new Date(failedAt.valueOf() + 1000));
     expect(current.degraded).toBe(true);
     expect(current.items).toHaveLength(4);
   });
