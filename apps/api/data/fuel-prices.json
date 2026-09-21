@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "publisher": "Bộ Công Thương",
+  "sourceKey": "moit-fuel-price-notices",
+  "providerKey": "moit-reviewed-fuel-publications",
+  "retrievedAt": "2026-09-21T01:30:00.000Z",
+  "publications": [
+    {
+      "publicationNumber": "7251/BCT-TTTN",
+      "title": "Thông báo điều hành giá bán xăng dầu ngày 10/9/2026",
+      "url": "https://minhbach.moit.gov.vn/tin-tuc/thong-bao/mot-so-thong-tin-ve-viec-dieu-hanh-gia-xang-dau-ngay-10-9.html",
+      "publishedAt": "2026-09-10T07:59:00.000Z",
+      "effectiveFrom": "2026-09-10T08:00:00.000Z",
+      "prices": [
+        { "productKey": "e5-ron-92", "officialName": "Xăng E5RON92", "price": "23744", "unit": "VND_PER_LITER" },
+        {
+          "productKey": "e10-ron-95-iii",
+          "officialName": "Xăng E10RON95-III",
+          "price": "24239",
+          "unit": "VND_PER_LITER"
+        },
+        { "productKey": "diesel-0-05s", "officialName": "Dầu điêzen 0.05S", "price": "28485", "unit": "VND_PER_LITER" },
+        {
+          "productKey": "mazut-180cst-3-5s",
+          "officialName": "Dầu madút 180CST 3.5S",
+          "price": "18157",
+          "unit": "VND_PER_KILOGRAM"
+        }
+      ]
+    },
+    {
+      "publicationNumber": "7458/BCT-TTTN",
+      "title": "Thông báo điều hành giá xăng dầu ngày 17/9/2026",
+      "url": "https://minhbach.moit.gov.vn/tin-tuc/mot-so-thong-tin-ve-viec-dieu-hanh-gia-xang-dau-ngay-17-9.html",
+      "publishedAt": "2026-09-17T07:41:00.000Z",
+      "effectiveFrom": "2026-09-17T08:00:00.000Z",
+      "prices": [
+        { "productKey": "e5-ron-92", "officialName": "Xăng E5RON92", "price": "25139", "unit": "VND_PER_LITER" },
+        {
+          "productKey": "e10-ron-95-iii",
+          "officialName": "Xăng E10RON95-III",
+          "price": "25636",
+          "unit": "VND_PER_LITER"
+        },
+        { "productKey": "diesel-0-05s", "officialName": "Dầu điêzen 0.05S", "price": "29945", "unit": "VND_PER_LITER" },
+        {
+          "productKey": "mazut-180cst-3-5s",
+          "officialName": "Dầu madút 180CST 3.5S",
+          "price": "19196",
+          "unit": "VND_PER_KILOGRAM"
+        }
+      ]
+    }
+  ]
+}

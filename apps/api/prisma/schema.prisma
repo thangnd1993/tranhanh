@@ -39,6 +39,8 @@ model DataSource {
   translations DataSourceTranslation[]
   providers    DataProvider[]
   references   SourceReference[]
+  fuelProducts FuelProduct[]
+  fuelPrices   FuelPriceSnapshot[]
 }
 
 /// Persisted source notes only; official names and UI dictionaries stay separate.
@@ -57,18 +59,19 @@ model DataSourceTranslation {
 
 /// Adapter identity, distinct from its publisher. No credentials or arbitrary config JSON.
 model DataProvider {
-  id                   String         @id @default(uuid()) @db.Uuid
-  key                  String         @unique @db.VarChar(100)
-  name                 String         @db.VarChar(250)
-  sourceId             String         @db.Uuid
-  providerType         String         @db.VarChar(100)
-  status               ProviderStatus @default(DISABLED)
-  lastSuccessfulSyncAt DateTime?      @db.Timestamptz(3)
-  lastFailedSyncAt     DateTime?      @db.Timestamptz(3)
-  createdAt            DateTime       @default(now()) @db.Timestamptz(3)
-  updatedAt            DateTime       @updatedAt @db.Timestamptz(3)
-  source               DataSource     @relation(fields: [sourceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  id                   String              @id @default(uuid()) @db.Uuid
+  key                  String              @unique @db.VarChar(100)
+  name                 String              @db.VarChar(250)
+  sourceId             String              @db.Uuid
+  providerType         String              @db.VarChar(100)
+  status               ProviderStatus      @default(DISABLED)
+  lastSuccessfulSyncAt DateTime?           @db.Timestamptz(3)
+  lastFailedSyncAt     DateTime?           @db.Timestamptz(3)
+  createdAt            DateTime            @default(now()) @db.Timestamptz(3)
+  updatedAt            DateTime            @updatedAt @db.Timestamptz(3)
+  source               DataSource          @relation(fields: [sourceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
   syncRuns             SyncRun[]
+  fuelPrices           FuelPriceSnapshot[]
 
   @@index([sourceId])
   @@index([status])
@@ -125,6 +128,7 @@ model SourceReference {
   postalTargets                 PostalCodeTarget[]
   postalAssignments             PostalCodeAssignment[]
   source                        DataSource                      @relation(fields: [sourceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  fuelPrices                    FuelPriceSnapshot[]
 
   @@index([sourceId, retrievedAt(sort: Desc)])
 }
@@ -431,6 +435,60 @@ enum AccountStatus {
   ACTIVE
   DISABLED
   PENDING_DELETION
+}
+
+enum FuelPriceUnit {
+  VND_PER_LITER
+  VND_PER_KILOGRAM
+}
+
+enum FuelPriceSemantics {
+  MAXIMUM_RETAIL_PRICE
+}
+
+/// Stable public fuel identity. Official labels may evolve without changing the key.
+model FuelProduct {
+  id           String              @id @default(uuid()) @db.Uuid
+  key          String              @unique @db.VarChar(100)
+  officialName String              @db.VarChar(250)
+  unit         FuelPriceUnit
+  semantics    FuelPriceSemantics  @default(MAXIMUM_RETAIL_PRICE)
+  sourceId     String              @db.Uuid
+  displayOrder Int                 @db.SmallInt
+  isActive     Boolean             @default(true)
+  createdAt    DateTime            @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime            @updatedAt @db.Timestamptz(3)
+  source       DataSource          @relation(fields: [sourceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  snapshots    FuelPriceSnapshot[]
+
+  @@index([isActive, displayOrder])
+  @@index([sourceId])
+}
+
+/// Immutable official price-period evidence; VND is exact BIGINT and current is resolved by effectiveFrom.
+model FuelPriceSnapshot {
+  id                String          @id @default(uuid()) @db.Uuid
+  productId         String          @db.Uuid
+  price             BigInt
+  effectiveFrom     DateTime        @db.Timestamptz(3)
+  effectiveTo       DateTime?       @db.Timestamptz(3)
+  publishedAt       DateTime?       @db.Timestamptz(3)
+  retrievedAt       DateTime        @db.Timestamptz(3)
+  publicationNumber String          @db.VarChar(100)
+  fingerprint       String          @unique @db.Char(64)
+  sourceId          String          @db.Uuid
+  sourceReferenceId String          @db.Uuid
+  providerId        String          @db.Uuid
+  createdAt         DateTime        @default(now()) @db.Timestamptz(3)
+  product           FuelProduct     @relation(fields: [productId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  source            DataSource      @relation(fields: [sourceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  sourceReference   SourceReference @relation(fields: [sourceReferenceId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  provider          DataProvider    @relation(fields: [providerId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@unique([productId, effectiveFrom])
+  @@index([productId, effectiveFrom(sort: Desc)])
+  @@index([productId, publishedAt(sort: Desc)])
+  @@index([sourceId, providerId])
 }
 
 enum VehicleType {

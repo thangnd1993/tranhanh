@@ -25,7 +25,8 @@
     "vehicle-plates:validate": "pnpm build && node dist/vehicle-plates/dataset-cli.js validate",
     "vehicle-plates:import": "pnpm build && node dist/vehicle-plates/dataset-cli.js import",
     "postal-codes:validate": "pnpm build && node dist/postal-codes/dataset-cli.js validate",
-    "postal-codes:import": "pnpm build && node dist/postal-codes/dataset-cli.js import"
+    "postal-codes:import": "pnpm build && node dist/postal-codes/dataset-cli.js import",
+    "fuel-prices:import": "pnpm build && node dist/fuel-prices/fuel-prices-cli.js"
   },
   "dependencies": {
     "@nestjs/bullmq": "^12.0.0",

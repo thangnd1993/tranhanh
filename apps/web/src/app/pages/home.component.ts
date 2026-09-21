@@ -4,7 +4,7 @@ import { ButtonDirective } from '../design-system/button.directive';
 import { IconComponent } from '../design-system/icon.component';
 import type { IconName } from '../design-system/icon.component';
 import { LocaleService } from '../i18n/locale.service';
-import { areaPath, phonePath, trafficFinePath, vehiclePath } from '../i18n/routes';
+import { areaPath, fuelPricePath, phonePath, trafficFinePath, vehiclePath } from '../i18n/routes';
 import type { TranslationKey } from '../i18n/vi';
 
 @Component({
@@ -76,6 +76,18 @@ import type { TranslationKey } from '../i18n/vi';
             <span class="feature-label">{{ i18n.t('home.availableNow') }}</span>
             <strong>{{ i18n.t('home.vehicleLookupTitle') }}</strong>
             <span>{{ i18n.t('home.vehicleLookupDescription') }}</span>
+          </span>
+          <tn-icon name="arrow" />
+        </a>
+        <a
+          class="feature-card"
+          [routerLink]="fuelPricePath(i18n.locale())"
+        >
+          <span class="feature-icon"><tn-icon name="tool" /></span>
+          <span class="feature-copy">
+            <span class="feature-label">{{ i18n.t('home.availableNow') }}</span>
+            <strong>{{ i18n.t('home.fuelPricesTitle') }}</strong>
+            <span>{{ i18n.t('home.fuelPricesDescription') }}</span>
           </span>
           <tn-icon name="arrow" />
         </a>
@@ -415,6 +427,7 @@ export class HomeComponent {
   protected readonly i18n = inject(LocaleService);
   protected readonly trafficFinePath = trafficFinePath;
   protected readonly vehiclePath = vehiclePath;
+  protected readonly fuelPricePath = fuelPricePath;
   protected readonly phonePath = phonePath;
   protected readonly areaPath = areaPath;
   protected get futureItems(): readonly { icon: IconName; title: TranslationKey; description: TranslationKey }[] {

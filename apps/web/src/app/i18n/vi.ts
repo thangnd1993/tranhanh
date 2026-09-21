@@ -2,6 +2,9 @@ export const vi = {
   'seo.home.title': 'Trợ lý tài xế & phương tiện | TraNhanh',
   'seo.home.description':
     'Tra cứu phạt nguội qua nguồn chính thức và tra cứu phân bổ biển số xe trên nền tảng dành cho tài xế Việt.',
+  'seo.fuelPrices.title': 'Giá xăng hôm nay: E5 RON 92, E10 RON 95-III & dầu | TraNhanh',
+  'seo.fuelPrices.description':
+    'Giá bán lẻ tối đa hiện hành của E5 RON 92, E10 RON 95-III, dầu diesel và mazut từ Bộ Công Thương, kèm thời điểm áp dụng.',
   'seo.trafficFine.title': 'Tra cứu phạt nguội và nguồn kiểm tra chính thức | TraNhanh',
   'seo.trafficFine.description':
     'Nhập biển số an toàn, xem giới hạn nguồn và tiếp tục xác minh phạt nguội trên trang CSGT chính thức có CAPTCHA.',
@@ -24,6 +27,7 @@ export const vi = {
   'navigation.home': 'Trang chủ',
   'navigation.trafficFine': 'Tra cứu phạt nguội',
   'navigation.vehiclePlate': 'Tra cứu biển số',
+  'navigation.fuelPrices': 'Giá xăng',
   'navigation.showcase': 'Bộ giao diện',
   'navigation.lookup': 'Tra cứu',
   'navigation.tools': 'Công cụ',
@@ -74,6 +78,8 @@ export const vi = {
   'home.vehicleLookupTitle': 'Tra cứu biển số xe',
   'home.vehicleLookupDescription':
     'Xem địa phương hoặc đơn vị được phân bổ theo mã biển số, gồm cả bối cảnh thay đổi đã xác minh.',
+  'home.fuelPricesTitle': 'Giá xăng hiện hành',
+  'home.fuelPricesDescription': 'Xem mức giá bán lẻ tối đa, thay đổi so với kỳ trước và nguồn Bộ Công Thương.',
   'home.futureEyebrow': 'ĐANG ĐƯỢC PHÁT TRIỂN',
   'home.futureTitle': 'Một nơi để chăm sóc hành trình sở hữu xe',
   'home.futureIntro': 'Các khả năng dưới đây là định hướng sắp tới và chưa phải tính năng đang hoạt động.',
@@ -107,7 +113,7 @@ export const vi = {
   'footer.informationGroup': 'Thông tin',
   'footer.vehicleLookup': 'Tra cứu biển số xe',
   'footer.trafficFine': 'Tra cứu phạt nguội',
-  'footer.fuelPrices': 'Giá nhiên liệu · Sắp có',
+  'footer.fuelPrices': 'Giá xăng hiện hành',
   'footer.phoneLookup': 'Tra cứu đầu số',
   'footer.areaLookup': 'Tra cứu mã vùng',
   'footer.sources': 'Nguồn dữ liệu được ghi tại từng kết quả',

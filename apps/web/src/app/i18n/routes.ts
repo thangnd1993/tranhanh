@@ -4,6 +4,7 @@ export const defaultLocale: Locale = 'vi';
 export type PageId =
   | 'home'
   | 'trafficFine'
+  | 'fuelPrices'
   | 'showcase'
   | 'login'
   | 'register'
@@ -14,6 +15,7 @@ export type PageId =
 export const pagePaths: Record<PageId, Record<Locale, string>> = {
   home: { vi: '/vi', en: '/en' },
   trafficFine: { vi: '/vi/tra-cuu/phat-nguoi', en: '/en/lookup/traffic-fines' },
+  fuelPrices: { vi: '/vi/gia-xang', en: '/en/fuel-prices' },
   showcase: { vi: '/vi/design-system', en: '/en/design-system' },
   login: { vi: '/vi/dang-nhap', en: '/en/login' },
   register: { vi: '/vi/dang-ky', en: '/en/register' },
@@ -82,6 +84,10 @@ export function phonePath(locale: Locale, prefix?: string): string {
 export function areaPath(locale: Locale, code?: string): string {
   const base = locale === 'vi' ? '/vi/tra-cuu/ma-vung' : '/en/lookup/area-code';
   return code ? `${base}/${code}` : base;
+}
+
+export function fuelPricePath(locale: Locale): string {
+  return pagePaths.fuelPrices[locale];
 }
 
 export function trafficFinePath(locale: Locale): string {

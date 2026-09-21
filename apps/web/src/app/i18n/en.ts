@@ -3,6 +3,9 @@ export const en = {
   'seo.home.title': 'Driver & vehicle assistant | TraNhanh',
   'seo.home.description':
     'Use the official traffic-fine verification workflow and look up sourced vehicle plate allocations in Vietnam.',
+  'seo.fuelPrices.title': 'Fuel Prices in Vietnam Today | TraNhanh',
+  'seo.fuelPrices.description':
+    'Current applicable maximum retail prices for E5 RON 92, E10 RON 95-III, diesel and mazut from Vietnam’s Ministry of Industry and Trade.',
   'seo.trafficFine.title': 'Vietnam Traffic Fine Lookup | TraNhanh',
   'seo.trafficFine.description':
     'Enter a plate safely, review source limitations, and continue traffic-fine verification on the official CAPTCHA-protected traffic police page.',
@@ -25,6 +28,7 @@ export const en = {
   'navigation.home': 'Home',
   'navigation.trafficFine': 'Traffic fine lookup',
   'navigation.vehiclePlate': 'Vehicle plate lookup',
+  'navigation.fuelPrices': 'Fuel prices',
   'navigation.showcase': 'Design system',
   'navigation.lookup': 'Lookup',
   'navigation.tools': 'Tools',
@@ -76,6 +80,9 @@ export const en = {
   'home.vehicleLookupTitle': 'Vehicle plate lookup',
   'home.vehicleLookupDescription':
     'See the locality or authority allocated to a plate prefix, including verified transition context.',
+  'home.fuelPricesTitle': 'Current fuel prices',
+  'home.fuelPricesDescription':
+    'See maximum retail prices, changes from the previous period, and the official ministry source.',
   'home.futureEyebrow': 'IN DEVELOPMENT',
   'home.futureTitle': 'One place for the work of owning a vehicle',
   'home.futureIntro': 'These are upcoming product directions and are not available features yet.',
@@ -110,7 +117,7 @@ export const en = {
   'footer.informationGroup': 'Information',
   'footer.vehicleLookup': 'Vehicle plate lookup',
   'footer.trafficFine': 'Traffic fine lookup',
-  'footer.fuelPrices': 'Fuel prices · Coming soon',
+  'footer.fuelPrices': 'Current fuel prices',
   'footer.phoneLookup': 'Phone prefix lookup',
   'footer.areaLookup': 'Area code lookup',
   'footer.sources': 'Sources are shown with each result',

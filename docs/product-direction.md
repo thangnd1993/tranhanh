@@ -84,3 +84,11 @@ upload scans, or infer compliance. Vietnam calendar dates distinguish expired, e
 Reminder preferences support 30, 15, 7, and 1 day before expiry. Phase 18 persists internal events with stale-job and
 duplicate protection. Delivery channels remain Phase 24. Private routes stay out of acquisition pages, sitemaps, structured
 data, browser storage, and server-rendered user content.
+
+## Fuel prices — Phase 19
+
+Fuel Prices is a first-class account-free public tool. It presents the Ministry of Industry and Trade's current applicable
+**maximum retail prices**, not station-specific offers or real-time prices. The page keeps E5RON92, E10RON95-III, diesel
+0.05S and mazut 180CST 3.5S separate, including the liter/kilogram distinction, previous-period comparison, recent history,
+effective time and source publication. A reviewed manual import is preferred to an undocumented scraper. Fuel logging,
+station search, forecasts and personal fuel preferences remain outside this phase; Phase 20 owns private Fuel Log work.

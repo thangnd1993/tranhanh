@@ -3,6 +3,7 @@ import { vehicleResolver } from './vehicle-plates/vehicle.resolver';
 import { phoneResolver } from './phone-prefixes/phone.resolver';
 import { areaResolver } from './area-codes/area.resolver';
 import { pageSeo } from './seo/seo.resolver';
+import { fuelPriceResolver } from './fuel-prices/fuel-price.resolver';
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { LocaleService } from './i18n/locale.service';
@@ -22,6 +23,11 @@ export const routes: Routes = [
       },
     ],
     children: [
+      {
+        path: locale === 'vi' ? 'gia-xang' : 'fuel-prices',
+        resolve: { seo: pageSeo('fuelPrices'), fuel: fuelPriceResolver },
+        loadComponent: () => import('./fuel-prices/fuel-price-page.component').then((m) => m.FuelPricePageComponent),
+      },
       {
         path: locale === 'vi' ? 'tra-cuu/phat-nguoi' : 'lookup/traffic-fines',
         resolve: { seo: pageSeo('trafficFine') },

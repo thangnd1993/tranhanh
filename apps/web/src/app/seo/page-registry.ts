@@ -15,6 +15,12 @@ export const seoPages: Record<PageId, PageDefinition> = {
     robots: publicRobots,
     paths: pagePaths.home,
   },
+  fuelPrices: {
+    titleKey: 'seo.fuelPrices.title',
+    descriptionKey: 'seo.fuelPrices.description',
+    robots: publicRobots,
+    paths: pagePaths.fuelPrices,
+  },
   trafficFine: {
     titleKey: 'seo.trafficFine.title',
     descriptionKey: 'seo.trafficFine.description',

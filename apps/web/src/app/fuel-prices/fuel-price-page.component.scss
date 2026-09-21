@@ -1,0 +1,161 @@
+.page {
+  min-width: 0;
+  display: grid;
+  gap: var(--space-8);
+  padding-block: var(--space-8) var(--space-16);
+}
+.intro {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 48rem;
+}
+.intro p:last-child {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+}
+.prices {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+.price-card {
+  display: grid;
+  gap: var(--space-4);
+}
+.product {
+  font-weight: 700;
+}
+.price {
+  font-size: clamp(1.65rem, 5vw, 2.25rem);
+  font-weight: 800;
+  color: var(--text-primary);
+}
+.price span {
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+.change {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+.change[data-direction='INCREASE'] {
+  color: var(--danger);
+}
+.change[data-direction='DECREASE'] {
+  color: var(--success);
+}
+.change[data-direction='UNCHANGED'] {
+  color: var(--text-secondary);
+}
+dl {
+  display: grid;
+  gap: var(--space-3);
+}
+dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+dt {
+  color: var(--text-muted);
+}
+dd {
+  margin: 0;
+  text-align: right;
+}
+.lower {
+  min-width: 0;
+  display: grid;
+  gap: var(--space-6);
+}
+.lower > section {
+  min-width: 0;
+}
+.table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  contain: inline-size;
+  margin-top: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+table {
+  width: 100%;
+  min-width: 42rem;
+  border-collapse: collapse;
+  background: var(--surface);
+}
+th,
+td {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+tbody tr:last-child > * {
+  border-bottom: 0;
+}
+.warning,
+.state {
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-subtle);
+}
+.warning {
+  border-color: var(--warning);
+}
+aside tn-card {
+  display: grid;
+  gap: var(--space-4);
+}
+@media (min-width: 40rem) {
+  .prices {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 64rem) {
+  .prices {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .lower {
+    grid-template-columns: minmax(0, 1.7fr) minmax(18rem, 0.7fr);
+    align-items: start;
+  }
+}
+@media (max-width: 39.99rem) {
+  table {
+    min-width: 0;
+  }
+  thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  tbody,
+  tr,
+  th,
+  td {
+    display: block;
+  }
+  tbody tr {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr:last-child {
+    border-bottom: 0;
+  }
+  tbody th,
+  tbody td {
+    padding: var(--space-1) 0;
+    border: 0;
+    overflow-wrap: anywhere;
+  }
+}

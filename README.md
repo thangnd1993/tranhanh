@@ -234,3 +234,16 @@ CSGT source is manual-only and CAPTCHA-protected, so saving the preference does 
 are nested under `/api/v1/vehicles/:vehicleId/monitoring`; automated providers are capability-gated and would use BullMQ
 jobs containing only an opaque monitoring ID. PostgreSQL/Redis runtime verification remains pending while Docker is
 unavailable. See [Vehicle Monitoring architecture](docs/architecture.md#vehicle-monitoring--phase-17).
+
+## Fuel Prices (Phase 19)
+
+Public routes are `/vi/gia-xang` and `/en/fuel-prices`; APIs are `GET /api/v1/fuel-prices/current` and
+`GET /api/v1/fuel-prices/history`. Values are official maximum retail prices, not live station quotes. Apply migrations and
+load the reviewed Ministry publications with:
+
+    pnpm db:migrate:deploy
+    pnpm fuel-prices:import
+
+Run `pnpm test:fuel` while the built local API/SSR stack is running to check raw prices, sources, metadata and sitemap entries. The import is manual, validated and idempotent; no scheduled scraper or BullMQ fuel-price queue is enabled. Prices use exact
+PostgreSQL BIGINT and JSON decimal strings. See [fuel-price sources](docs/data-sources.md#vietnam-fuel-price-publications--phase-19)
+for semantics, product coverage, current publication and maintenance policy.

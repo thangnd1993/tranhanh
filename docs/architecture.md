@@ -768,3 +768,27 @@ Archived documents retain preferences but clear schedules; archived vehicles can
 Localized routes are /vi/garage/:id/giay-to and /en/garage/:id/documents, with add, detail, and edit children. They render
 a neutral SSR shell, fetch only in the authenticated browser, use no TransferState or browser persistence, and stay out of
 sitemaps and structured data. List cards omit reference numbers; full metadata appears only on the private detail page.
+
+## Fuel Prices — Phase 19
+
+`FuelProduct` owns an immutable kebab-case product key, the current official source label, unit, maximum-retail-price
+semantics and display order. `FuelPriceSnapshot` is append-only publication evidence: exact VND `BIGINT`, effective period,
+publication/retrieval instants, publication number, deterministic SHA-256 fingerprint, and explicit product, DataSource,
+DataProvider and SourceReference foreign keys. Current price is the latest snapshot whose `effectiveFrom <= now`; previous
+price is the immediately preceding applicable snapshot for the same product. Creation time never decides applicability.
+
+The reviewed Ministry provider is `MANUAL_ONLY`. It parses a versioned local structured input with strict complete-set
+validation; controllers never know parsing details. A successful import is transactional and audited in SyncRun. Historical
+snapshots are never overwritten or deleted by routine imports. Provider failure only updates safe audit state, leaving last
+known good values available. The public API returns exact integers as decimal strings and computes signed changes using
+BigInt. Percentage is rounded to two decimal places using integer arithmetic; it is null without a positive prior price.
+
+Public endpoints are `GET /api/v1/fuel-prices/current` and `GET /api/v1/fuel-prices/history`. History is newest-first,
+accepts one known product and an at-most-366-day range, caps page size at 100, and rejects unknown parameters through the
+global validation pipe. The current response includes source, semantics, effective, publication and retrieval timestamps,
+plus ten-day staleness and provider-degradation signals.
+
+The bilingual SSR routes `/vi/gia-xang` and `/en/fuel-prices` resolve both current data and bounded recent history before
+rendering, place public data in TransferState to avoid hydration duplication, and return an honest 503/noindex response when
+no verified dataset can be rendered. Actual prices, units, effective time and source appear in raw HTML. Static canonicals,
+paired hreflang, WebPage and BreadcrumbList structured data, and exactly two static sitemap URLs reuse the SEO foundation.

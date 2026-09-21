@@ -37,7 +37,9 @@
     "test:auth": "node apps/web/test/auth-smoke.mjs",
     "test:garage": "node apps/web/test/garage-smoke.mjs",
     "postal-codes:validate": "pnpm --filter @tranhanh/api postal-codes:validate",
-    "postal-codes:import": "pnpm --filter @tranhanh/api postal-codes:import"
+    "postal-codes:import": "pnpm --filter @tranhanh/api postal-codes:import",
+    "fuel-prices:import": "pnpm --filter @tranhanh/api fuel-prices:import",
+    "test:fuel": "node apps/web/test/fuel-smoke.mjs"
   },
   "devDependencies": {
     "@angular-eslint/eslint-plugin": "^22.0.0",

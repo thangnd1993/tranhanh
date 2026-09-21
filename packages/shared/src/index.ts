@@ -38,3 +38,5 @@ export * from './traffic-fines.js';
 export * from './vehicle-monitoring.js';
 
 export * from './vehicle-documents.js';
+
+export * from './fuel-prices.js';

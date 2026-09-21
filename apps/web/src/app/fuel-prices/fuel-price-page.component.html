@@ -1,0 +1,131 @@
+<section class="container page">
+  <tn-breadcrumb [items]="[{ label: i18n.t('navigation.home'), url: i18n.path('home') }, { label: copy().title }]" />
+  <header class="intro">
+    <p class="eyebrow">{{ copy().eyebrow }}</p>
+    <h1>{{ copy().title }}</h1>
+    <p>{{ copy().intro }}</p>
+  </header>
+  @if (data.unavailable) {
+    <div
+      class="state"
+      role="status"
+    >
+      <h2>{{ copy().unavailable }}</h2>
+      <p>{{ copy().maximumNote }}</p>
+    </div>
+  } @else if (!data.current?.items?.length) {
+    <div
+      class="state"
+      role="status"
+    >
+      <h2>{{ copy().noData }}</h2>
+    </div>
+  } @else {
+    @if (data.current?.stale || data.current?.degraded) {
+      <div
+        class="warning"
+        role="status"
+      >
+        <strong>{{ data.current?.degraded ? copy().degraded : copy().stale }}</strong>
+        {{ date(data.current?.retrievedAt ?? null) }}
+      </div>
+    }
+    <section aria-labelledby="current-heading">
+      <h2 id="current-heading">{{ copy().current }}</h2>
+      <p class="muted">{{ copy().maximumNote }}</p>
+      <div class="prices">
+        @for (item of data.current?.items; track item.productKey) {
+          <tn-card elevated="true"
+            ><article class="price-card">
+              <p class="product">{{ label(item) }}</p>
+              <p class="price">
+                {{ money(item.price) }} <span>{{ unit(item.unit) }}</span>
+              </p>
+              <p
+                class="change"
+                [attr.data-direction]="item.changeDirection"
+              >
+                <span aria-hidden="true">{{ changeIcon(item) }}</span
+                ><strong>{{ changeLabel(item) }}</strong> {{ signed(item.changeAmount) }}
+                @if (item.changePercentage) {
+                  <span>({{ item.changePercentage }}%)</span>
+                }
+              </p>
+              <dl>
+                <div>
+                  <dt>{{ copy().previous }}</dt>
+                  <dd>{{ money(item.previousPrice) }}</dd>
+                </div>
+                <div>
+                  <dt>{{ copy().applied }}</dt>
+                  <dd>{{ date(item.effectiveFrom) }}</dd>
+                </div>
+              </dl>
+            </article></tn-card
+          >
+        }
+      </div>
+    </section>
+    <div class="lower">
+      <section aria-labelledby="history-heading">
+        <h2 id="history-heading">{{ copy().history }}</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>{{ copy().effective }}</th>
+                <th>{{ copy().product }}</th>
+                <th>{{ copy().price }}</th>
+                <th>{{ copy().source }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of history(); track item.id) {
+                <tr>
+                  <td>{{ date(item.effectiveFrom) }}</td>
+                  <th scope="row">{{ label(item) }}</th>
+                  <td>{{ money(item.price) }} {{ unit(item.unit) }}</td>
+                  <td>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      [href]="item.source.url"
+                      >{{ item.source.publicationNumber }}<span class="sr-only"> — {{ copy().openSource }}</span></a
+                    >
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <aside>
+        <tn-card
+          ><h2>{{ copy().source }}</h2>
+          <p><strong>Bộ Công Thương</strong></p>
+          <p>{{ copy().semantics }}</p>
+          <dl>
+            <div>
+              <dt>{{ copy().publication }}</dt>
+              <dd>{{ data.current?.items?.[0]?.source?.publicationNumber }}</dd>
+            </div>
+            <div>
+              <dt>{{ copy().published }}</dt>
+              <dd>{{ date(data.current?.items?.[0]?.publishedAt ?? null) }}</dd>
+            </div>
+            <div>
+              <dt>{{ copy().updated }}</dt>
+              <dd>{{ date(data.current?.retrievedAt ?? null) }}</dd>
+            </div>
+          </dl>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            [href]="data.current?.items?.[0]?.source?.url"
+            >{{ copy().openSource }} ↗</a
+          ></tn-card
+        >
+      </aside>
+    </div>
+  }
+</section>

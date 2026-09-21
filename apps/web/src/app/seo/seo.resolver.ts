@@ -39,17 +39,24 @@ export function pageSeo(page: PageId | 'notFound'): ResolveFn<SeoPageConfig> {
               { label: i18n.t('navigation.showcase') },
             ],
           }
-        : page === 'trafficFine'
+        : page === 'fuelPrices'
           ? {
               breadcrumbs: [
                 { label: i18n.t('navigation.home'), url: i18n.path('home') },
-                { label: i18n.t('navigation.lookup') },
-                { label: i18n.t('navigation.trafficFine') },
+                { label: i18n.t('navigation.fuelPrices') },
               ],
             }
-          : {}),
+          : page === 'trafficFine'
+            ? {
+                breadcrumbs: [
+                  { label: i18n.t('navigation.home'), url: i18n.path('home') },
+                  { label: i18n.t('navigation.lookup') },
+                  { label: i18n.t('navigation.trafficFine') },
+                ],
+              }
+            : {}),
     };
-    if (page === 'trafficFine' && seo.site.origin) {
+    if ((page === 'trafficFine' || page === 'fuelPrices') && seo.site.origin) {
       config.structuredData = [
         {
           '@type': 'WebPage',

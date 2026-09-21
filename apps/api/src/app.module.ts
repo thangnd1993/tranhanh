@@ -17,6 +17,7 @@ import { VehiclePlatesModule } from './vehicle-plates/vehicle-plates.module.js';
 import { VehiclesModule } from './vehicles/vehicles.module.js';
 import { VehicleMonitoringModule } from './vehicle-monitoring/vehicle-monitoring.module.js';
 import { VehicleDocumentsModule } from './vehicle-documents/vehicle-documents.module.js';
+import { FuelPricesModule } from './fuel-prices/fuel-prices.module.js';
 
 @Module({
   controllers: [AppController, HealthController],
@@ -48,6 +49,7 @@ import { VehicleDocumentsModule } from './vehicle-documents/vehicle-documents.mo
     TrafficFinesModule,
     VehicleMonitoringModule,
     VehicleDocumentsModule,
+    FuelPricesModule,
   ],
   providers: [HealthService],
 })

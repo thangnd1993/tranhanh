@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LocaleService } from '../i18n/locale.service';
-import { areaPath, phonePath, trafficFinePath, vehiclePath } from '../i18n/routes';
+import { areaPath, fuelPricePath, phonePath, trafficFinePath, vehiclePath } from '../i18n/routes';
 
 @Component({
   selector: 'tn-footer',
@@ -27,7 +27,7 @@ import { areaPath, phonePath, trafficFinePath, vehiclePath } from '../i18n/route
           </div>
           <div class="stack">
             <h2>{{ i18n.t('footer.driverGroup') }}</h2>
-            <span>{{ i18n.t('footer.fuelPrices') }}</span>
+            <a [routerLink]="fuelPricePath(i18n.locale())">{{ i18n.t('footer.fuelPrices') }}</a>
             <a [routerLink]="phonePath(i18n.locale())">{{ i18n.t('footer.phoneLookup') }}</a>
             <a [routerLink]="areaPath(i18n.locale())">{{ i18n.t('footer.areaLookup') }}</a>
           </div>
@@ -111,6 +111,7 @@ export class FooterComponent {
   protected readonly trafficFinePath = trafficFinePath;
   protected readonly vehiclePath = vehiclePath;
   protected readonly phonePath = phonePath;
+  protected readonly fuelPricePath = fuelPricePath;
   protected readonly areaPath = areaPath;
   protected readonly i18n = inject(LocaleService);
 }

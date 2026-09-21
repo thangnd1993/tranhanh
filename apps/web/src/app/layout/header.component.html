@@ -28,6 +28,11 @@
         [routerLink]="vehiclePath(i18n.locale())"
         >{{ i18n.t('navigation.vehiclePlate') }}</a
       >
+      <a
+        routerLinkActive="active"
+        [routerLink]="fuelPricePath(i18n.locale())"
+        >{{ i18n.t('navigation.fuelPrices') }}</a
+      >
     </nav>
     <div class="header-actions">
       <div class="desktop-auth">
@@ -110,6 +115,11 @@
       [routerLink]="vehiclePath(i18n.locale())"
       (click)="closeMenu()"
       >{{ i18n.t('navigation.vehiclePlate') }}</a
+    >
+    <a
+      [routerLink]="fuelPricePath(i18n.locale())"
+      (click)="closeMenu()"
+      >{{ i18n.t('navigation.fuelPrices') }}</a
     >
     @if (auth.user()) {
       <a

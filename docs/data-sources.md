@@ -354,3 +354,33 @@ they do not verify a user's record or provide runtime data:
 
 TraNhanh stores no scans, raw official payloads, policy quotations, or inferred legal validity. Expiry status compares the
 date supplied by the user. Users must check the issuer or insurer for authoritative status and current requirements.
+
+## Vietnam fuel-price publications — Phase 19
+
+Reviewed on **2026-09-21**. Production truth is the Ministry of Industry and Trade's official price-adjustment
+publications, not news or SEO aggregators. The checked candidates were:
+
+| Publisher                                                        | Authority / official status           | URL and coverage                                                                                                                                                                                                                                               | Semantics, cadence and access                                                                                                                                                                                                                                                               | Decision                                                                                                                                                                                  |
+| ---------------------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Bộ Công Thương / Cục Quản lý và Phát triển thị trường trong nước | Competent national ministry; official | [Transparency portal](https://minhbach.moit.gov.vn/) and [17 September 2026 notice](https://minhbach.moit.gov.vn/tin-tuc/mot-so-thong-tin-ve-viec-dieu-hanh-gia-xang-dau-ngay-17-9.html); nationwide E5RON92, E10RON95-III, diesel 0.05S and mazut 180CST 3.5S | Maximum retail price, normally published in adjustment periods; the checked September notices were weekly. Public HTML/document pages, no login or CAPTCHA. Historical notices are listed. No open-data API or blanket reuse licence was found; factual values and links only are retained. | **Primary production source; MANUAL_ONLY reviewed import.** Page structure and URLs are editorial and no stable public API contract was verified, so scheduled scraping is not justified. |
+| Petrolimex                                                       | Official petroleum enterprise         | Public operator price pages; products and regional operator prices                                                                                                                                                                                             | Operator retail prices may differ by region and are not the regulator's nationwide maximum-price publication. Public access; automation/reuse contract not verified.                                                                                                                        | Cross-check candidate only; not production truth for this feature.                                                                                                                        |
+
+The 17 September ministry article was published at 14:41 Asia/Ho_Chi_Minh; its notice is publication **7458/BCT-TTTN**. It applies from 15:00 Asia/Ho_Chi_Minh and publishes maximum
+retail prices of 25,139 VND/liter for E5RON92, 25,636 VND/liter for E10RON95-III, 29,945 VND/liter for diesel 0.05S,
+and 19,196 VND/kilogram for mazut 180CST 3.5S. The immediately preceding 10 September publication
+**7251/BCT-TTTN** records 23,744, 24,239, 28,485 and 18,157 respectively. Since June 2026 the official publication uses
+E10RON95-III in place of RON95-III under the described pilot. Kerosene is no longer a state-published base-price product
+under the cited 2026 rule, so neither is silently carried forward from older product lists.
+
+`apps/api/data/fuel-prices.json` is a structured, reviewed transcription of those two publications. It stores official
+labels, stable internal keys, exact integer VND, per-product units, publication/effective/retrieval timestamps, document
+numbers and source URLs. Validation requires all four products exactly once and rejects unknown products, non-integer or
+non-positive prices, unit mismatch, missing effective time, duplicate products, partial publications and non-official
+source hosts. Fingerprints combine publication number, product key, effective instant and price.
+
+Run `pnpm fuel-prices:import` after migrations. The import creates a disabled `MANUAL_ONLY` provider audit identity,
+records SyncRun counts, uses one transaction for domain rows, preserves old snapshots, closes effective intervals, and is
+idempotent. A changed price at an existing product/effective instant is a conflict and fails closed. A maintainer reviews a
+new official publication, updates the file, reruns validation/tests and imports it. No minute/hour polling or BullMQ job is
+created. Staleness begins ten days after the latest effective instant, matching the observed weekly adjustment cadence with
+a short operational margin. A failed import retains the last known good rows and marks provider degradation.

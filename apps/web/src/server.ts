@@ -60,6 +60,10 @@ app.get(
   ['/api/v1/vehicle-plates', '/api/v1/vehicle-plates/{*path}'],
   apiGateway(/^\/api\/v1\/vehicle-plates(?:\/(?:lookup|search|[1-9]\d(?:[A-Z][A-Z0-9]?)?(?:\/related)?))?$/),
 );
+app.get(
+  ['/api/v1/fuel-prices/current', '/api/v1/fuel-prices/history'],
+  apiGateway(/^\/api\/v1\/fuel-prices\/(?:current|history)$/),
+);
 app.post(
   '/api/v1/traffic-fines/lookup',
   express.json({ limit: '4kb' }),

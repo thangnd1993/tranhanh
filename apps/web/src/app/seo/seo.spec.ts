@@ -46,8 +46,10 @@ describe('public site configuration and URL policy', () => {
     const urls = sitemapUrls(site);
     expect(urls).toEqual([
       site.origin + '/en',
+      site.origin + '/en/fuel-prices',
       site.origin + '/en/lookup/traffic-fines',
       site.origin + '/vi',
+      site.origin + '/vi/gia-xang',
       site.origin + '/vi/tra-cuu/phat-nguoi',
     ]);
     for (const xml of [sitemapXml(urls), sitemapIndexXml(site.origin)]) {

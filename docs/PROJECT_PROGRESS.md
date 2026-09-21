@@ -2,10 +2,10 @@
 
 ## Current Status
 
-Current completed phase: Phase 18 — Registration, Insurance & Vehicle Documents
-Next phase: Phase 19 — Fuel Prices
-Status: Complete locally; live PostgreSQL/Redis verification remains pending
-Last updated: 2026-09-17 (Asia/Ho_Chi_Minh)
+Current completed phase: Phase 19 — Fuel Prices
+Next phase: Phase 20 — Fuel Log
+Status: Complete; local runtime verification passed
+Last updated: 2026-09-21 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
 
@@ -26,6 +26,38 @@ Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
 - After pushing this checkpoint, resolve the latest pushed commit with `git rev-parse origin/main`.
 
 ## Completed Phases
+
+### Phase 19 — Fuel Prices
+
+Status: Complete
+
+- Source: official Ministry of Industry and Trade price-adjustment publications, classified MANUAL_ONLY for a reviewed,
+  structured import because no stable public automation API contract was verified.
+- Semantics: nationwide maximum retail prices, not real-time or station-specific selling prices.
+- Products: E5RON92, E10RON95-III and diesel 0.05S in VND/liter; mazut 180CST 3.5S in VND/kilogram.
+- Persistence: FuelProduct and immutable FuelPriceSnapshot history with exact BIGINT VND, effective periods, publication,
+  retrieval, source/provider/reference foreign keys and deterministic fingerprint idempotency.
+- Import: two reviewed official periods (10 and 17 September 2026), eight snapshots, transactionally audited by SyncRun.
+  Re-import is unchanged/idempotent. Failures retain the last known good values; ten-day source-cadence staleness applies.
+- API: GET `/api/v1/fuel-prices/current` and `/api/v1/fuel-prices/history`, with bounded filters/pagination, exact decimal
+  strings, prior snapshot, exact signed change, two-decimal percentage, source and stale/degraded indicators.
+- Frontend: `/vi/gia-xang` and `/en/fuel-prices`, database-backed SSR/TransferState, current prices first, accessible
+  non-color change labels, responsive history table, source panel, honest no-data/503 states, light/dark support.
+- SEO: localized title/description, canonical/hreflang, WebPage/BreadcrumbList, and exactly two static sitemap URLs.
+- Product integration: Fuel Prices is the third first-class public homepage/navigation/footer tool.
+- Automation: no BullMQ schedule; the official cadence and manual provider decision do not justify background polling.
+- Runtime: all 10 migrations applied from an empty isolated database; reviewed import created eight snapshots and the
+  repeat import created zero duplicates. PostgreSQL integration passed 85/85; Redis/BullMQ regression passed 9/9.
+- Validation: API unit 204/204, API E2E 49/49, Angular 66/66, PostgreSQL 85/85 and runtime 9/9. Prettier, ESLint,
+  Prisma format/validate/generate, shared/API/browser/SSR builds, source import, raw SSR/SEO, sitemap, homepage links,
+  320–1440px overflow checks, light/dark checks and honest 503/no-data behavior passed.
+- Live source: one minimal official-source review confirmed publication 7458/BCT-TTTN, the 14:41 publication time,
+  15:00 effective time, four current maximum prices and their units; no automated scraping was performed.
+- Redis remained healthy for application readiness; no Phase 19 queue exists.
+- Commit: `feat: add fuel prices` (resolve the final hash from Git after commit).
+
+Known limitations: publication maintenance requires a reviewed file update and import; no station-level price, forecasting,
+Fuel Log or official machine-readable feed is claimed.
 
 ### Phase 0 — Repository audit
 
