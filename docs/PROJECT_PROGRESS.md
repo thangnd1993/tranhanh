@@ -9,6 +9,10 @@ Last updated: 2026-09-21 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
 
+Codex workflow: project-local `tranhanh` orchestration is configured with the read-only `tranhanh-reviewer`
+(Astra Light: `gpt-6-astra`, reasoning `low`) and implementation-focused `tranhanh-developer`
+(Luna Max: `gpt-5.6-luna`, reasoning `max`). See [Codex agent workflow](codex-agent-workflow.md).
+
 ## GitHub Connection
 
 - Repository: https://github.com/thangnd1993/tranhanh
