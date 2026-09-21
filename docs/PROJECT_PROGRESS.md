@@ -12,6 +12,7 @@ Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
 Codex workflow: project-local `tranhanh` orchestration is configured with the read-only `tranhanh-reviewer`
 (Astra Light: `gpt-6-astra`, reasoning `low`) and implementation-focused `tranhanh-developer`
 (Luna Max: `gpt-5.6-luna`, reasoning `max`). See [Codex agent workflow](codex-agent-workflow.md).
+The parent session routes small work to Luna only, medium work to Luna with an optional risk-based Astra final review, and major/high-risk work through one Astra plan, one Luna implementation/self-review/final gate, and one Astra final review. Normal limits are two Astra calls and one Luna implementation plus one optional fix continuation; only a serious blocker permits another Astra review. This workflow update is documentation/configuration-only; Phase 21 remains the next unstarted phase.
 
 ## GitHub Connection
 
