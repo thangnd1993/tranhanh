@@ -33,6 +33,19 @@ export function equivalentPath(path: string, locale: Locale): string {
     const clean = path.replace(/\/$/, '');
     const match = clean
       .slice(base.length + 1)
+      .match(/^([0-9a-f-]{36})\/(nhien-lieu|fuel-log)(?:\/(them|add|[0-9a-f-]{36})(?:\/(chinh-sua|edit))?)?$/i);
+    if (clean.startsWith(base + '/') && match) {
+      const vehicleId = match[1];
+      if (!match[3]) return fuelLogPath(locale, vehicleId);
+      if (match[3] === 'them' || match[3] === 'add') return fuelLogPath(locale, vehicleId, undefined, 'add');
+      return fuelLogPath(locale, vehicleId, match[3], match[4] ? 'edit' : undefined);
+    }
+  }
+  for (const source of supportedLocales) {
+    const base = garagePath(source);
+    const clean = path.replace(/\/$/, '');
+    const match = clean
+      .slice(base.length + 1)
       .match(/^([0-9a-f-]{36})\/(giay-to|documents)(?:\/(them|add|[0-9a-f-]{36})(?:\/(chinh-sua|edit))?)?$/i);
     if (clean.startsWith(base + '/') && match) {
       const vehicleId = match[1];
@@ -113,4 +126,11 @@ export function documentPath(locale: Locale, vehicleId: string, documentId?: str
   return action === 'edit'
     ? `${base}/${documentId}/${locale === 'vi' ? 'chinh-sua' : 'edit'}`
     : `${base}/${documentId}`;
+}
+
+export function fuelLogPath(locale: Locale, vehicleId: string, entryId?: string, action?: 'add' | 'edit'): string {
+  const base = `${garagePath(locale, vehicleId)}/${locale === 'vi' ? 'nhien-lieu' : 'fuel-log'}`;
+  if (action === 'add') return `${base}/${locale === 'vi' ? 'them' : 'add'}`;
+  if (!entryId) return base;
+  return action === 'edit' ? `${base}/${entryId}/${locale === 'vi' ? 'chinh-sua' : 'edit'}` : `${base}/${entryId}`;
 }

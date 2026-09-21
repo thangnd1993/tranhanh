@@ -2,8 +2,8 @@
 
 ## Current Status
 
-Current completed phase: Phase 19 — Fuel Prices
-Next phase: Phase 20 — Fuel Log
+Current completed phase: Phase 20 - Fuel Log
+Next phase: Phase 21 - Maintenance
 Status: Complete; local runtime verification passed
 Last updated: 2026-09-21 (Asia/Ho_Chi_Minh)
 Branch: main
@@ -26,6 +26,28 @@ Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
 - After pushing this checkpoint, resolve the latest pushed commit with `git rev-parse origin/main`.
 
 ## Completed Phases
+
+### Phase 20 - Fuel Log
+
+Status: Complete
+
+- Private vehicle-scoped refueling history with active/archive lifecycle, composite owner relationship and safe 404 IDOR behavior.
+- Exact values: quantity uses PostgreSQL DECIMAL(10,3); actual transaction total uses BIGINT VND; unit price is derived with Decimal arithmetic.
+- Products: vehicle-appropriate liters with optional stable E5 RON92, E10 RON95-III, diesel or OTHER/custom label. Transactions do not copy or claim the public Phase 19 reference price.
+- Chronology: historical backfill is supported when odometer readings remain between chronological neighbors. Equal readings are allowed, but zero-distance intervals never produce economy. Latest higher readings raise Vehicle.currentOdometerKm transactionally; edits never lower it.
+- Economy: deterministic full-tank calculation sums every partial and closing fill after a previous full tank. First baselines and open/incomplete/zero-distance intervals return explicit unavailable semantics. Overall economy is distance weighted.
+- Summary: Vietnam calendar-month quantity and spending include every active fill; economy and cost/km use completed non-overlapping full-tank intervals only.
+- API: authenticated, private/no-store CRUD, archive/restore, bounded list and summary under /api/v1/vehicles/:vehicleId/fuel-logs.
+- Frontend: localized private list, summary and add/detail/edit routes; responsive inputs, honest empty/insufficient states and Garage vehicle-summary integration. SSR contains only the private shell and routes remain noindex/out of sitemaps.
+- Migration: additive add_fuel_log schema with DECIMAL quantity, BIGINT money, lifecycle/positive-value checks, composite ownership FKs and query indexes.
+- Runtime: migration applied to local development and isolated test PostgreSQL. Real authenticated lifecycle, persistence, calculation, CSRF and two-user IDOR checks passed; Redis remained healthy and no new BullMQ queue was added.
+- Validation: API unit 221/221, API E2E 49/49, Angular 68/68, PostgreSQL 85/85 and runtime 10/10. Prisma format/validate/generate, Prettier, ESLint, shared/API/browser/SSR builds and Compose validation passed.
+- Browser: authenticated Garage to Fuel Log flow added four synthetic entries, refreshed persisted data, rendered 7.50 L/100 km, edited history and passed 320-1440px overflow checks. Representative 390px light and 1440px dark screenshots were generated for review; raw SSR exposed no transaction values.
+- Regression: public Fuel Prices raw SSR, exact values, SEO and two sitemap URLs passed; private Fuel Log routes remain absent from sitemaps.
+- Future integration: FuelLogEntry remains the authoritative fuel-expense source for Phase 22 and exposes reusable monthly/economy/latest-odometer summary semantics for Phase 23.
+- Commit: feat: add fuel log (resolve final hash after commit).
+
+Known limitations: station is private free text; there is no receipt OCR, GPS, station directory, automatic price assignment or trip tracking.
 
 ### Phase 19 — Fuel Prices
 
@@ -359,7 +381,7 @@ Runtime state and limitations:
 
 Commit: `feat: add core data foundation` (this checkpoint).
 Push destination: origin/main; verify the pushed checkpoint with `git rev-parse origin/main` after synchronization.
-Next phase: Phase 6 — Phone Prefix Lookup Backend
+Next phase: Phase 21 - Maintenance
 
 ### Phase 6 — Phone Prefix Lookup Backend
 
@@ -433,7 +455,7 @@ Runtime and remaining limits:
 
 Commit: `feat: add phone prefix lookup backend` (this checkpoint).
 Push destination: origin/main; verify the synchronized checkpoint with `git rev-parse origin/main` after push.
-Next phase: Phase 7 — Phone Prefix Frontend + SEO
+Next phase: Phase 21 - Maintenance
 
 ### Phase 7 — Phone Prefix Frontend + SEO
 
@@ -478,7 +500,7 @@ Runtime limits:
 
 Commit: `feat: add phone prefix lookup frontend` (this checkpoint).
 Push destination: origin/main; resolve the final synchronized hash with `git rev-parse origin/main`.
-Next phase: Phase 8 — Area Code Backend
+Next phase: Phase 21 - Maintenance
 
 ### Phase 8 — Area Code Backend
 
@@ -526,7 +548,7 @@ Runtime and limits:
 
 Commit: `feat: add area code lookup backend` (this checkpoint).
 Push destination: origin/main; resolve the final synchronized hash with `git rev-parse origin/main`.
-Next phase: Phase 10 — Vehicle Plate Backend
+Next phase: Phase 21 - Maintenance
 
 ### Phase 9 — Area Code Frontend + SEO
 
@@ -561,7 +583,7 @@ Runtime and limits:
 
 Commit: feat: add area code lookup frontend (this checkpoint).
 Push destination: origin/main; resolve the synchronized hash after push.
-Next phase: Phase 10 — Vehicle Plate Backend
+Next phase: Phase 21 - Maintenance
 
 ### Phase 10 — Vehicle Plate Backend
 
@@ -604,7 +626,7 @@ Runtime and limits:
 
 Commit: `feat: add vehicle plate lookup backend` (this checkpoint).
 Push destination: origin/main; resolve the synchronized hash after push.
-Next phase: Phase 11 — Vehicle Plate Frontend + SEO
+Next phase: Phase 21 - Maintenance
 
 ### Phase 11 — Vehicle Plate Frontend + SEO
 
@@ -633,7 +655,7 @@ Status: Complete locally; live database verification remains pending.
 
 Commit: `feat: add vehicle plate lookup frontend` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
-Next phase: Phase 12 — Postal Code Backend
+Next phase: Phase 21 - Maintenance
 
 ### Phase 12 — Postal Code Backend
 
@@ -733,7 +755,7 @@ Validation:
 
 Commit: `feat: add authentication foundation` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
-Next phase: Phase 14 — My Garage
+Next phase: Phase 21 - Maintenance
 
 ### Phase 14 — My Garage
 
@@ -767,7 +789,7 @@ Validation:
 
 Commit: `feat: add my garage` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
-Next phase: Phase 15 — Traffic Fine Lookup Backend
+Next phase: Phase 21 - Maintenance
 
 ### Phase 15 — Traffic Fine Lookup Backend
 
@@ -794,7 +816,7 @@ dependency-backed schema or behavior.
 
 Commit: `feat: add traffic fine lookup backend` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
-Next phase: Phase 16 — Traffic Fine Lookup Frontend + SEO
+Next phase: Phase 21 - Maintenance
 
 ### Phase 16 — Traffic Fine Lookup Frontend + SEO
 
@@ -821,7 +843,7 @@ readiness, auth and Garage dependency-backed checks remain pending.
 
 Commit: `feat: add traffic fine lookup frontend` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
-Next phase: Phase 18 — Registration, Insurance & Vehicle Documents
+Next phase: Phase 21 - Maintenance
 
 ### Phase 17 — Vehicle Monitoring
 
@@ -862,7 +884,7 @@ Validation:
 
 Commit: `feat: add vehicle monitoring` (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
-Next phase: Phase 18 — Registration, Insurance & Vehicle Documents
+Next phase: Phase 21 - Maintenance
 
 ### Phase 18 — Registration, Insurance & Vehicle Documents
 
@@ -891,7 +913,7 @@ Validation:
 
 Commit: feat: add vehicle documents and reminders (this checkpoint).
 Push destination: origin/main; verify synchronized HEAD after push.
-Next phase: Phase 19 — Fuel Prices
+Next phase: Phase 21 - Maintenance
 
 ### Local Runtime Verification — 2026-09-17
 
@@ -928,7 +950,7 @@ Status: Complete. Phase 19 was not started.
 
 Commit: `fix: verify local runtime integration` (this checkpoint).
 Push destination: `origin/main`; verify synchronized HEAD after push.
-Next phase: Phase 19 — Fuel Prices (authorized next, not started by this checkpoint).
+Next phase: Phase 21 - Maintenance
 
 ## Current Architecture Decisions
 
@@ -958,7 +980,7 @@ datasets are loaded in the isolated local verification database; no external run
 
 ### Next Phase
 
-Next phase: Phase 19 — Fuel Prices
+Next phase: Phase 21 - Maintenance
 
 The authorized automotive roadmap preserves Phases 0–12 and inserts Phase 12P as the transition:
 

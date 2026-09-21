@@ -1,0 +1,148 @@
+<section class="container section stack fuel-log-page">
+  <a
+    class="back-link"
+    [routerLink]="garagePath(i18n.locale(), vehicleId)"
+    >← {{ copy().back }}</a
+  >
+  <header class="garage-heading">
+    <div>
+      <p class="eyebrow">{{ copy().eyebrow }}</p>
+      <h1>{{ copy().title }}</h1>
+      <p class="muted">{{ copy().intro }}</p>
+    </div>
+    <a
+      tnButton
+      [routerLink]="fuelLogPath(i18n.locale(), vehicleId, undefined, 'add')"
+      >{{ copy().add }}</a
+    >
+  </header>
+  @if (summary(); as s) {
+    <div class="fuel-summary">
+      <article>
+        <span>{{ copy().monthCost }}</span
+        ><strong>{{ money(s.totalCostVnd) }}</strong>
+      </article>
+      <article>
+        <span>{{ copy().monthFuel }}</span
+        ><strong>{{ s.totalQuantityLiters }} L</strong>
+      </article>
+      <article>
+        <span>{{ copy().economy }}</span
+        ><strong>{{ s.averageLitersPer100Km ? s.averageLitersPer100Km + ' L/100 km' : '—' }}</strong>
+      </article>
+      <article>
+        <span>{{ copy().costKm }}</span
+        ><strong>{{ s.costPerKmVnd ? money(s.costPerKmVnd.split('.')[0]) + '/km' : '—' }}</strong>
+      </article>
+    </div>
+    @if (!s.averageLitersPer100Km) {
+      <p
+        class="muted"
+        role="status"
+      >
+        {{ copy().insufficient }}
+      </p>
+    }
+  }
+  <label class="archive-toggle"
+    ><input
+      type="checkbox"
+      [checked]="showArchived()"
+      (change)="toggle($event)"
+    />
+    {{ copy().showArchived }}</label
+  >
+  @if (loading()) {
+    <p
+      class="muted"
+      role="status"
+    >
+      {{ copy().loading }}
+    </p>
+  } @else if (error()) {
+    <p
+      class="form-error"
+      role="alert"
+    >
+      {{ error() }}
+    </p>
+  } @else if (data(); as result) {
+    @if (!result.items.length) {
+      <div class="garage-empty stack">
+        <h2>{{ copy().empty }}</h2>
+        <p>{{ copy().emptyBody }}</p>
+        <a
+          tnButton
+          [routerLink]="fuelLogPath(i18n.locale(), vehicleId, undefined, 'add')"
+          >{{ copy().add }}</a
+        >
+      </div>
+    } @else {
+      <div class="fuel-list">
+        @for (item of result.items; track item.id) {
+          <article class="fuel-entry">
+            <div class="fuel-entry__head">
+              <div>
+                <a [routerLink]="fuelLogPath(i18n.locale(), vehicleId, item.id)"
+                  ><strong>{{ formatDate(item.refueledAt) }}</strong></a
+                >
+                <p class="muted">{{ fuel(item) }}</p>
+              </div>
+              <div class="cluster">
+                <span
+                  class="badge"
+                  [attr.data-tone]="item.isFullTank ? 'success' : null"
+                  >{{ item.isFullTank ? copy().full : copy().partial }}</span
+                >
+                @if (item.status === 'ARCHIVED') {
+                  <span class="badge">{{ copy().archived }}</span>
+                }
+              </div>
+            </div>
+            <dl>
+              <div>
+                <dt>{{ copy().odometer }}</dt>
+                <dd>{{ item.odometerKm.toLocaleString() }} km</dd>
+              </div>
+              <div>
+                <dt>{{ copy().monthFuel }}</dt>
+                <dd>{{ item.quantity }} L</dd>
+              </div>
+              <div>
+                <dt>{{ copy().monthCost }}</dt>
+                <dd>{{ money(item.totalCostVnd) }}</dd>
+              </div>
+              <div>
+                <dt>{{ copy().actualPrice }}</dt>
+                <dd>{{ money(item.effectivePricePerLiterVnd.split('.')[0]) }}</dd>
+              </div>
+            </dl>
+            @if (item.station) {
+              <p class="muted">{{ item.station }}</p>
+            }
+            <div class="cluster">
+              <a [routerLink]="fuelLogPath(i18n.locale(), vehicleId, item.id, 'edit')">{{ copy().edit }}</a>
+              @if (item.status === 'ACTIVE') {
+                <button
+                  type="button"
+                  class="link-button"
+                  (click)="archive(item)"
+                >
+                  {{ copy().archive }}
+                </button>
+              } @else {
+                <button
+                  type="button"
+                  class="link-button"
+                  (click)="restore(item)"
+                >
+                  {{ copy().restore }}
+                </button>
+              }
+            </div>
+          </article>
+        }
+      </div>
+    }
+  }
+</section>

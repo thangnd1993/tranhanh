@@ -9,9 +9,16 @@ import { garagePath, pagePaths } from '../i18n/routes';
 import { GarageService } from './garage.service';
 import { VehicleMonitoringComponent } from './vehicle-monitoring.component';
 import { VehicleDocumentSummaryComponent } from './vehicle-document-summary.component';
+import { FuelLogSummaryComponent } from '../fuel-log/fuel-log-summary.component';
 @Component({
   selector: 'tn-vehicle-detail-page',
-  imports: [RouterLink, ButtonDirective, VehicleMonitoringComponent, VehicleDocumentSummaryComponent],
+  imports: [
+    RouterLink,
+    ButtonDirective,
+    VehicleMonitoringComponent,
+    VehicleDocumentSummaryComponent,
+    FuelLogSummaryComponent,
+  ],
   template: `<section class="container section stack garage-detail">
     <a
       class="back-link"
@@ -84,6 +91,7 @@ import { VehicleDocumentSummaryComponent } from './vehicle-document-summary.comp
         </div>
       </dl>
       <tn-vehicle-document-summary [vehicleId]="v.id" />
+      <tn-fuel-log-summary [vehicleId]="v.id" />
       <tn-vehicle-monitoring
         [vehicleId]="v.id"
         [vehicleStatus]="v.status"

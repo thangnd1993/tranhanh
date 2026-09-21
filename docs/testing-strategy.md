@@ -89,3 +89,7 @@ result. Preserve remote work; never force push without an explicit later instruc
 When the user says “continue”, “làm tiếp”, “phase tiếp theo”, or provides a phase specification, start the authorized
 work immediately without routine reconfirmation or repeating the roadmap. This policy does not authorize unrelated
 scope expansion or waive required system permissions.
+
+## Phase 20 Fuel Log gates
+
+Fuel Log calculation tests cover empty, partial, full-tank, multi-partial, zero-distance, edits, archive/restore, open intervals, weighted averages, Vietnam month boundaries and historical backfill. PostgreSQL runtime tests cover DECIMAL/BIGINT persistence, transaction chronology, vehicle odometer updates, lifecycle and the complete two-user IDOR matrix. Angular tests cover localized routes plus honest empty and insufficient-data states. Full workspace regressions, SSR/browser build, private-data leakage, responsive widths, light/dark themes, migration review and Compose health remain required before the phase checkpoint.

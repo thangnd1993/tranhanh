@@ -548,6 +548,15 @@ enum VehicleDocumentStatus {
   ARCHIVED
 }
 
+enum FuelLogUnit {
+  LITER
+}
+
+enum FuelLogEntryStatus {
+  ACTIVE
+  ARCHIVED
+}
+
 /// Private account identity. Password hashes and account data never enter public lookup/SEO models.
 model User {
   id                  String               @id @default(uuid()) @db.Uuid
@@ -565,6 +574,7 @@ model User {
   vehicles            Vehicle[]
   vehicleMonitorings  VehicleMonitoring[]
   vehicleDocuments    VehicleDocument[]
+  fuelLogEntries      FuelLogEntry[]
 
   @@index([status, createdAt])
 }
@@ -590,6 +600,7 @@ model Vehicle {
   user                   User                @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict)
   monitorings            VehicleMonitoring[]
   documents              VehicleDocument[]
+  fuelLogEntries         FuelLogEntry[]
 
   @@unique([userId, normalizedLicensePlate])
   @@unique([id, userId])
@@ -684,6 +695,34 @@ model VehicleDocument {
   @@index([userId])
   @@index([vehicleId, status, expiresAt])
   @@index([status, expiresAt])
+}
+
+/// Private user-entered refueling history. Derived economy values are calculated, never persisted.
+model FuelLogEntry {
+  id              String             @id @default(uuid()) @db.Uuid
+  userId          String             @db.Uuid
+  vehicleId       String             @db.Uuid
+  refueledAt      DateTime           @db.Timestamptz(3)
+  odometerKm      Int
+  quantity        Decimal            @db.Decimal(10, 3)
+  unit            FuelLogUnit        @default(LITER)
+  totalCostVnd    BigInt
+  fuelProductKey  String?            @db.VarChar(100)
+  customFuelLabel String?            @db.VarChar(100)
+  isFullTank      Boolean            @default(false)
+  station         String?            @db.VarChar(150)
+  notes           String?            @db.VarChar(1000)
+  status          FuelLogEntryStatus @default(ACTIVE)
+  archivedAt      DateTime?          @db.Timestamptz(3)
+  createdAt       DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime           @updatedAt @db.Timestamptz(3)
+  user            User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  vehicle         Vehicle            @relation(fields: [vehicleId, userId], references: [id, userId], onDelete: Cascade, onUpdate: Restrict)
+
+  @@unique([id, userId, vehicleId])
+  @@index([userId, vehicleId])
+  @@index([vehicleId, status, refueledAt(sort: Desc), id])
+  @@index([vehicleId, odometerKm])
 }
 
 model VehicleDocumentReminder {

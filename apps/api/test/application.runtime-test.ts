@@ -204,6 +204,130 @@ describe('real local application runtime', () => {
       .expect(404);
   });
 
+  it('runs Fuel Log full-tank math, lifecycle, persistence, odometer updates, and complete IDOR matrix', async () => {
+    const add = (payload: object) =>
+      owner.post(`/api/v1/vehicles/${vehicleA}/fuel-logs`).set(privateHeaders(ownerCsrf)).send(payload);
+    const base = {
+      fuelProductKey: 'e5-ron-92',
+      unit: 'LITER',
+      station: 'Synthetic station',
+      notes: 'Synthetic runtime entry',
+    };
+    const opening = await add({
+      ...base,
+      refueledAt: '2026-09-01T08:00:00.000Z',
+      odometerKm: 10000,
+      quantity: '40.000',
+      totalCostVnd: '800000',
+      isFullTank: true,
+    }).expect(201);
+    const partialOne = await add({
+      ...base,
+      refueledAt: '2026-09-08T08:00:00.000Z',
+      odometerKm: 10300,
+      quantity: '20.000',
+      totalCostVnd: '400000',
+      isFullTank: false,
+    }).expect(201);
+    await add({
+      ...base,
+      refueledAt: '2026-09-12T08:00:00.000Z',
+      odometerKm: 10550,
+      quantity: '15.000',
+      totalCostVnd: '300000',
+      isFullTank: false,
+    }).expect(201);
+    await add({
+      ...base,
+      refueledAt: '2026-09-18T08:00:00.000Z',
+      odometerKm: 10800,
+      quantity: '25.000',
+      totalCostVnd: '500000',
+      isFullTank: true,
+    }).expect(201);
+    const summary = await owner.get(`/api/v1/vehicles/${vehicleA}/fuel-logs/summary?month=2026-09`).expect(200);
+    expect(summary.body).toMatchObject({
+      refuelCount: 4,
+      totalQuantityLiters: '100.000',
+      totalCostVnd: '2000000',
+      completedIntervalCount: 1,
+      averageLitersPer100Km: '7.50',
+      costPerKmVnd: '1500.00',
+    });
+    expect(summary.body.intervals[0]).toMatchObject({ distanceKm: 800, quantityLiters: '60.000' });
+    await owner
+      .patch(`/api/v1/vehicles/${vehicleA}/fuel-logs/${partialOne.body.id}`)
+      .set(privateHeaders(ownerCsrf))
+      .send({ quantity: '21.000', totalCostVnd: '420000' })
+      .expect(200);
+    await owner
+      .post(`/api/v1/vehicles/${vehicleA}/fuel-logs/${partialOne.body.id}/archive`)
+      .set(privateHeaders(ownerCsrf))
+      .send({})
+      .expect(201);
+    await owner
+      .post(`/api/v1/vehicles/${vehicleA}/fuel-logs/${partialOne.body.id}/restore`)
+      .set(privateHeaders(ownerCsrf))
+      .send({})
+      .expect(201);
+    await add({
+      ...base,
+      refueledAt: '2026-09-10T08:00:00.000Z',
+      odometerKm: 10400,
+      quantity: '1.000',
+      totalCostVnd: '20000',
+      isFullTank: false,
+    }).expect(201);
+    await add({
+      ...base,
+      refueledAt: '2026-09-09T08:00:00.000Z',
+      odometerKm: 10200,
+      quantity: '1.000',
+      totalCostVnd: '20000',
+      isFullTank: false,
+    }).expect(400);
+    await add({
+      ...base,
+      refueledAt: '2026-09-09T08:00:00.000Z',
+      odometerKm: 10600,
+      quantity: '1.000',
+      totalCostVnd: '20000',
+      isFullTank: false,
+    }).expect(400);
+    await owner
+      .patch(`/api/v1/vehicles/${vehicleA}/fuel-logs/${opening.body.id}`)
+      .set(privateHeaders(ownerCsrf))
+      .send({ odometerKm: 9900 })
+      .expect(200);
+    const persisted = await prisma.fuelLogEntry.findUniqueOrThrow({ where: { id: partialOne.body.id } });
+    expect(persisted.quantity.toFixed(3)).toBe('21.000');
+    expect(persisted.totalCostVnd).toBe(420000n);
+    expect((await prisma.vehicle.findUniqueOrThrow({ where: { id: vehicleA } })).currentOdometerKm).toBe(10800);
+    const foreign = `/api/v1/vehicles/${vehicleA}/fuel-logs`;
+    await other.get(foreign).expect(404);
+    await other.get(`${foreign}/summary`).expect(404);
+    await other.get(`${foreign}/${opening.body.id}`).expect(404);
+    await other
+      .post(foreign)
+      .set(privateHeaders(otherCsrf))
+      .send({
+        ...base,
+        refueledAt: '2026-09-20T08:00:00.000Z',
+        odometerKm: 10900,
+        quantity: '1.000',
+        totalCostVnd: '20000',
+        isFullTank: false,
+      })
+      .expect(404);
+    await other
+      .patch(`${foreign}/${opening.body.id}`)
+      .set(privateHeaders(otherCsrf))
+      .send({ quantity: '9.000' })
+      .expect(404);
+    await other.post(`${foreign}/${opening.body.id}/archive`).set(privateHeaders(otherCsrf)).send({}).expect(404);
+    await other.post(`${foreign}/${opening.body.id}/restore`).set(privateHeaders(otherCsrf)).send({}).expect(404);
+  });
+
   it('keeps production CSGT monitoring manual-only without runs, snapshots, or schedules', async () => {
     const enabled = await owner
       .post(`/api/v1/vehicles/${vehicleA}/monitoring/enable`)

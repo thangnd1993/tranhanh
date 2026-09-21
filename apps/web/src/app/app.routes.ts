@@ -81,6 +81,31 @@ export const routes: Routes = [
         loadComponent: () => import('./garage/vehicle-form-page.component').then((m) => m.VehicleFormPageComponent),
       },
       {
+        path: locale === 'vi' ? 'garage/:id/nhien-lieu/them' : 'garage/:id/fuel-log/add',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () => import('./fuel-log/fuel-log-form-page.component').then((m) => m.FuelLogFormPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/nhien-lieu/:entryId/chinh-sua' : 'garage/:id/fuel-log/:entryId/edit',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () => import('./fuel-log/fuel-log-form-page.component').then((m) => m.FuelLogFormPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/nhien-lieu/:entryId' : 'garage/:id/fuel-log/:entryId',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./fuel-log/fuel-log-entry-page.component').then((m) => m.FuelLogEntryPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/nhien-lieu' : 'garage/:id/fuel-log',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () => import('./fuel-log/fuel-log-page.component').then((m) => m.FuelLogPageComponent),
+      },
+      {
         path: locale === 'vi' ? 'garage/:id/giay-to/them' : 'garage/:id/documents/add',
         canActivate: [accountGuard(locale, garagePath(locale))],
         resolve: { seo: pageSeo('garage') },

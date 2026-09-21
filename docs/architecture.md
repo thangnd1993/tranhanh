@@ -792,3 +792,13 @@ The bilingual SSR routes `/vi/gia-xang` and `/en/fuel-prices` resolve both curre
 rendering, place public data in TransferState to avoid hydration duplication, and return an honest 503/noindex response when
 no verified dataset can be rendered. Actual prices, units, effective time and source appear in raw HTML. Static canonicals,
 paired hreflang, WebPage and BreadcrumbList structured data, and exactly two static sitemap URLs reuse the SEO foundation.
+
+## Private Fuel Log (Phase 20)
+
+FuelLogEntry belongs to one User and one saved Vehicle through the established composite ownership relationship. All service queries include userId and vehicleId; cross-owner access returns a safe 404. Mutations use trusted-origin, access-auth and CSRF guards. Responses are private/no-store/noindex. Angular SSR emits only the authenticated feature shell; transaction values are fetched in the browser and never enter TransferState, sitemaps or structured data.
+
+Quantity is DECIMAL(10,3) liters and transaction money is BIGINT VND. The database stores quantity and total cost as authoritative inputs. Actual VND/liter, L/100 km and cost/km are derived with Prisma Decimal arithmetic and rounded only in API presentation. Public Ministry maximum prices are independent reference data and are never copied into a private purchase.
+
+The deterministic calculation service orders active entries by refueling instant and odometer. A completed interval starts at a full-tank baseline and includes every later partial fill through the next full-tank entry. It requires positive distance. Overall consumption divides total interval liters by total interval distance, avoiding a naive average of ratios. Open, first-baseline and zero-distance sequences return explicit availability codes and no numeric economy. Archive, restore and history edits recalculate on read, so no stale aggregate rows exist.
+
+Backfill validation compares the entry with chronological neighbors inside the mutation transaction. A newer higher reading raises Vehicle.currentOdometerKm; corrections and historical edits never lower the vehicle value. Vietnam calendar month boundaries use Asia/Ho_Chi_Minh. Fuel costs stay authoritative in FuelLogEntry for future Phase 22 expense aggregation without duplicate expense rows.

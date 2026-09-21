@@ -92,3 +92,9 @@ Fuel Prices is a first-class account-free public tool. It presents the Ministry 
 0.05S and mazut 180CST 3.5S separate, including the liter/kilogram distinction, previous-period comparison, recent history,
 effective time and source publication. A reviewed manual import is preferred to an undocumented scraper. Fuel logging,
 station search, forecasts and personal fuel preferences remain outside this phase; Phase 20 owns private Fuel Log work.
+
+## Phase 20 - Fuel Log
+
+Fuel Log is a private recurring-use vehicle feature. Owners record refueling time, integer odometer, exact liters, exact total VND, optional fuel label, full-tank flag, station and notes. Monthly spending and volume count every active fill. Economy and cost/km appear only for mathematically complete full-tank intervals; the product never renders zero as a substitute for unavailable data.
+
+Fuel entries remain the authoritative fuel-expense records for Phase 22. Phase 20 does not add general expenses, maintenance, station data, route tracking, receipt OCR or automatic transaction pricing from the public Fuel Prices feature. Account deletion will cascade private fuel history through the existing user/vehicle ownership lifecycle.

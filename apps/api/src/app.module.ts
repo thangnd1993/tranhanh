@@ -18,6 +18,7 @@ import { VehiclesModule } from './vehicles/vehicles.module.js';
 import { VehicleMonitoringModule } from './vehicle-monitoring/vehicle-monitoring.module.js';
 import { VehicleDocumentsModule } from './vehicle-documents/vehicle-documents.module.js';
 import { FuelPricesModule } from './fuel-prices/fuel-prices.module.js';
+import { FuelLogModule } from './fuel-log/fuel-log.module.js';
 
 @Module({
   controllers: [AppController, HealthController],
@@ -50,6 +51,7 @@ import { FuelPricesModule } from './fuel-prices/fuel-prices.module.js';
     VehicleMonitoringModule,
     VehicleDocumentsModule,
     FuelPricesModule,
+    FuelLogModule,
   ],
   providers: [HealthService],
 })

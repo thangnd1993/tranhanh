@@ -1,0 +1,128 @@
+<section class="container section stack fuel-form-page">
+  <a
+    class="back-link"
+    [routerLink]="fuelLogPath(i18n.locale(), vehicleId)"
+    >← {{ copy().back }}</a
+  >
+  <h1>{{ editing ? copy().titleEdit : copy().titleAdd }}</h1>
+  @if (loading()) {
+    <p class="muted">Loading…</p>
+  } @else {
+    <form
+      class="fuel-form stack"
+      novalidate
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+    >
+      <div class="form-grid">
+        <tn-field
+          controlId="fuel-date"
+          [label]="copy().date"
+          ><input
+            id="fuel-date"
+            type="datetime-local"
+            formControlName="refueledAt"
+        /></tn-field>
+        <tn-field
+          controlId="fuel-odometer"
+          [label]="copy().odometer"
+          ><input
+            id="fuel-odometer"
+            type="number"
+            inputmode="numeric"
+            formControlName="odometerKm"
+        /></tn-field>
+        <tn-field
+          controlId="fuel-product"
+          [label]="copy().fuel"
+          ><select
+            id="fuel-product"
+            formControlName="fuelProductKey"
+          >
+            <option value="">{{ copy().choose }}</option>
+            <option value="e5-ron-92">E5 RON92</option>
+            <option value="e10-ron-95-iii">E10 RON95-III</option>
+            <option value="diesel-0-05s">Diesel 0.05S</option>
+            <option value="OTHER">{{ copy().other }}</option>
+          </select></tn-field
+        >
+        @if (form.controls.fuelProductKey.value === 'OTHER') {
+          <tn-field
+            controlId="fuel-custom"
+            [label]="copy().custom"
+            ><input
+              id="fuel-custom"
+              maxlength="100"
+              formControlName="customFuelLabel"
+          /></tn-field>
+        }
+        <tn-field
+          controlId="fuel-quantity"
+          [label]="copy().quantity"
+          ><input
+            id="fuel-quantity"
+            inputmode="decimal"
+            formControlName="quantity"
+            placeholder="32.45"
+        /></tn-field>
+        <tn-field
+          controlId="fuel-cost"
+          [label]="copy().cost"
+          ><input
+            id="fuel-cost"
+            inputmode="numeric"
+            formControlName="totalCostVnd"
+            placeholder="850000"
+        /></tn-field>
+      </div>
+      @if (preview(); as value) {
+        <p class="muted">{{ copy().preview }}: {{ value.toLocaleString() }} VND/L</p>
+      }
+      <label class="full-check"
+        ><input
+          type="checkbox"
+          formControlName="isFullTank"
+        />
+        <strong>{{ copy().full }}</strong></label
+      >
+      <p class="muted small">{{ copy().fullHelp }}</p>
+      <tn-field
+        controlId="fuel-station"
+        [label]="copy().station"
+        ><input
+          id="fuel-station"
+          maxlength="150"
+          formControlName="station"
+      /></tn-field>
+      <tn-field
+        controlId="fuel-notes"
+        [label]="copy().notes"
+      >
+        <textarea
+          id="fuel-notes"
+          maxlength="1000"
+          rows="4"
+          formControlName="notes"
+        ></textarea>
+      </tn-field>
+      @if (form.invalid && form.touched) {
+        <p class="form-error">{{ copy().invalid }}</p>
+      }
+      @if (error()) {
+        <p
+          class="form-error"
+          role="alert"
+        >
+          {{ error() }}
+        </p>
+      }
+      <button
+        tnButton
+        type="submit"
+        [loading]="busy()"
+      >
+        {{ busy() ? copy().saving : copy().submit }}
+      </button>
+    </form>
+  }
+</section>

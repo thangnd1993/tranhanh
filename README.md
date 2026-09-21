@@ -247,3 +247,7 @@ load the reviewed Ministry publications with:
 Run `pnpm test:fuel` while the built local API/SSR stack is running to check raw prices, sources, metadata and sitemap entries. The import is manual, validated and idempotent; no scheduled scraper or BullMQ fuel-price queue is enabled. Prices use exact
 PostgreSQL BIGINT and JSON decimal strings. See [fuel-price sources](docs/data-sources.md#vietnam-fuel-price-publications--phase-19)
 for semantics, product coverage, current publication and maintenance policy.
+
+## Fuel Log
+
+Authenticated vehicle owners can open the localized private Fuel Log at /vi/garage/:id/nhien-lieu or /en/garage/:id/fuel-log. Entries store exact liters and total VND, support historical correction and archive/restore, and calculate economy only across completed full-tank intervals. Public fuel prices are reference data only and never become an assumed transaction price.
