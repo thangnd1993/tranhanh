@@ -55,9 +55,9 @@ No external provider is queried at runtime. Dataset-backed public lookups use ex
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 21 — Maintenance.
-Current phase: Phase 21 — Maintenance (complete).
-Next phase: Phase 22 — Vehicle Expenses.
+Current completed phase: Phase 22 — Vehicle Expenses.
+Current phase: Phase 22 — Vehicle Expenses (complete).
+Next phase: Phase 23 — Driver Dashboard (not started).
 The user-authorized automotive pivot supersedes the old post-Phase 12 general-utility roadmap while preserving all
 completed history. See [product direction](docs/product-direction.md) and [project progress](docs/PROJECT_PROGRESS.md).
 
@@ -262,3 +262,13 @@ not-due or unknown-mileage states. Completing a plan creates exactly one linked 
 the vehicle odometer. Archived vehicles remain readable but block new or active maintenance operations. The feature has no
 manufacturer intervals, public SEO pages, attachments, external notifications or new queue; active history is reserved as the
 maintenance cost source for Phase 22.
+
+## Vehicle Expenses (Phase 22)
+
+Authenticated vehicle owners can open `/vi/garage/:id/chi-phi` or `/en/garage/:id/expenses` for a private monthly ledger.
+Active Fuel Log and known Maintenance History costs are read dynamically as authoritative sources; no duplicate source
+rows are created. Manual entries are limited to insurance, registration, toll, parking and other categories and use exact
+integer VND strings (`0..9999999999999999`). Summaries preserve unknown maintenance costs and distinguish incomplete
+known totals. Manual entries support detail/edit/archive/restore, while all private endpoints remain owner-scoped,
+CSRF-protected and excluded from SSR data, storage, SEO and sitemaps. Budgets, recurring expenses, receipts/OCR,
+refunds, currencies, dashboards and notifications remain future scope.

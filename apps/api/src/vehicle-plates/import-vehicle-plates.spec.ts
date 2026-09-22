@@ -43,14 +43,14 @@ describe('vehicle-plate importer decisions (non-database)', () => {
       updated: 0,
       skipped: 0,
     });
-    const before = memory.vehiclePlateAllocation.records.get(JSON.stringify('51-current'));
+    const before = memory.vehiclePlateAllocation.records.get(JSON.stringify(data.allocations[0].key));
     expect(await applyVehiclePlateDataset(tx, data, new Date('2021-01-02'))).toEqual({
       read: 1,
       created: 0,
       updated: 0,
       skipped: 1,
     });
-    expect(memory.vehiclePlateAllocation.records.get(JSON.stringify('51-current'))).toEqual(before);
+    expect(memory.vehiclePlateAllocation.records.get(JSON.stringify(data.allocations[0].key))).toEqual(before);
     const smaller = structuredClone(data);
     smaller.allocations = [];
     smaller.history = [];
@@ -76,7 +76,7 @@ describe('vehicle-plate importer decisions (non-database)', () => {
     renamed.targets[0].name = 'Rewritten place';
     await expect(applyVehiclePlateDataset(tx, renamed, new Date())).rejects.toThrow('reviewed history');
     const moved = structuredClone(data);
-    moved.allocations[0].targetKey = 'old-place';
+    moved.allocations[0].targetKey = data.targets[1].key;
     moved.targets[1].isActive = true;
     moved.history = [];
     await expect(applyVehiclePlateDataset(tx, moved, new Date())).rejects.toThrow('reassignment');

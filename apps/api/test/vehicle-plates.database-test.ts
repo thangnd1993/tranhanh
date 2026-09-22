@@ -23,10 +23,23 @@ beforeAll(async () => {
   await client.$connect();
 });
 afterAll(async () => client?.$disconnect());
+async function freshFixture(): Promise<ReturnType<typeof vehiclePlateDatasetFixture>> {
+  const numericPrefixes = Array.from({ length: 90 }, (_, index) => String(index + 10));
+  const existing = await client.vehiclePlateAllocation.findMany({
+    where: { numericPrefix: { in: numericPrefixes }, seriesPrefix: null },
+    select: { numericPrefix: true },
+  });
+  const occupied = new Set(existing.map((row) => row.numericPrefix));
+  const numericPrefix = numericPrefixes.find((prefix) => !occupied.has(prefix));
+  if (numericPrefix) {
+    return vehiclePlateDatasetFixture({ numericPrefix });
+  }
+  throw new Error('Unable to allocate a collision-free vehicle-plate fixture key without modifying existing data.');
+}
 async function isolated(
   check: (tx: Prisma.TransactionClient, fixture: ReturnType<typeof vehiclePlateDatasetFixture>) => Promise<void>,
 ) {
-  const fixture = vehiclePlateDatasetFixture();
+  const fixture = await freshFixture();
   try {
     await client.$transaction(
       async (tx) => {
@@ -45,7 +58,7 @@ async function isolated(
 describe('vehicle-plate PostgreSQL invariants (not mocked)', () => {
   it('imports idempotently with joined evidence and history', () =>
     isolated(async (tx, fixture) => {
-      const before = await tx.vehiclePlateAllocation.findUniqueOrThrow({ where: { key: '51-current' } });
+      const before = await tx.vehiclePlateAllocation.findUniqueOrThrow({ where: { key: fixture.allocations[0].key } });
       expect(await applyVehiclePlateDataset(tx, fixture, new Date())).toEqual({
         read: 1,
         created: 0,
@@ -53,57 +66,63 @@ describe('vehicle-plate PostgreSQL invariants (not mocked)', () => {
         skipped: 1,
       });
       const after = await tx.vehiclePlateAllocation.findUniqueOrThrow({
-        where: { key: '51-current' },
+        where: { key: fixture.allocations[0].key },
         include: vehiclePlateInclude,
       });
       expect(after.importedAt).toEqual(before.importedAt);
       expect(vehiclePlateResult(after)).toMatchObject({
-        numericPrefix: '51',
+        numericPrefix: fixture.allocations[0].numericPrefix,
         previousTargets: [{ previousTarget: { name: 'Old Place' }, effectiveTo: '2025-07-01' }],
       });
     }));
   it('enforces allocation scope uniqueness', () =>
-    isolated(async (tx) => {
-      const row = await tx.vehiclePlateAllocation.findUniqueOrThrow({ where: { key: '51-current' } });
+    isolated(async (tx, fixture) => {
+      const row = await tx.vehiclePlateAllocation.findUniqueOrThrow({ where: { key: fixture.allocations[0].key } });
       await expect(
         tx.vehiclePlateAllocation.create({ data: { ...row, id: randomUUID(), key: `other-${randomUUID()}` } }),
       ).rejects.toMatchObject({ code: 'P2002' });
     }));
   it('enforces target and evidence foreign keys', async () => {
-    await isolated(async (tx) => {
+    await isolated(async (tx, fixture) => {
       await expect(
-        tx.vehiclePlateAllocation.update({ where: { key: '51-current' }, data: { targetId: randomUUID() } }),
+        tx.vehiclePlateAllocation.update({
+          where: { key: fixture.allocations[0].key },
+          data: { targetId: randomUUID() },
+        }),
       ).rejects.toMatchObject({ code: 'P2003' });
     });
-    await isolated(async (tx) => {
+    await isolated(async (tx, fixture) => {
       await expect(
-        tx.vehiclePlateAllocation.update({ where: { key: '51-current' }, data: { sourceReferenceId: randomUUID() } }),
+        tx.vehiclePlateAllocation.update({
+          where: { key: fixture.allocations[0].key },
+          data: { sourceReferenceId: randomUUID() },
+        }),
       ).rejects.toMatchObject({ code: 'P2003' });
     });
   });
   it('rejects malformed prefixes, series and reversed dates', async () => {
-    await isolated(async (tx) => {
+    await isolated(async (tx, fixture) => {
       await expect(
-        tx.vehiclePlateAllocation.update({ where: { key: '51-current' }, data: { numericPrefix: '01' } }),
+        tx.vehiclePlateAllocation.update({ where: { key: fixture.allocations[0].key }, data: { numericPrefix: '01' } }),
       ).rejects.toThrow();
     });
-    await isolated(async (tx) => {
+    await isolated(async (tx, fixture) => {
       await expect(
-        tx.vehiclePlateAllocation.update({ where: { key: '51-current' }, data: { seriesPrefix: 'I' } }),
+        tx.vehiclePlateAllocation.update({ where: { key: fixture.allocations[0].key }, data: { seriesPrefix: 'I' } }),
       ).rejects.toThrow();
     });
-    await isolated(async (tx) => {
+    await isolated(async (tx, fixture) => {
       await expect(
         tx.vehiclePlateAllocation.update({
-          where: { key: '51-current' },
+          where: { key: fixture.allocations[0].key },
           data: { effectiveTo: new Date('2025-01-01') },
         }),
       ).rejects.toThrow();
     });
   });
   it('restricts deletion of targets and evidence with retained history', async () => {
-    await isolated(async (tx) => {
-      await expect(tx.vehiclePlateTarget.delete({ where: { key: 'old-place' } })).rejects.toMatchObject({
+    await isolated(async (tx, fixture) => {
+      await expect(tx.vehiclePlateTarget.delete({ where: { key: fixture.targets[1].key } })).rejects.toMatchObject({
         code: 'P2003',
       });
     });

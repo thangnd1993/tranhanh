@@ -30,10 +30,25 @@ afterAll(async () => {
   await client?.$disconnect();
 });
 
+async function freshFixture(): Promise<ReturnType<typeof areaDatasetFixture>> {
+  const currentCodes = Array.from({ length: 100 }, (_, index) => `02${String(index).padStart(2, '0')}`);
+  const legacyCodes = Array.from({ length: 100 }, (_, index) => `01${String(index).padStart(2, '0')}`);
+  const existing = await client.areaCode.findMany({
+    where: { code: { in: [...currentCodes, ...legacyCodes] } },
+    select: { code: true },
+  });
+  const occupied = new Set(existing.map((row) => row.code));
+  const currentCode = currentCodes.find((code) => !occupied.has(code));
+  const legacyCode = legacyCodes.find((code) => !occupied.has(code));
+  if (currentCode && legacyCode) {
+    return areaDatasetFixture({ currentCode, legacyCode });
+  }
+  throw new Error('Unable to allocate collision-free area-code fixture keys without modifying existing data.');
+}
 async function isolated(
   check: (tx: Prisma.TransactionClient, fixture: ReturnType<typeof areaDatasetFixture>) => Promise<void>,
 ): Promise<void> {
-  const fixture = areaDatasetFixture();
+  const fixture = await freshFixture();
   try {
     await client.$transaction(
       async (tx) => {
@@ -59,53 +74,53 @@ async function isolated(
 describe('area-code PostgreSQL invariants (not mocked)', () => {
   it('imports twice without duplicate rows or changed code timestamps', () =>
     isolated(async (tx, fixture) => {
-      const before = await tx.areaCode.findUniqueOrThrow({ where: { code: '0236' } });
+      const before = await tx.areaCode.findUniqueOrThrow({ where: { code: fixture.codes[0].code } });
       expect(await applyAreaDataset(tx, fixture, new Date())).toEqual({ read: 2, created: 0, updated: 0, skipped: 2 });
-      const after = await tx.areaCode.findUniqueOrThrow({ where: { code: '0236' } });
+      const after = await tx.areaCode.findUniqueOrThrow({ where: { code: fixture.codes[0].code } });
       expect(after.updatedAt).toEqual(before.updatedAt);
       expect(after.importedAt).toEqual(before.importedAt);
       expect(await tx.sourceReference.count({ where: { id: fixture.references[0].id } })).toBe(1);
       expect(await tx.areaCodeMigration.count({ where: { sourceReferenceId: fixture.references[0].id } })).toBe(1);
     }));
   it('returns real joined evidence and old/current relations', () =>
-    isolated(async (tx) => {
-      const row = await tx.areaCode.findUniqueOrThrow({ where: { code: '0511' }, include: areaInclude });
+    isolated(async (tx, fixture) => {
+      const row = await tx.areaCode.findUniqueOrThrow({ where: { code: fixture.codes[1].code }, include: areaInclude });
       expect(areaResult(row)).toMatchObject({
         status: 'LEGACY',
-        currentCode: '0236',
+        currentCode: fixture.codes[0].code,
         source: { publisher: 'Test-only publisher', title: 'Test-only evidence' },
       });
     }));
   it('enforces code uniqueness', () =>
-    isolated(async (tx) => {
-      const row = await tx.areaCode.findUniqueOrThrow({ where: { code: '0236' } });
+    isolated(async (tx, fixture) => {
+      const row = await tx.areaCode.findUniqueOrThrow({ where: { code: fixture.codes[0].code } });
       await expect(tx.areaCode.create({ data: { ...row, id: randomUUID() } })).rejects.toMatchObject({
         code: 'P2002',
       });
     }));
   it('enforces locality foreign keys', () =>
-    isolated(async (tx) => {
+    isolated(async (tx, fixture) => {
       await expect(
-        tx.areaCode.update({ where: { code: '0236' }, data: { localityId: randomUUID() } }),
+        tx.areaCode.update({ where: { code: fixture.codes[0].code }, data: { localityId: randomUUID() } }),
       ).rejects.toMatchObject({ code: 'P2003' });
     }));
   it('enforces evidence foreign keys', () =>
-    isolated(async (tx) => {
+    isolated(async (tx, fixture) => {
       await expect(
-        tx.areaCode.update({ where: { code: '0236' }, data: { sourceReferenceId: randomUUID() } }),
+        tx.areaCode.update({ where: { code: fixture.codes[0].code }, data: { sourceReferenceId: randomUUID() } }),
       ).rejects.toMatchObject({ code: 'P2003' });
     }));
   it('enforces migration target relations', () =>
-    isolated(async (tx) => {
-      const old = await tx.areaCode.findUniqueOrThrow({ where: { code: '0511' } });
+    isolated(async (tx, fixture) => {
+      const old = await tx.areaCode.findUniqueOrThrow({ where: { code: fixture.codes[1].code } });
       await expect(
         tx.areaCodeMigration.update({ where: { oldCodeId: old.id }, data: { newCodeId: randomUUID() } }),
       ).rejects.toMatchObject({ code: 'P2003' });
     }));
   it('rejects duplicate historical mappings', () =>
     isolated(async (tx, fixture) => {
-      const old = await tx.areaCode.findUniqueOrThrow({ where: { code: '0511' } });
-      const current = await tx.areaCode.findUniqueOrThrow({ where: { code: '0236' } });
+      const old = await tx.areaCode.findUniqueOrThrow({ where: { code: fixture.codes[1].code } });
+      const current = await tx.areaCode.findUniqueOrThrow({ where: { code: fixture.codes[0].code } });
       await expect(
         tx.areaCodeMigration.create({
           data: { oldCodeId: old.id, newCodeId: current.id, sourceReferenceId: fixture.references[0].id },
@@ -125,18 +140,22 @@ describe('area-code PostgreSQL invariants (not mocked)', () => {
       });
     }));
   it('preserves the replacement target on deletion', () =>
-    isolated(async (tx) => {
-      await expect(tx.areaCode.delete({ where: { code: '0236' } })).rejects.toMatchObject({ code: 'P2003' });
+    isolated(async (tx, fixture) => {
+      await expect(tx.areaCode.delete({ where: { code: fixture.codes[0].code } })).rejects.toMatchObject({
+        code: 'P2003',
+      });
     }));
   it('rejects impossible active legacy format at the database boundary', () =>
-    isolated(async (tx) => {
-      await expect(tx.areaCode.update({ where: { code: '0511' }, data: { status: 'ACTIVE' } })).rejects.toThrow();
+    isolated(async (tx, fixture) => {
+      await expect(
+        tx.areaCode.update({ where: { code: fixture.codes[1].code }, data: { status: 'ACTIVE' } }),
+      ).rejects.toThrow();
     }));
   it('rejects reversed effective intervals', () =>
-    isolated(async (tx) => {
+    isolated(async (tx, fixture) => {
       await expect(
         tx.areaCode.update({
-          where: { code: '0236' },
+          where: { code: fixture.codes[0].code },
           data: {
             effectiveFrom: new Date('2020-02-01Z'),
             effectiveTo: new Date('2020-01-01Z'),
@@ -171,14 +190,14 @@ describe('area-code PostgreSQL invariants (not mocked)', () => {
       });
     }));
   it('rejects a self-replacing historical code', () =>
-    isolated(async (tx) => {
-      const old = await tx.areaCode.findUniqueOrThrow({ where: { code: '0511' } });
+    isolated(async (tx, fixture) => {
+      const old = await tx.areaCode.findUniqueOrThrow({ where: { code: fixture.codes[1].code } });
       await expect(
         tx.areaCodeMigration.update({ where: { oldCodeId: old.id }, data: { newCodeId: old.id } }),
       ).rejects.toThrow();
     }));
   it('rolls back all domain writes after an immutable-evidence conflict', async () => {
-    const fixture = areaDatasetFixture();
+    const fixture = await freshFixture();
     await expect(
       client.$transaction(
         async (tx) => {

@@ -103,4 +103,23 @@ unique linked history and retry idempotency. PostgreSQL checks cover DATE, nulla
 plan threshold, lifecycle consistency, composite foreign keys and cascades. Angular tests cover bilingual route mapping,
 neutral SSR/browser-only fetch, empty/loading/error/retry states, due indicators, confirmation actions and 320–1440px
 overflow in light and dark themes. The full workspace, migration, SSR leakage/sitemap and relevant Fuel Log/Documents/Fuel
-Prices regression gates remain required at the phase checkpoint; no notification or new queue test is expected.
+Prices regression gates remain required at the phase checkpoint; no notification or new queue test is expected. The API
+E2E configuration sets `NODE_ENV=test` before importing `AppModule`, so background BullMQ workers are not started by
+HTTP-only tests and their Redis teardown is deterministic.
+
+## Phase 22 Vehicle Expense gates
+
+Expense service/unit tests cover integer-string VND bounds (including exact zero and values above JavaScript's safe
+integer range), invalid decimals/negative/null values, BigInt totals, raw DATE mapping, owner scoping and archived-vehicle
+mutation guards. Real PostgreSQL fixtures cover Vietnam year/month and instant-vs-DATE boundaries, mixed-source summary
+and deterministic tie pagination, null versus zero maintenance, source edits/archive/restore, and no mirrored duplicates;
+the focused Phase 22 PostgreSQL run passes 9/9. Guarded public lookup fixtures select occupied-key-free candidates from
+the designated test database without modifying existing reviewed rows. API E2E tests cover authentication, trusted
+Origin, CSRF, two-user ownership, wrong-vehicle 404s and manual-only categories; lifecycle calls use a service double,
+not persisted PostgreSQL state. Angular tests currently cover bilingual route mapping, neutral SSR/browser-only fetch and
+empty state, plus date-only formatting under a negative UTC offset. Error/retry, filter/page reset, source-link/archive
+confirmation interactions and screenshot review remain manual/Playwright-pending. The required Node 24.15.0 workspace,
+API E2E, full PostgreSQL (102/102), Redis/BullMQ runtime (10/10), migration, SSR/SEO and focused Chrome 153 CDP gates
+have passed; broad Playwright interaction coverage remains pending until that package is restored. Run the full
+workspace gate once, then migration/database/runtime/SSR/sitemap regressions relevant to private Garage behavior; this
+completed gate is the evidence for the Phase 22 implementation handoff.

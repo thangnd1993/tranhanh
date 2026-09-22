@@ -44,3 +44,5 @@ export * from './fuel-prices.js';
 export * from './fuel-log.js';
 
 export * from './maintenance.js';
+
+export * from './vehicle-expenses.js';

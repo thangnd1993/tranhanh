@@ -1,7 +1,17 @@
 import { randomUUID } from 'node:crypto';
 import type { AreaDataset } from '../../src/area-codes/dataset.js';
+
+interface AreaFixtureOptions {
+  currentCode?: string;
+  legacyCode?: string;
+}
 /** Synthetic data for guarded transaction tests; never consumed by the authoritative CLI. */
-export function areaDatasetFixture(): AreaDataset {
+export function areaDatasetFixture(options: AreaFixtureOptions = {}): AreaDataset {
+  const digits = randomUUID().replace(/\D/g, '').padEnd(14, '7');
+  const currentCode = options.currentCode ?? `02${digits.slice(0, 2)}`;
+  const legacyDigits = `${(Number(digits[2]) % 9) + 1}${digits.slice(3, 5)}`;
+  const legacyCode =
+    options.legacyCode ?? `0${legacyDigits === currentCode.slice(1) ? `9${digits.slice(3, 5)}` : legacyDigits}`;
   const key = `test-${randomUUID()}`;
   const referenceId = randomUUID();
   return {
@@ -21,9 +31,16 @@ export function areaDatasetFixture(): AreaDataset {
     groups: [{ key, name: 'Test-only group', aliases: [], effectiveFrom: null, referenceId }],
     localities: [{ key, name: 'Test-only service area', aliases: [], isActive: true, groupKey: key, referenceId }],
     codes: [
-      { code: '0236', localityKey: key, status: 'ACTIVE', effectiveFrom: '2017-02-11', effectiveTo: null, referenceId },
-      { code: '0511', localityKey: key, status: 'LEGACY', effectiveFrom: null, effectiveTo: null, referenceId },
+      {
+        code: currentCode,
+        localityKey: key,
+        status: 'ACTIVE',
+        effectiveFrom: '2017-02-11',
+        effectiveTo: null,
+        referenceId,
+      },
+      { code: legacyCode, localityKey: key, status: 'LEGACY', effectiveFrom: null, effectiveTo: null, referenceId },
     ],
-    migrations: [{ oldCode: '0511', newCode: '0236', effectiveDate: '2017-02-11', referenceId }],
+    migrations: [{ oldCode: legacyCode, newCode: currentCode, effectiveDate: '2017-02-11', referenceId }],
   };
 }

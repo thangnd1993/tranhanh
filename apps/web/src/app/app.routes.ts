@@ -208,6 +208,34 @@ export const routes: Routes = [
         loadComponent: () => import('./maintenance/maintenance-page.component').then((m) => m.MaintenancePageComponent),
       },
       {
+        path: locale === 'vi' ? 'garage/:id/chi-phi/them' : 'garage/:id/expenses/add',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./expenses/vehicle-expense-form-page.component').then((m) => m.VehicleExpenseFormPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/chi-phi/:expenseId/chinh-sua' : 'garage/:id/expenses/:expenseId/edit',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./expenses/vehicle-expense-form-page.component').then((m) => m.VehicleExpenseFormPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/chi-phi/:expenseId' : 'garage/:id/expenses/:expenseId',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./expenses/vehicle-expense-detail-page.component').then((m) => m.VehicleExpenseDetailPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'garage/:id/chi-phi' : 'garage/:id/expenses',
+        canActivate: [accountGuard(locale, garagePath(locale))],
+        resolve: { seo: pageSeo('garage') },
+        loadComponent: () =>
+          import('./expenses/vehicle-expenses-page.component').then((m) => m.VehicleExpensesPageComponent),
+      },
+      {
         path: locale === 'vi' ? 'garage/:id/chinh-sua' : 'garage/:id/edit',
         canActivate: [accountGuard(locale, garagePath(locale))],
         resolve: { seo: pageSeo('garage') },

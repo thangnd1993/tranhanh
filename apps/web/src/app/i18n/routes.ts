@@ -74,6 +74,19 @@ export function equivalentPath(path: string, locale: Locale): string {
   for (const source of supportedLocales) {
     const base = garagePath(source);
     const clean = path.replace(/\/$/, '');
+    const match = clean
+      .slice(base.length + 1)
+      .match(/^([0-9a-f-]{36})\/(chi-phi|expenses)(?:\/(them|add|[0-9a-f-]{36})(?:\/(chinh-sua|edit))?)?$/i);
+    if (clean.startsWith(base + '/') && match) {
+      const vehicleId = match[1];
+      if (!match[3]) return expensePath(locale, vehicleId);
+      if (match[3] === 'them' || match[3] === 'add') return expensePath(locale, vehicleId, undefined, 'add');
+      return expensePath(locale, vehicleId, match[3], match[4] ? 'edit' : undefined);
+    }
+  }
+  for (const source of supportedLocales) {
+    const base = garagePath(source);
+    const clean = path.replace(/\/$/, '');
     if (clean === base) return garagePath(locale);
     const suffix = clean.slice(base.length + 1);
     if (clean.startsWith(base + '/') && suffix === (source === 'vi' ? 'them-xe' : 'add'))
@@ -179,4 +192,11 @@ export function maintenanceHistoryPath(locale: Locale, vehicleId: string, histor
 
 export function maintenancePlanPath(locale: Locale, vehicleId: string, planId?: string, action?: 'add' | 'edit') {
   return maintenancePath(locale, vehicleId, 'plans', planId, action);
+}
+
+export function expensePath(locale: Locale, vehicleId: string, expenseId?: string, action?: 'add' | 'edit'): string {
+  const base = `${garagePath(locale, vehicleId)}/${locale === 'vi' ? 'chi-phi' : 'expenses'}`;
+  if (action === 'add') return `${base}/${locale === 'vi' ? 'them' : 'add'}`;
+  if (!expenseId) return base;
+  return action === 'edit' ? `${base}/${expenseId}/${locale === 'vi' ? 'chinh-sua' : 'edit'}` : `${base}/${expenseId}`;
 }

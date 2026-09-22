@@ -45,7 +45,7 @@ describe('area importer decisions (non-database)', () => {
       updated: 0,
       skipped: 0,
     });
-    const before = memory.areaCode.records.get('0236');
+    const before = memory.areaCode.records.get(data.codes[0].code);
     expect(await applyAreaDataset(tx, data, new Date('2021-01-02'))).toEqual({
       read: 2,
       created: 0,
@@ -54,12 +54,12 @@ describe('area importer decisions (non-database)', () => {
     });
     expect(memory.areaCode.records.size).toBe(2);
     expect(memory.areaCodeMigration.records.size).toBe(1);
-    expect(memory.areaCode.records.get('0236')).toEqual(before);
+    expect(memory.areaCode.records.get(data.codes[0].code)).toEqual(before);
     const smaller = structuredClone(data);
     smaller.codes = [smaller.codes[0]];
     smaller.migrations = [];
     await applyAreaDataset(tx, smaller, new Date());
-    expect(memory.areaCode.records.has('0511')).toBe(true);
+    expect(memory.areaCode.records.has(data.codes[1].code)).toBe(true);
     expect(memory.areaCodeMigration.records.size).toBe(1);
   });
   it('validates before writes and preserves immutable evidence', async () => {

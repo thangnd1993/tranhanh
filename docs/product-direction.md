@@ -112,3 +112,16 @@ mileage. Plans can be completed, archived and restored. Completion atomically cr
 never lowers the vehicle odometer; retries return the existing completion. Archived vehicles remain readable but block new or
 active maintenance operations. Manufacturer advice, recurring generation, notifications, workshop booking, attachments and
 public/SEO maintenance pages remain outside this phase.
+
+## Phase 22 — Vehicle Expenses
+
+Vehicle Expenses is a private per-vehicle ledger. Active Fuel Log costs and active Maintenance History known costs are
+read dynamically from their authoritative records; the product never mirrors or backfills them. Manual entries are
+limited to insurance, registration, toll, parking and other costs. Public fuel prices, documents, fines, plans, reminders
+and other reference records do not create expense rows.
+
+Money is a required integer VND string from 0 through 9999999999999999 and is stored as PostgreSQL `BIGINT`; zero is an
+exact known cost. The month selector uses the Vietnam calendar. Fuel entries use the Asia/Ho_Chi_Minh half-open instant
+boundary while DATE sources use direct month bounds. Unknown maintenance costs stay null, and summaries distinguish
+known totals from incomplete data. Expense entries are private, owner-scoped, archiveable, and excluded from public SEO,
+browser storage, notifications, recurring rules, receipts/OCR, refunds, currencies, budgets and dashboard work.

@@ -30,10 +30,30 @@ afterAll(async () => {
   await client?.$disconnect();
 });
 
+async function freshFixture(): Promise<ReturnType<typeof phoneDatasetFixture>> {
+  const activePrefixes = ['3', '5', '7', '8', '9'].flatMap((family) =>
+    Array.from({ length: 10 }, (_, index) => `0${family}${index}`),
+  );
+  const legacyPrefixes = ['2', '6', '8', '9'].flatMap((family) =>
+    Array.from({ length: 10 }, (_, index) => `01${family}${index}`),
+  );
+  const existing = await client.phonePrefix.findMany({
+    where: { prefix: { in: [...activePrefixes, ...legacyPrefixes] } },
+    select: { prefix: true },
+  });
+  const occupied = new Set(existing.map((row) => row.prefix));
+  const activePrefix = activePrefixes.find((prefix) => !occupied.has(prefix));
+  const secondActivePrefix = activePrefixes.find((prefix) => prefix !== activePrefix && !occupied.has(prefix));
+  const legacyPrefix = legacyPrefixes.find((prefix) => !occupied.has(prefix));
+  if (activePrefix && secondActivePrefix && legacyPrefix) {
+    return phoneDatasetFixture({ activePrefix, secondActivePrefix, legacyPrefix });
+  }
+  throw new Error('Unable to allocate collision-free phone-prefix fixture keys without modifying existing data.');
+}
 async function isolated(
   check: (tx: Prisma.TransactionClient, fixture: ReturnType<typeof phoneDatasetFixture>) => Promise<void>,
 ): Promise<void> {
-  const fixture = phoneDatasetFixture();
+  const fixture = await freshFixture();
   try {
     await client.$transaction(
       async (tx) => {
@@ -59,53 +79,59 @@ async function isolated(
 describe('phone-prefix PostgreSQL invariants (not mocked)', () => {
   it('imports twice without duplicate rows or changed prefix timestamps', () =>
     isolated(async (tx, fixture) => {
-      const before = await tx.phonePrefix.findUniqueOrThrow({ where: { prefix: '086' } });
+      const before = await tx.phonePrefix.findUniqueOrThrow({ where: { prefix: fixture.prefixes[0].prefix } });
       expect(await applyPhoneDataset(tx, fixture, new Date())).toEqual({ read: 3, created: 0, updated: 0, skipped: 3 });
-      const after = await tx.phonePrefix.findUniqueOrThrow({ where: { prefix: '086' } });
+      const after = await tx.phonePrefix.findUniqueOrThrow({ where: { prefix: fixture.prefixes[0].prefix } });
       expect(after.updatedAt).toEqual(before.updatedAt);
       expect(after.importedAt).toEqual(before.importedAt);
       expect(await tx.sourceReference.count({ where: { id: fixture.references[0].id } })).toBe(1);
       expect(await tx.phonePrefixMigration.count({ where: { sourceReferenceId: fixture.references[0].id } })).toBe(1);
     }));
   it('returns real joined evidence and old/current relations', () =>
-    isolated(async (tx) => {
-      const row = await tx.phonePrefix.findUniqueOrThrow({ where: { prefix: '0168' }, include: phoneInclude });
+    isolated(async (tx, fixture) => {
+      const row = await tx.phonePrefix.findUniqueOrThrow({
+        where: { prefix: fixture.prefixes[2].prefix },
+        include: phoneInclude,
+      });
       expect(phoneResult(row)).toMatchObject({
         status: 'LEGACY',
-        currentPrefix: '038',
+        currentPrefix: fixture.prefixes[0].prefix,
         source: { publisher: 'Test-only publisher', title: 'Test-only evidence' },
       });
     }));
   it('enforces prefix uniqueness', () =>
-    isolated(async (tx) => {
-      const row = await tx.phonePrefix.findUniqueOrThrow({ where: { prefix: '086' } });
+    isolated(async (tx, fixture) => {
+      const row = await tx.phonePrefix.findUniqueOrThrow({ where: { prefix: fixture.prefixes[0].prefix } });
       await expect(tx.phonePrefix.create({ data: { ...row, id: randomUUID() } })).rejects.toMatchObject({
         code: 'P2002',
       });
     }));
   it('enforces operator foreign keys', () =>
-    isolated(async (tx) => {
+    isolated(async (tx, fixture) => {
       await expect(
-        tx.phonePrefix.update({ where: { prefix: '086' }, data: { operatorId: randomUUID() } }),
+        tx.phonePrefix.update({ where: { prefix: fixture.prefixes[0].prefix }, data: { operatorId: randomUUID() } }),
       ).rejects.toMatchObject({ code: 'P2003' });
     }));
   it('enforces evidence foreign keys', () =>
-    isolated(async (tx) => {
+    isolated(async (tx, fixture) => {
       await expect(
-        tx.phonePrefix.update({ where: { prefix: '086' }, data: { sourceReferenceId: randomUUID() } }),
+        tx.phonePrefix.update({
+          where: { prefix: fixture.prefixes[0].prefix },
+          data: { sourceReferenceId: randomUUID() },
+        }),
       ).rejects.toMatchObject({ code: 'P2003' });
     }));
   it('enforces migration target relations', () =>
-    isolated(async (tx) => {
-      const old = await tx.phonePrefix.findUniqueOrThrow({ where: { prefix: '0168' } });
+    isolated(async (tx, fixture) => {
+      const old = await tx.phonePrefix.findUniqueOrThrow({ where: { prefix: fixture.prefixes[2].prefix } });
       await expect(
         tx.phonePrefixMigration.update({ where: { oldPrefixId: old.id }, data: { newPrefixId: randomUUID() } }),
       ).rejects.toMatchObject({ code: 'P2003' });
     }));
   it('rejects duplicate historical mappings', () =>
     isolated(async (tx, fixture) => {
-      const old = await tx.phonePrefix.findUniqueOrThrow({ where: { prefix: '0168' } });
-      const current = await tx.phonePrefix.findUniqueOrThrow({ where: { prefix: '038' } });
+      const old = await tx.phonePrefix.findUniqueOrThrow({ where: { prefix: fixture.prefixes[2].prefix } });
+      const current = await tx.phonePrefix.findUniqueOrThrow({ where: { prefix: fixture.prefixes[0].prefix } });
       await expect(
         tx.phonePrefixMigration.create({
           data: { oldPrefixId: old.id, newPrefixId: current.id, sourceReferenceId: fixture.references[0].id },
@@ -125,18 +151,22 @@ describe('phone-prefix PostgreSQL invariants (not mocked)', () => {
       });
     }));
   it('preserves the replacement target on deletion', () =>
-    isolated(async (tx) => {
-      await expect(tx.phonePrefix.delete({ where: { prefix: '038' } })).rejects.toMatchObject({ code: 'P2003' });
+    isolated(async (tx, fixture) => {
+      await expect(tx.phonePrefix.delete({ where: { prefix: fixture.prefixes[0].prefix } })).rejects.toMatchObject({
+        code: 'P2003',
+      });
     }));
   it('rejects impossible active legacy format at the database boundary', () =>
-    isolated(async (tx) => {
-      await expect(tx.phonePrefix.update({ where: { prefix: '0168' }, data: { status: 'ACTIVE' } })).rejects.toThrow();
+    isolated(async (tx, fixture) => {
+      await expect(
+        tx.phonePrefix.update({ where: { prefix: fixture.prefixes[2].prefix }, data: { status: 'ACTIVE' } }),
+      ).rejects.toThrow();
     }));
   it('rejects reversed effective intervals', () =>
-    isolated(async (tx) => {
+    isolated(async (tx, fixture) => {
       await expect(
         tx.phonePrefix.update({
-          where: { prefix: '086' },
+          where: { prefix: fixture.prefixes[0].prefix },
           data: {
             effectiveFrom: new Date('2020-02-01Z'),
             effectiveTo: new Date('2020-01-01Z'),
@@ -145,7 +175,7 @@ describe('phone-prefix PostgreSQL invariants (not mocked)', () => {
       ).rejects.toThrow();
     }));
   it('rolls back all domain writes after an immutable-evidence conflict', async () => {
-    const fixture = phoneDatasetFixture();
+    const fixture = await freshFixture();
     await expect(
       client.$transaction(
         async (tx) => {

@@ -69,3 +69,14 @@ columns preserve Vietnam calendar dates, nullable BIGINT stores exact cost with 
 non-negative odometer/cost, at least one plan threshold, archive timestamps and completion-link consistency. No manufacturer
 intervals, expense duplicates, public rows, queue or destructive operation is introduced. Apply and test it with the normal
 development and isolated PostgreSQL commands; schema validation is not a substitute for constraint/runtime verification.
+
+## Phase 22 vehicle expense migration
+
+`20260921050000_add_vehicle_expenses` is additive and creates `VehicleExpenseCategory`, `VehicleExpenseStatus`, and the
+owner-scoped `VehicleExpense` table. It stores only manual insurance, registration, toll, parking and other entries;
+FuelLogEntry and MaintenanceHistory remain the authoritative source rows and are never backfilled. Composite ownership
+foreign keys cascade with User/Vehicle deletion, while SQL CHECKs enforce a nonblank title, integer VND range
+`0..9999999999999999`, and archive timestamp consistency. DATE month filtering and deterministic source indexes support
+bounded mixed ledger queries. The migration contains no drops, data rewrites, duplicate fuel/maintenance rows, queues or
+public records. Apply it with the normal deploy command and run `vehicle-expenses.database-test.ts` against the guarded
+local `tranhanh_test` database; Prisma validation/generation alone does not prove live constraints.

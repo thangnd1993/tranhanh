@@ -20,6 +20,7 @@ import { VehicleDocumentsModule } from './vehicle-documents/vehicle-documents.mo
 import { FuelPricesModule } from './fuel-prices/fuel-prices.module.js';
 import { FuelLogModule } from './fuel-log/fuel-log.module.js';
 import { MaintenanceModule } from './maintenance/maintenance.module.js';
+import { VehicleExpenseModule } from './vehicle-expenses/vehicle-expenses.module.js';
 
 @Module({
   controllers: [AppController, HealthController],
@@ -54,6 +55,7 @@ import { MaintenanceModule } from './maintenance/maintenance.module.js';
     FuelPricesModule,
     FuelLogModule,
     MaintenanceModule,
+    VehicleExpenseModule,
   ],
   providers: [HealthService],
 })

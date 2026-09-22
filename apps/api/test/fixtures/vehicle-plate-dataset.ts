@@ -1,7 +1,17 @@
 import { randomUUID } from 'node:crypto';
 import type { VehiclePlateDataset } from '../../src/vehicle-plates/dataset.js';
+
+interface VehiclePlateFixtureOptions {
+  numericPrefix?: string;
+}
 /** Synthetic import fixture; never consumed by the production CLI. */
-export function vehiclePlateDatasetFixture(): VehiclePlateDataset {
+export function vehiclePlateDatasetFixture(options: VehiclePlateFixtureOptions = {}): VehiclePlateDataset {
+  const suffix = randomUUID().slice(0, 8).toLowerCase();
+  const numericPrefix =
+    options.numericPrefix ?? `${(Number.parseInt(suffix[0], 16) % 9) + 1}${Number.parseInt(suffix[1], 16) % 10}`;
+  const currentTargetKey = `current-place-${suffix}`;
+  const oldTargetKey = `old-place-${suffix}`;
+  const allocationKey = `${numericPrefix}-current-${suffix}`;
   const publisherKey = `test-${randomUUID()}`;
   const currentReferenceId = randomUUID();
   const oldReferenceId = randomUUID();
@@ -32,7 +42,7 @@ export function vehiclePlateDatasetFixture(): VehiclePlateDataset {
     ],
     targets: [
       {
-        key: 'current-place',
+        key: currentTargetKey,
         name: 'Current Place',
         aliases: [],
         type: 'LOCALITY',
@@ -40,7 +50,7 @@ export function vehiclePlateDatasetFixture(): VehiclePlateDataset {
         referenceId: currentReferenceId,
       },
       {
-        key: 'old-place',
+        key: oldTargetKey,
         name: 'Old Place',
         aliases: [],
         type: 'LOCALITY',
@@ -50,10 +60,10 @@ export function vehiclePlateDatasetFixture(): VehiclePlateDataset {
     ],
     allocations: [
       {
-        key: '51-current',
-        numericPrefix: '51',
+        key: allocationKey,
+        numericPrefix,
         seriesPrefix: null,
-        targetKey: 'current-place',
+        targetKey: currentTargetKey,
         status: 'ACTIVE',
         effectiveFrom: '2025-07-01',
         effectiveTo: null,
@@ -62,8 +72,8 @@ export function vehiclePlateDatasetFixture(): VehiclePlateDataset {
     ],
     history: [
       {
-        allocationKey: '51-current',
-        previousTargetKey: 'old-place',
+        allocationKey,
+        previousTargetKey: oldTargetKey,
         effectiveFrom: null,
         effectiveTo: '2025-07-01',
         sourceReferenceId: oldReferenceId,

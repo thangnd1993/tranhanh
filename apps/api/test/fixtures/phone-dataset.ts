@@ -1,8 +1,19 @@
 import { randomUUID } from 'node:crypto';
 import type { PrefixDataset } from '../../src/phone-prefixes/dataset.js';
 
+interface PhoneFixtureOptions {
+  activePrefix?: string;
+  secondActivePrefix?: string;
+  legacyPrefix?: string;
+}
 /** Synthetic isolated DB fixtures; never used by the authoritative importer CLI. */
-export function phoneDatasetFixture(): PrefixDataset {
+export function phoneDatasetFixture(options: PhoneFixtureOptions = {}): PrefixDataset {
+  const digits = randomUUID().replace(/\D/g, '').padEnd(14, '7');
+  const activePrefix =
+    options.activePrefix ?? `0${['3', '5', '7', '8', '9'][Number(digits.slice(0, 2)) % 5]}${digits.slice(2, 3)}`;
+  const legacyPrefix =
+    options.legacyPrefix ?? `01${['2', '6', '8', '9'][Number(digits.slice(3, 5)) % 4]}${digits.slice(5, 6)}`;
+  const secondActivePrefix = options.secondActivePrefix ?? `0${activePrefix[1]}${(Number(activePrefix[2]) + 1) % 10}`;
   const key = `test-${randomUUID()}`;
   const referenceId = randomUUID();
   return {
@@ -21,10 +32,17 @@ export function phoneDatasetFixture(): PrefixDataset {
     ],
     operators: [{ key, name: 'Test-only operator', website: 'https://example.test/', isActive: true, referenceId }],
     prefixes: [
-      { prefix: '086', operatorKey: key, status: 'ACTIVE', effectiveFrom: null, effectiveTo: null, referenceId },
-      { prefix: '038', operatorKey: key, status: 'ACTIVE', effectiveFrom: null, effectiveTo: null, referenceId },
-      { prefix: '0168', operatorKey: key, status: 'LEGACY', effectiveFrom: null, effectiveTo: null, referenceId },
+      { prefix: activePrefix, operatorKey: key, status: 'ACTIVE', effectiveFrom: null, effectiveTo: null, referenceId },
+      {
+        prefix: secondActivePrefix,
+        operatorKey: key,
+        status: 'ACTIVE',
+        effectiveFrom: null,
+        effectiveTo: null,
+        referenceId,
+      },
+      { prefix: legacyPrefix, operatorKey: key, status: 'LEGACY', effectiveFrom: null, effectiveTo: null, referenceId },
     ],
-    migrations: [{ oldPrefix: '0168', newPrefix: '038', effectiveAt: null, referenceId }],
+    migrations: [{ oldPrefix: legacyPrefix, newPrefix: activePrefix, effectiveAt: null, referenceId }],
   };
 }

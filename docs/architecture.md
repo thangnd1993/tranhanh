@@ -833,3 +833,28 @@ policies match Garage. Localized `/vi/garage/:id/bao-duong` and `/en/garage/:id/
 auth initialization, render a neutral SSR shell, use no TransferState/storage/JSON-LD/sitemap data, and show due attention on
 vehicle detail. No notification queue, external notification, attachment/OCR, workshop directory or public maintenance route
 is introduced.
+
+## Private vehicle expenses — Phase 22
+
+`VehicleExpense` is the only new persisted expense row and is restricted to manual `INSURANCE`, `REGISTRATION`, `TOLL`,
+`PARKING`, and `OTHER` entries. Fuel and maintenance costs remain authoritative on active `FuelLogEntry` and
+`MaintenanceHistory` rows; plans, documents, reminders, public prices, fines and other records never become expenses.
+The additive migration uses UUID identity, composite owner/vehicle foreign keys with account/vehicle cascades, DATE,
+bounded text, non-negative integer-safe VND `BIGINT`, archive lifecycle checks, and date/status/category indexes.
+
+Expense summaries calculate on every read for a selected `YYYY-MM` month. Fuel uses the half-open Vietnam
+`Asia/Ho_Chi_Minh` instant boundary; maintenance and manual rows use direct PostgreSQL DATE bounds. Known totals are
+the sum of active fuel, known active maintenance, and active manual costs; a maintenance `null` remains unknown and is
+never rendered as zero. The response includes source/category counts and breakdowns plus an explicit incompleteness flag.
+Source and category aggregates run inside one PostgreSQL `RepeatableRead` transaction so a summary cannot combine snapshots.
+
+The ledger is a discriminated FUEL/MAINTENANCE/MANUAL `UNION ALL`, scoped by owner and vehicle, sorted by date, creation
+instant, source and ID, with database `OFFSET/LIMIT` applied before returning at most 100 rows. Manual list/detail/create/
+update/archive/restore endpoints are separate from read-only authoritative sources. All private routes use trusted-origin,
+access-auth, CSRF and no-store/no-referrer/noindex response policy; archived vehicles remain readable but reject manual
+mutations transactionally. No receipts, OCR, refunds, currencies, recurring generation, budgets, dashboards or
+notifications are part of this phase.
+
+Localized browser-only routes are `/vi/garage/:id/chi-phi` and `/en/garage/:id/expenses`, with neutral SSR shells, manual
+forms/details/lifecycle actions, month filtering, source links, exact VND display, and responsive VI/EN light/dark UI.
+Expense routes remain private and absent from all SEO, sitemap, TransferState and browser storage surfaces.
