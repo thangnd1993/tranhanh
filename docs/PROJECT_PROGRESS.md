@@ -2,10 +2,10 @@
 
 ## Current Status
 
-Current completed phase: Phase 22 - Vehicle Expenses
-Current phase: Phase 22 - Vehicle Expenses (complete)
-Next phase: Phase 23 - Driver Dashboard (not started)
-Status: Phase 22 complete; Node 24.15.0 workspace, PostgreSQL, Redis/BullMQ, API E2E, SSR/SEO, and focused Chrome gates pass. The full guarded database suite passes 102/102 twice with deterministic collision-free fixture allocation, and the isolated database retains the reviewed public rows with zero leaked VehicleExpense rows. The broad Playwright harness remains unavailable because its package is not restored, but the installed Chrome 153 CDP smoke passed the authenticated expenses ledger/add-form flow and 390/1440px overflow checks. The Phase 22 commit is finalized as `feat: add vehicle expenses`; Phase 23 is next and not started.
+Current completed phase: Phase 23 - Driver Dashboard
+Current phase: Phase 23 - Driver Dashboard (complete)
+Next phase: Phase 24 - Notification Center (not started)
+Status: Complete; Node 24.15.0 workspace, PostgreSQL, Redis/BullMQ, API E2E, SSR/SEO, and focused Chrome gates pass. The full guarded database suite passes 102/102 twice with deterministic collision-free fixture allocation, and the isolated database retains the reviewed public rows with zero leaked VehicleExpense rows. The broad Playwright harness remains unavailable because its package is not restored, but the installed Chrome 153 CDP smoke passed the authenticated dashboard flow and 320–1440px overflow checks. Phase 23 is complete; Phase 24 is next.
 Last updated: 2026-09-22 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
@@ -103,6 +103,26 @@ Status: Complete. Commit: `feat: add vehicle expenses`.
 - E2E setup now sets `NODE_ENV=test` before `AppModule` imports, preventing background BullMQ workers from racing HTTP
   test teardown. The live-Redis rerun passes 51/51 with no unhandled teardown output. The focused Vehicle Expenses E2E
   passes 1/1.
+
+### Phase 23 — Driver Dashboard
+
+Status: Complete. Commit: `feat: add driver dashboard`.
+
+- Added shared typed dashboard contracts and a read-only owner-scoped `GET /api/v1/vehicles/dashboard` route. The static
+  dashboard route is declared before `:id`, validates optional UUID/month queries, selects an active primary by default with
+  deterministic fallback, and returns the same safe 404 for foreign, missing or archived selections.
+- Composed selected-vehicle cards from existing domain semantics: authoritative odometer, document expiry attention,
+  maintenance due/due-soon/unknown-mileage, exact Vietnam-month expense/fuel summaries, and monitoring capability/effective
+  state plus timestamps. No account-wide financial aggregate, notes, reference numbers, schema/migration/provider/cache/job/
+  write behavior or notification delivery was added; no new schema or provider changes were made.
+- Added bilingual private `/vi/tong-quan` and `/en/dashboard` routes with account guard, neutral SSR/browser-only auth
+  loading, localized selector/links, clear no-active Garage state, loading/error/retry/incomplete states, responsive themed
+  UI, and stale-response race protection. Private no-store/no-referrer/noindex behavior excludes dashboard data from
+  TransferState, storage, JSON-LD and sitemaps.
+- Focused evidence: API dashboard service 6/6, dashboard E2E 3/3, Angular dashboard UI 4/4, full Angular suite 78/78,
+  shared/API/web TypeScript checks (API reports only the pre-existing traffic-fines FakeProvider readonly tuple error),
+  API build and browser/SSR production build pass. A temporary Chrome 153 CDP fallback smoke authenticated a mock owner, hydrated the dashboard, switched vehicle selection, checked private SSR metadata, and found no horizontal overflow at 320/390/768/1440px; screenshots were generated and dimension-checked for review. The existing homepage component-style budget warning remains.
+- Phase 24 — Notification Center is next; notification delivery and scheduling remain deliberately outside this phase.
 
 ### Phase 19 — Fuel Prices
 
@@ -1035,7 +1055,7 @@ datasets are loaded in the isolated local verification database; no external run
 
 ### Next Phase
 
-Next phase: Phase 21 - Maintenance
+Next phase: Phase 24 - Notification Center
 
 The authorized automotive roadmap preserves Phases 0–12 and inserts Phase 12P as the transition:
 
@@ -1049,8 +1069,8 @@ The authorized automotive roadmap preserves Phases 0–12 and inserts Phase 12P 
 8. Phase 20 — Fuel Log
 9. Phase 21 — Maintenance
 10. Phase 22 — Vehicle Expenses
-11. Phase 23 — Driver Dashboard
-12. Phase 24 — Notification Center
+11. Phase 23 — Driver Dashboard (complete)
+12. Phase 24 — Notification Center (next)
 13. Phase 25 — Vehicle Tools
 14. Phase 26 — Traffic Rules & Fine Reference
 15. Phase 27 — PWA & Web Push

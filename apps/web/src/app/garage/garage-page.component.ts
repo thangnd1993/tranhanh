@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import type { VehicleResult } from '@tranhanh/shared';
 import { ButtonDirective } from '../design-system/button.directive';
 import { LocaleService } from '../i18n/locale.service';
-import { garagePath, pagePaths } from '../i18n/routes';
+import { dashboardPath, garagePath, pagePaths } from '../i18n/routes';
 import { AuthService } from '../auth/auth.service';
 import { GarageService } from './garage.service';
 
@@ -17,6 +17,7 @@ import { GarageService } from './garage.service';
         <p class="eyebrow">{{ i18n.t('garage.private') }}</p>
         <h1>{{ i18n.t('garage.title') }}</h1>
         <p class="muted">{{ i18n.t('garage.intro') }}</p>
+        <a [routerLink]="dashboardPath(i18n.locale())">{{ i18n.t('dashboard.title') }}</a>
       </div>
       <a
         tnButton
@@ -94,6 +95,7 @@ import { GarageService } from './garage.service';
 export class GaragePageComponent implements OnInit {
   protected readonly i18n = inject(LocaleService);
   protected readonly garagePath = garagePath;
+  protected readonly dashboardPath = dashboardPath;
   private readonly garage = inject(GarageService);
   private readonly router = inject(Router);
   private readonly auth = inject(AuthService);

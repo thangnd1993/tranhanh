@@ -51,6 +51,12 @@ export const seoPages: Record<PageId, PageDefinition> = {
     robots: privateRobots,
     paths: pagePaths.account,
   },
+  dashboard: {
+    titleKey: 'seo.dashboard.title',
+    descriptionKey: 'seo.dashboard.description',
+    robots: privateRobots,
+    paths: pagePaths.dashboard,
+  },
   garage: {
     titleKey: 'seo.garage.title',
     descriptionKey: 'seo.garage.description',

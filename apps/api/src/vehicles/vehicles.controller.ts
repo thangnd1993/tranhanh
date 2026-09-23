@@ -1,7 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiCookieAuth, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import type { AuthUser, VehicleResult } from '@tranhanh/shared';
+import type { AuthUser, VehicleDashboardResult, VehicleResult } from '@tranhanh/shared';
 import { AccessAuthGuard, CsrfGuard, CurrentUser, TrustedOriginGuard } from '../auth/auth.guards.js';
+import { VehicleDashboardQueryDto } from './vehicle-dashboard.dto.js';
+import { VehicleDashboardService } from './vehicle-dashboard.service.js';
 import { CreateVehicleDto, UpdateVehicleDto, VehicleListQueryDto } from './vehicles.dto.js';
 import { VehiclesService } from './vehicles.service.js';
 import { PrivateResponseInterceptor } from './private-response.interceptor.js';
@@ -13,7 +15,19 @@ import { PrivateResponseInterceptor } from './private-response.interceptor.js';
 @UseGuards(TrustedOriginGuard, AccessAuthGuard)
 @UseInterceptors(PrivateResponseInterceptor)
 export class VehiclesController {
-  constructor(private readonly vehicles: VehiclesService) {}
+  constructor(
+    private readonly vehicles: VehiclesService,
+    private readonly dashboard: VehicleDashboardService,
+  ) {}
+
+  @Get('dashboard')
+  @ApiOperation({ summary: 'Read a private dashboard for one active vehicle owned by the authenticated user.' })
+  dashboardView(
+    @CurrentUser() user: AuthUser,
+    @Query() query: VehicleDashboardQueryDto,
+  ): Promise<VehicleDashboardResult> {
+    return this.dashboard.get(user.id, query);
+  }
 
   @Get()
   @ApiOperation({ summary: 'List only the authenticated user’s private vehicles.' })

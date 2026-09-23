@@ -9,6 +9,7 @@ export type PageId =
   | 'login'
   | 'register'
   | 'account'
+  | 'dashboard'
   | 'garage'
   | 'forgotPassword'
   | 'resetPassword';
@@ -20,6 +21,7 @@ export const pagePaths: Record<PageId, Record<Locale, string>> = {
   login: { vi: '/vi/dang-nhap', en: '/en/login' },
   register: { vi: '/vi/dang-ky', en: '/en/register' },
   account: { vi: '/vi/tai-khoan', en: '/en/account' },
+  dashboard: { vi: '/vi/tong-quan', en: '/en/dashboard' },
   garage: { vi: '/vi/garage', en: '/en/garage' },
   forgotPassword: { vi: '/vi/quen-mat-khau', en: '/en/forgot-password' },
   resetPassword: { vi: '/vi/dat-lai-mat-khau', en: '/en/reset-password' },
@@ -131,6 +133,10 @@ export function areaPath(locale: Locale, code?: string): string {
 
 export function fuelPricePath(locale: Locale): string {
   return pagePaths.fuelPrices[locale];
+}
+
+export function dashboardPath(locale: Locale): string {
+  return pagePaths.dashboard[locale];
 }
 
 export function trafficFinePath(locale: Locale): string {

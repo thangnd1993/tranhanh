@@ -858,3 +858,25 @@ notifications are part of this phase.
 Localized browser-only routes are `/vi/garage/:id/chi-phi` and `/en/garage/:id/expenses`, with neutral SSR shells, manual
 forms/details/lifecycle actions, month filtering, source links, exact VND display, and responsive VI/EN light/dark UI.
 Expense routes remain private and absent from all SEO, sitemap, TransferState and browser storage surfaces.
+
+## Private Driver Dashboard — Phase 23
+
+The dashboard is a read-only composition over existing owner-scoped domains. `VehicleDashboardService` first reads active
+vehicles for the authenticated user, orders them by primary status and deterministic creation/ID fallback, and rejects a
+requested vehicle that is not active and owned by that user with the same safe 404 used for missing and archived selections.
+The response exposes only selector identity, primary status and the authoritative `Vehicle.currentOdometerKm`; it does not
+return private notes, document reference numbers or account-wide financial totals.
+
+The static `GET /api/v1/vehicles/dashboard` route is declared before `/vehicles/:id`. Optional `vehicleId` and
+`YYYY-MM` query values are validated at the DTO boundary. The selected vehicle’s document attention and maintenance
+counts reuse expiry and due-status calculators; fuel and expense summaries reuse the Phase 20/22 Vietnam month semantics,
+exact VND strings and unknown-cost flags; monitoring reuses provider capability/effective-state policy and passes through
+last-attempt/success timestamps without claiming any result absent a check. No schema, migration, provider, cache, queue,
+job or mutation is introduced.
+
+Cards are independently read because there is no new cross-domain transaction; `refreshedAt` is a presence timestamp and
+the UI states that values are not an atomic account snapshot. The no-active-vehicle response contains null cards and a
+Garage link. API responses use private no-store/no-referrer/noindex policy. VI/EN routes remain account-guarded and render
+only a neutral SSR shell before browser auth initialization; after auth, data is fetched with no TransferState, storage,
+JSON-LD, telemetry or sitemap entry. The browser selector uses request identity checks so stale responses cannot replace the
+latest choice.

@@ -55,9 +55,9 @@ No external provider is queried at runtime. Dataset-backed public lookups use ex
 
 ## Roadmap and testing workflow
 
-Current completed phase: Phase 22 — Vehicle Expenses.
-Current phase: Phase 22 — Vehicle Expenses (complete).
-Next phase: Phase 23 — Driver Dashboard (not started).
+Current completed phase: Phase 23 — Driver Dashboard.
+Current phase: Phase 23 — Driver Dashboard (complete).
+Next phase: Phase 24 — Notification Center (not started).
 The user-authorized automotive pivot supersedes the old post-Phase 12 general-utility roadmap while preserving all
 completed history. See [product direction](docs/product-direction.md) and [project progress](docs/PROJECT_PROGRESS.md).
 
@@ -271,4 +271,18 @@ rows are created. Manual entries are limited to insurance, registration, toll, p
 integer VND strings (`0..9999999999999999`). Summaries preserve unknown maintenance costs and distinguish incomplete
 known totals. Manual entries support detail/edit/archive/restore, while all private endpoints remain owner-scoped,
 CSRF-protected and excluded from SSR data, storage, SEO and sitemaps. Budgets, recurring expenses, receipts/OCR,
-refunds, currencies, dashboards and notifications remain future scope.
+refunds, currencies, budgets and notifications remain future scope.
+
+## Driver Dashboard (Phase 23)
+
+Authenticated owners can open `/vi/tong-quan` or `/en/dashboard` for a private, read-only overview. The page selects the
+active primary vehicle by default with a deterministic active fallback, shows the active count and authoritative odometer,
+document-expiry attention, maintenance due/due-soon/unknown-mileage counts, the selected vehicle’s Vietnam-month expense
+and fuel summaries, monitoring capability/effective state and links back to Garage features. No account-wide financial
+aggregate is exposed.
+
+The dashboard API is `GET /api/v1/vehicles/dashboard` with validated `vehicleId` and `YYYY-MM` queries. Every read is
+owner-scoped; foreign, missing or archived selections return the same safe 404. Cards reuse Phase 18–22 calculators and
+expense semantics, are read independently, and carry one refresh timestamp. No schema, migration, provider, cache, queue,
+write path or notification behavior is introduced. Private responses and routes remain no-store/no-referrer/noindex,
+browser-fetched after auth, outside TransferState, storage, JSON-LD and sitemaps. Phase 24 is the notification center.

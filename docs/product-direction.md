@@ -125,3 +125,22 @@ exact known cost. The month selector uses the Vietnam calendar. Fuel entries use
 boundary while DATE sources use direct month bounds. Unknown maintenance costs stay null, and summaries distinguish
 known totals from incomplete data. Expense entries are private, owner-scoped, archiveable, and excluded from public SEO,
 browser storage, notifications, recurring rules, receipts/OCR, refunds, currencies, budgets and dashboard work.
+
+## Phase 23 — Driver Dashboard
+
+The Driver Dashboard is a private, read-only account overview at `/vi/tong-quan` and `/en/dashboard`. It is
+vehicle-first: the active primary is selected by default, with a deterministic active fallback, and the selector exposes
+only active vehicle identity needed for navigation. The view shows active count, authoritative current odometer, document
+expiry attention, maintenance due/due-soon/unknown-mileage counts, the selected vehicle’s Vietnam-month expense and fuel
+summaries, monitoring capability/effective state/last timestamps, and links back to Garage features. A user with no active
+vehicle receives a clear Garage add-vehicle state. No account-wide financial aggregate is exposed.
+
+`GET /api/v1/vehicles/dashboard` validates an optional UUID vehicle selection and a `YYYY-MM` month before deriving
+all reads from the authenticated owner. Foreign, missing and archived selections return one safe 404. Existing document,
+maintenance, fuel, monitoring and VehicleExpense calculators remain authoritative; exact VND strings, null unknown costs,
+Vietnam date/month boundaries and explicit missing-mileage/fuel availability codes are preserved. Cards are independently
+read and carry one presence/refresh timestamp rather than claiming an atomic account snapshot.
+
+This phase adds no schema, migration, provider, cache, queue, scheduler, notification or write behavior. Private API and
+SSR/browser routes are no-store/no-referrer/noindex, browser-fetched after auth, and excluded from TransferState, storage,
+JSON-LD and sitemaps. Phase 24 remains the Notification Center, where delivery policy—not dashboard aggregation—belongs.

@@ -123,3 +123,19 @@ API E2E, full PostgreSQL (102/102), Redis/BullMQ runtime (10/10), migration, SSR
 have passed; broad Playwright interaction coverage remains pending until that package is restored. Run the full
 workspace gate once, then migration/database/runtime/SSR/sitemap regressions relevant to private Garage behavior; this
 completed gate is the evidence for the Phase 22 implementation handoff.
+
+## Phase 23 Driver Dashboard gates
+
+The dashboard service fixture suite covers primary selection, deterministic fallback, exact month/fuel composition,
+document attention, maintenance due/due-soon and unknown mileage, manual-only monitoring, no-active Garage state and safe
+404 selection behavior. The API E2E suite covers invalid UUID/month validation, two authenticated users, foreign and
+archived selection 404s, unauthenticated rejection, and private no-store/no-referrer/noindex headers. Angular tests cover
+VI/EN dashboard route mapping, browser-only auth fetch behavior, and stale selector-response race protection; the full web
+suite passes 78/78. The focused dashboard UI suite passes 4/4, the API dashboard unit suite 6/6, and dashboard E2E suite
+3/3. Shared, API and production browser/SSR builds pass; the existing homepage component-style budget warning remains. A temporary Chrome 153 CDP fallback smoke authenticated a mock owner, hydrated the dashboard, switched to the backup vehicle, checked private SSR metadata and found no horizontal overflow at 320/390/768/1440px. Four temporary screenshots were generated and dimension-checked for review; Playwright remains unavailable.
+
+The implementation adds no schema or provider and therefore requires no migration/import/queue gate. The normal full
+workspace gate remains the handoff gate; when the configured PostgreSQL/Redis test services are available, run the existing
+Database and runtime suites as regression evidence for owner scoping and Phase 20–22 calculator semantics. Browser review
+should use one authenticated Chrome/CDP session with 320/390/768/1440px light/dark checks and temporary screenshots,
+without persisting dashboard values in TransferState or storage. Phase 24 is the Notification Center.

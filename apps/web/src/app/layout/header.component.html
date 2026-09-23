@@ -38,6 +38,7 @@
       <div class="desktop-auth">
         @if (auth.user()) {
           <a [routerLink]="garagePath(i18n.locale())">{{ i18n.t('garage.title') }}</a>
+          <a [routerLink]="dashboardPath(i18n.locale())">{{ i18n.t('dashboard.title') }}</a>
           <a [routerLink]="i18n.path('account')">{{ i18n.t('auth.account') }}</a>
           <button
             tnButton
@@ -126,6 +127,11 @@
         [routerLink]="garagePath(i18n.locale())"
         (click)="closeMenu()"
         >{{ i18n.t('garage.title') }}</a
+      >
+      <a
+        [routerLink]="dashboardPath(i18n.locale())"
+        (click)="closeMenu()"
+        >{{ i18n.t('dashboard.title') }}</a
       >
       <a
         [routerLink]="i18n.path('account')"

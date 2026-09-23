@@ -7,7 +7,7 @@ import { fuelPriceResolver } from './fuel-prices/fuel-price.resolver';
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { LocaleService } from './i18n/locale.service';
-import { garagePath, supportedLocales } from './i18n/routes';
+import { dashboardPath, garagePath, supportedLocales } from './i18n/routes';
 import { ShellComponent } from './shell.component';
 
 export const routes: Routes = [
@@ -67,6 +67,12 @@ export const routes: Routes = [
         canActivate: [accountGuard(locale)],
         resolve: { seo: pageSeo('account') },
         loadComponent: () => import('./auth/account-page.component').then((m) => m.AccountPageComponent),
+      },
+      {
+        path: locale === 'vi' ? 'tong-quan' : 'dashboard',
+        canActivate: [accountGuard(locale, dashboardPath(locale))],
+        resolve: { seo: pageSeo('dashboard') },
+        loadComponent: () => import('./dashboard/dashboard-page.component').then((m) => m.DashboardPageComponent),
       },
       {
         path: 'garage',

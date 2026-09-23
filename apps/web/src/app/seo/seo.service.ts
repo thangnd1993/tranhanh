@@ -45,10 +45,15 @@ export class SeoService {
     const policy = config.robots ?? privateRobots;
     const robots = robotsContent({ ...policy, index: policy.index && this.site.allowIndexing });
     this.meta.updateTag({ name: 'robots', content: robots });
+    if (!policy.index) this.name('referrer', 'no-referrer');
     if (this.response) {
       this.response.status = config.status ?? 200;
       const headers = new Headers(this.response.headers);
       headers.set('X-Robots-Tag', robots);
+      if (!policy.index) {
+        headers.set('Cache-Control', 'private, no-store');
+        headers.set('Referrer-Policy', 'no-referrer');
+      }
       this.response.headers = headers;
     }
     const og = config.openGraph;

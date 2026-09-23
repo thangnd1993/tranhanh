@@ -1,18 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonDirective } from '../design-system/button.directive';
 import { LocaleService } from '../i18n/locale.service';
-import { pagePaths } from '../i18n/routes';
+import { dashboardPath, pagePaths } from '../i18n/routes';
 import { AuthService } from './auth.service';
 @Component({
   selector: 'tn-account-page',
-  imports: [ReactiveFormsModule, ButtonDirective],
+  imports: [ReactiveFormsModule, RouterLink, ButtonDirective],
   template: `<section class="container section">
     <div class="auth-intro">
       <p class="eyebrow">{{ i18n.t('auth.privateArea') }}</p>
       <h1>{{ i18n.t('auth.accountTitle') }}</h1>
       <p class="muted">{{ i18n.t('auth.accountIntro') }}</p>
+      <a [routerLink]="dashboardPath(i18n.locale())">{{ i18n.t('dashboard.title') }}</a>
     </div>
     @if (auth.user(); as user) {
       <div class="account-grid section">
@@ -125,6 +126,7 @@ import { AuthService } from './auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountPageComponent {
+  protected readonly dashboardPath = dashboardPath;
   protected readonly i18n = inject(LocaleService);
   protected readonly auth = inject(AuthService);
   private readonly router = inject(Router);
