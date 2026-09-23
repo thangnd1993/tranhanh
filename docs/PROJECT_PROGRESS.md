@@ -10,10 +10,10 @@ Last updated: 2026-09-22 (Asia/Ho_Chi_Minh)
 Branch: main
 Latest commit: Resolve the current local checkpoint with `git log -1 --oneline`.
 
-Codex workflow: project-local `tranhanh` orchestration is configured with the read-only `tranhanh-reviewer`
-(Astra Light: `gpt-6-astra`, reasoning `low`) and implementation-focused `tranhanh-developer`
-(Luna Max: `gpt-5.6-luna`, reasoning `max`). See [Codex agent workflow](codex-agent-workflow.md).
-The parent session routes small work to Luna only, medium work to Luna with an optional risk-based Astra final review, and major/high-risk work through one Astra plan, one Luna implementation/self-review/final gate, and one Astra final review. Normal limits are two Astra calls and one Luna implementation plus one optional fix continuation; only a serious blocker permits another Astra review. Phase 21 and Phase 22 are complete and validated. Phase 23 is next and not started.
+Codex workflow: TraNhanh now uses the main Codex chat/session only. The main chat directly inspects, plans, implements,
+self-reviews, tests, performs relevant runtime verification, updates documentation, commits and pushes. Project-local
+reviewer/developer subagent routing and configuration were removed to reduce quota and duplicated context. See
+[Main Codex Chat workflow](codex-agent-workflow.md). Product phase history is unchanged by this workflow configuration.
 
 ## GitHub Connection
 
